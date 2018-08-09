@@ -58,16 +58,16 @@ public class PriceSettingEntry {
     public PriceSettingEntry(JSONObject jsonObject) {
         try{
             setId(jsonObject.getLong("id"));
-            setCompanyId(jsonObject.isNull("c_i") ? null : jsonObject.getLong("c_i"));
-            setPersonCustomerCompanyId(jsonObject.isNull("pcc_i") ? null : jsonObject.getLong("pcc_i"));
-            setDocTypeId(jsonObject.isNull("dt_i") ? null : jsonObject.getLong("dt_i"));
-            setPriceGroupId(jsonObject.isNull("pg_i") ? null : jsonObject.getLong("pg_i"));
-            setItemPackingId(jsonObject.isNull("ip_i") ? null : jsonObject.getLong("ip_i"));
-            setSellingPrice(jsonObject.isNull("sp") ? null : jsonObject.getDouble("sp"));
+            setCompanyId(jsonObject.isNull("c_i") ? 0 : jsonObject.getLong("c_i"));
+            setPersonCustomerCompanyId(jsonObject.isNull("pcc_i") ? 0 : jsonObject.getLong("pcc_i"));
+            setDocTypeId(jsonObject.isNull("dt_i") ? 0 : jsonObject.getLong("dt_i"));
+            setPriceGroupId(jsonObject.isNull("pg_i") ? 0 : jsonObject.getLong("pg_i"));
+            setItemPackingId(jsonObject.isNull("ip_i") ? 0 : jsonObject.getLong("ip_i"));
+            setSellingPrice(jsonObject.isNull("sp") ? 0 : jsonObject.getDouble("sp"));
             setStartingDate(jsonObject.isNull("s_d") ? null : jsonObject.getString("s_d"));
             setEndDate(jsonObject.isNull("e_d") ? null : jsonObject.getString("e_d"));
             setCreateDate(jsonObject.isNull("c_d") ? null : jsonObject.getString("c_d"));
-            setIsDelete(jsonObject.isNull("i_d") ? null : jsonObject.getInt("i_d"));
+            setIsDelete(jsonObject.isNull("i_d") ? 0 : jsonObject.getInt("i_d"));
         }catch (Exception e){
             e.printStackTrace();
         }

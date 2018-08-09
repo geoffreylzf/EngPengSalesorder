@@ -40,8 +40,8 @@ public class CustomerCompanyAddressEntry {
             setId(jsonObject.getLong("id"));
             setPersonCustomerAddressCode(jsonObject.isNull("pcac") ? null : jsonObject.getString("pcac"));
             setPersonCustomerAddressName(jsonObject.isNull("pcan") ? null : jsonObject.getString("pcan"));
-            setPersonCustomerCompanyId(jsonObject.isNull("pcc_i") ? null : jsonObject.getLong("pcc_i"));
-            setIsDelete(jsonObject.isNull("i_d") ? null : jsonObject.getInt("i_d"));
+            setPersonCustomerCompanyId(jsonObject.isNull("pcc_i") ? 0 : jsonObject.getLong("pcc_i"));
+            setIsDelete(jsonObject.isNull("i_d") ? 0 : jsonObject.getInt("i_d"));
 
         } catch (Exception e) {
             e.printStackTrace();

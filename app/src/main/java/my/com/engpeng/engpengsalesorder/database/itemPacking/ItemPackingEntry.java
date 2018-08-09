@@ -45,9 +45,9 @@ public class ItemPackingEntry {
             setId(jsonObject.getLong("id"));
             setSkuCode(jsonObject.isNull("sc") ? null : jsonObject.getString("sc"));
             setSkuName(jsonObject.isNull("sn") ? null : jsonObject.getString("sn"));
-            setPriceByWeight(jsonObject.isNull("pbw") ? null : jsonObject.getInt("pbw"));
-            setFactor(jsonObject.isNull("f") ? null : jsonObject.getDouble("f"));
-            setIsDelete(jsonObject.isNull("i_d") ? null : jsonObject.getInt("i_d"));
+            setPriceByWeight(jsonObject.isNull("pbw") ? 0 : jsonObject.getInt("pbw"));
+            setFactor(jsonObject.isNull("f") ? 0 : jsonObject.getDouble("f"));
+            setIsDelete(jsonObject.isNull("i_d") ? 0 : jsonObject.getInt("i_d"));
         } catch (Exception e) {
             e.printStackTrace();
         }

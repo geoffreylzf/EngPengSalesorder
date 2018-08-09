@@ -41,8 +41,8 @@ public class CustomerCompanyEntry {
             setId(jsonObject.getLong("id"));
             setPersonCustomerCompanyCode(jsonObject.isNull("pccc") ? null : jsonObject.getString("pccc"));
             setPersonCustomerCompanyName(jsonObject.isNull("pccn") ? null : jsonObject.getString("pccn"));
-            setPriceGroupId(jsonObject.isNull("pg_i") ? null : jsonObject.getInt("pg_i"));
-            setIsDelete(jsonObject.isNull("i_d") ? null : jsonObject.getInt("i_d"));
+            setPriceGroupId(jsonObject.isNull("pg_i") ? 0 : jsonObject.getInt("pg_i"));
+            setIsDelete(jsonObject.isNull("i_d") ? 0 : jsonObject.getInt("i_d"));
 
         }catch (Exception e) {
             e.printStackTrace();

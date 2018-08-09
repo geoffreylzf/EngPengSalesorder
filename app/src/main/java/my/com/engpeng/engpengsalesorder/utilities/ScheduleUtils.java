@@ -17,10 +17,10 @@ import my.com.engpeng.engpengsalesorder.service.TestJobService;
 import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingJobService;
 
 public class ScheduleUtils {
-    private static final int REMINDER_INTERVAL_MINUTES = 5;
-    private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
-    private static final int SYNC_FLEXTIME_MINUTES = 5;
-    private static final int SYNC_FLEXTIME_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(SYNC_FLEXTIME_MINUTES));
+    private static final int REMINDER_INTERVAL_HOURS = 3;
+    private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.HOURS.toSeconds(REMINDER_INTERVAL_HOURS));
+    private static final int SYNC_FLEXTIME_HOURS = 1;
+    private static final int SYNC_FLEXTIME_SECONDS = (int) (TimeUnit.HOURS.toSeconds(SYNC_FLEXTIME_HOURS));
     private static final String AUTO_UPDATE_HOUSE_KEEPING_JOB_TAG = "AUTO_UPDATE_HOUSE_KEEPING_JOB_TAG";
 
     private static boolean sInitialized;
@@ -33,13 +33,11 @@ public class ScheduleUtils {
 
         Job autoUpdateHouseKeepingJob = dispatcher.newJobBuilder()
                 .setService(UpdateHouseKeepingJobService.class)
-                //.setService(TestJobService.class)
                 .setTag(AUTO_UPDATE_HOUSE_KEEPING_JOB_TAG)
                 .setConstraints(Constraint.ON_ANY_NETWORK)
                 .setLifetime(Lifetime.FOREVER)
                 .setRecurring(true)
                 .setTrigger(Trigger.executionWindow(REMINDER_INTERVAL_SECONDS, REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
-                //.setTrigger(Trigger.executionWindow(5, 10))
                 .setReplaceCurrent(true)
                 .build();
 

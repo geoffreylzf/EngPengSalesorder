@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/ListItemLinearLayoutStyle">
+
+        <TextView
+            android:id="@+id/li_customer_selection_name"
+            style="@style/ListItemPrimaryTextViewStyle"
+            tools:text="Customer Name" />
+
+        <TextView
+            android:id="@+id/li_customer_selection_code"
+            style="@style/ListItemSecondaryTextViewStyle"
+            tools:text="Customer Code" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"/>
+
+</LinearLayout>

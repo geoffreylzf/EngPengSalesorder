@@ -123,7 +123,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
         String content_text = "Updating " + Global.getTableDisplayName(table) + "...";
 
         if (percentage != progressCurrent) {
-            if (percentage % 5 == 0) {
+            if (percentage % 20 == 0) {
                 notificationBuilder.setContentText(content_text).setProgress(PROGRESS_MAX, percentage, false);
                 notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
                 progressCurrent = percentage;
@@ -139,6 +139,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
                 .setProgress(0, 0, false);
         notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
         stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
     }
 
     @Override

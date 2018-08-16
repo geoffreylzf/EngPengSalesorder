@@ -158,6 +158,7 @@ public class UpdateHouseKeepingService extends Service implements
                 .setProgress(0, 0, false);
         notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_ID, notificationBuilder.build());
         stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
     }
 
     @Override

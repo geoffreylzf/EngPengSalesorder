@@ -28,7 +28,6 @@
             android:name=".service.UpdateHouseKeepingService"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".service.UpdateHouseKeepingJobService"
             android:exported="false">
@@ -36,7 +35,6 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.TestJobService"
             android:exported="false">
@@ -45,6 +43,11 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".TempSalesorderHeadActivity" />
+        <activity android:name=".TestActivity" />
+        <activity
+            android:name=".CustomerSelectionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

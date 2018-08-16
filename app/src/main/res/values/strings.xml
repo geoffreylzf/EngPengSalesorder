@@ -8,9 +8,23 @@
     <string name="price_setting">Price Setting</string>
     <string name="customer">Customer</string>
     <string name="customer_company">Customer Company</string>
+    <string name="customer_address">Customer Address</string>
     <string name="item_packing">Item Packing</string>
+    <string name="company">Company</string>
+    <string name="local_purchase_ordero">Local Purchase Order</string>
+    <string name="remark">Remark</string>
+    <string name="delivery_date">Delivery Date</string>
+    <string name="document_date">Document Date</string>
+    <string name="start">Start</string>
+    <string name="search">Search</string>
+    <string name="search_here">Search Here</string>
 
     <string name="default_progress">0/0 (0.00%)</string>
+
+    <string name="no_customer_selected">No Customer Selected</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="main_notification_channel_name">Primary</string>
 </resources>

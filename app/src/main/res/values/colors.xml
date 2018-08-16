@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#2E7D32</color>
+    <color name="colorAccent">#004D40</color>
+    <color name="colorPrimaryLight">#C8E6C9</color>
 
     <color name="colorTranslucent">#80FFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
+
+    <color name="colorSearchBarBg">#dcffffff</color>
+
+    <color name="colorSearchTextColor">#939393</color>
+    <color name="colorSearchHintColor">#bababa</color>
+
+    <color name="colorListItemPrimaryText">#DE000000</color>
+    <color name="colorListItemSecondaryText">#99000000</color>
+
+    <color name="colorDivider">#1e000000</color>
+
 </resources>

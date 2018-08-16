@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_rl"
+    style="@style/SearchBarRelativeLayout">
+
+    <ImageButton
+        android:id="@+id/search_ib_icon"
+        style="@style/SearchBarIconStyle" />
+
+    <EditText
+        android:id="@+id/search_et_filter"
+        style="@style/SearchBarEditTextStyle"
+        android:layout_toEndOf="@+id/search_ib_icon" />
+
+    <ImageButton
+        android:id="@+id/search_ib_clear"
+        style="@style/SearchBarClearButtonStyle" />
+
+</RelativeLayout>

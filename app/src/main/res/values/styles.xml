@@ -97,4 +97,15 @@
         <item name="android:gravity">bottom</item>
     </style>
 
+    <style name="ListItemTertiaryTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textAlignment">textEnd</item>
+    </style>
+
 </resources>

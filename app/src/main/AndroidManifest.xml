@@ -12,14 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HouseKeepingActivity" />
+        <activity android:name=".activity.HouseKeepingActivity" />
 
         <service
             android:name=".service.TestIntentService"
@@ -43,13 +43,16 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".TempSalesorderHeadActivity" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".activity.TempSalesorderHeadActivity" />
+        <activity android:name=".activity.TestActivity" />
         <activity
-            android:name=".CustomerSelectionActivity"
+            android:name=".activity.CustomerSelectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddressSelectionActivity"
+            android:name=".activity.AddressSelectionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ItemSelectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

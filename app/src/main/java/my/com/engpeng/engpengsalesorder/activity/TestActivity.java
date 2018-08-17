@@ -1,7 +1,9 @@
-package my.com.engpeng.engpengsalesorder;
+package my.com.engpeng.engpengsalesorder.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import my.com.engpeng.engpengsalesorder.R;
 
 public class TestActivity extends AppCompatActivity {
 

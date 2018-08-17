@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder;
+package my.com.engpeng.engpengsalesorder.activity;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Locale;
 
+import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;

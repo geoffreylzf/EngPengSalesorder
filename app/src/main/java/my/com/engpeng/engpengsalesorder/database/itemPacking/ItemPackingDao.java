@@ -25,4 +25,11 @@ public interface ItemPackingDao {
 
     @Query("SELECT COUNT(*) FROM " + ItemPackingEntry.TABLE_NAME)
     LiveData<Integer> getLiveCount();
+
+    @Query("SELECT * " +
+            "FROM " + ItemPackingEntry.TABLE_NAME + " " +
+            "WHERE sku_code||sku_name LIKE :filter " +
+            "ORDER BY id "+
+            "LIMIT 200")
+    LiveData<List<ItemPackingEntry>> loadLiveAllItemPackingsByFilter(String filter);
 }

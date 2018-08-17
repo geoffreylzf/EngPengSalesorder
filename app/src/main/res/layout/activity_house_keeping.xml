@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     android:padding="32dp"
-    tools:context=".HouseKeepingActivity">
+    tools:context=".activity.HouseKeepingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder;
+package my.com.engpeng.engpengsalesorder.activity;
 
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.LiveData;
@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,6 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
@@ -32,6 +34,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
 
     private Spinner snCompany;
     private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate;
+    private Button btnStart;
 
     private Calendar calendar;
     private SimpleDateFormat sdfSave, sdfDisplay;
@@ -54,6 +57,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.temp_salesorder_head_et_address);
         etDocumentDate = findViewById(R.id.temp_salesorder_head_et_document_date);
         etDeliveryDate = findViewById(R.id.temp_salesorder_head_et_delivery_date);
+        btnStart = findViewById(R.id.temp_salesorder_head_btn_start);
 
         mDb = AppDatabase.getInstance(getApplicationContext());
         calendar = Calendar.getInstance();
@@ -123,6 +127,13 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
                             }
                         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
+            }
+        });
+
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TempSalesorderHeadActivity.this, ItemSelectionActivity.class));
             }
         });
     }

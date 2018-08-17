@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder;
+package my.com.engpeng.engpengsalesorder.activity;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -11,53 +11,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import java.util.List;
 
+import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.CustomerSelectionAdapter;
+import my.com.engpeng.engpengsalesorder.adapter.ItemSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
-import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
+import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
 
-public class CustomerSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener
-{
+public class ItemSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener {
 
     private Toolbar tb;
     private DrawerLayout dl;
     private NavigationView nvStart;
 
     private RecyclerView rv;
-    private CustomerSelectionAdapter adapter;
+    private ItemSelectionAdapter adapter;
 
     private AppDatabase mDb;
-
-    public static final String CUSTOMER_COMPANY_ID = "CUSTOMER_COMPANY_ID";
+    public static final String ITEM_PACKING_ID = "ITEM_PACKING_ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_selection);
+        setContentView(R.layout.activity_item_selection);
 
-        setTitle("Customer Selection");
+        setTitle("Item Packing Selection");
 
         this.getWindow().setStatusBarColor(this.getColor(R.color.colorTransparent));
 
-        tb = findViewById(R.id.customer_selection_tb);
-        dl = findViewById(R.id.customer_selection_dl);
-        nvStart = findViewById(R.id.customer_selection_start_nv);
-        rv = findViewById(R.id.customer_selection_rv_list);
+        tb = findViewById(R.id.item_selection_tb);
+        dl = findViewById(R.id.item_selection_dl);
+        nvStart = findViewById(R.id.item_selection_start_nv);
+        rv = findViewById(R.id.item_selection_rv_list);
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         setupLayout();
         setupRecycleView();
-        retrieveCustomerCompany("");
+        retrieveItemPacking("");
     }
 
     private void setupLayout() {
@@ -69,12 +65,13 @@ public class CustomerSelectionActivity extends AppCompatActivity implements Sear
     }
 
     private void setupRecycleView() {
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new CustomerSelectionAdapter(this, new CustomerSelectionAdapter.CustomerSelectionAdapterListener() {
+        //rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        adapter = new ItemSelectionAdapter(this, new ItemSelectionAdapter.ItemSelectionAdapterListener() {
             @Override
-            public void onCustomerSelected(Long id) {
+            public void onItemSelected(Long id) {
                 Intent data = new Intent();
-                data.putExtra(CUSTOMER_COMPANY_ID, id);
+                data.putExtra(ITEM_PACKING_ID, id);
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -82,20 +79,19 @@ public class CustomerSelectionActivity extends AppCompatActivity implements Sear
         rv.setAdapter(adapter);
     }
 
-    private void retrieveCustomerCompany(final String filter) {
-        final LiveData<List<CustomerCompanyEntry>> cc = mDb.customerCompanyDao().loadLiveAllCustomerCompaniesByFilter("%" + filter + "%");
-        cc.observe(this, new Observer<List<CustomerCompanyEntry>>() {
+    private void retrieveItemPacking(final String filter) {
+        final LiveData<List<ItemPackingEntry>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%");
+        cc.observe(this, new Observer<List<ItemPackingEntry>>() {
             @Override
-            public void onChanged(@Nullable List<CustomerCompanyEntry> customerCompanyEntries) {
+            public void onChanged(@Nullable List<ItemPackingEntry> itemPackingEntries) {
                 cc.removeObserver(this);
-                adapter.setCustomerCompanyEntryList(customerCompanyEntries);
+                adapter.setItemEntryList(itemPackingEntries);
             }
         });
     }
 
     @Override
     public void onFilterChanged(String filter) {
-
-        retrieveCustomerCompany(filter);
+        retrieveItemPacking(filter);
     }
 }

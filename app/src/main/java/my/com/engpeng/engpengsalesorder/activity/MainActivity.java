@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder;
+package my.com.engpeng.engpengsalesorder.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.utilities.ScheduleUtils;
-import my.com.engpeng.engpengsalesorder.utilities.UIUtils;
 
 public class MainActivity extends AppCompatActivity {
 

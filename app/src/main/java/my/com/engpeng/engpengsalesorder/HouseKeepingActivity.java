@@ -57,7 +57,7 @@ public class HouseKeepingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_house_keeping2);
+        setContentView(R.layout.activity_house_keeping);
 
         tvCustCount = findViewById(R.id.house_keeping_tv_cust_count);
         tvCustProgress = findViewById(R.id.house_keeping_tv_cust_progress);

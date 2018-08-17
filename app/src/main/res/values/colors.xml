@@ -8,6 +8,8 @@
     <color name="colorTranslucent">#80FFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
 
+    <color name="colorHint">#808080</color>
+
     <color name="colorSearchBarBg">#dcffffff</color>
 
     <color name="colorSearchTextColor">#939393</color>
@@ -17,5 +19,6 @@
     <color name="colorListItemSecondaryText">#99000000</color>
 
     <color name="colorDivider">#1e000000</color>
+    <color name="colorTextFieldBackground">#0c00000a</color>
 
 </resources>

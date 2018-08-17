@@ -25,4 +25,14 @@ public interface CustomerCompanyAddressDao {
 
     @Query("SELECT COUNT(*) FROM " + CustomerCompanyAddressEntry.TABLE_NAME)
     LiveData<Integer> getLiveCount();
+
+    @Query("SELECT * " +
+            "FROM " + CustomerCompanyAddressEntry.TABLE_NAME + " " +
+            "WHERE person_customer_company_id = :personCustomerCompanyId " +
+            "AND person_customer_address_code||person_customer_address_name LIKE :filter "+
+            "ORDER BY id ")
+    LiveData<List<CustomerCompanyAddressEntry>> loadAllCustmerCompanyAddressesByPersonCustomerCompanyIdFilter(Long personCustomerCompanyId, String filter);
+
+    @Query("SELECT * FROM " + CustomerCompanyAddressEntry.TABLE_NAME + " WHERE id = :id")
+    LiveData<CustomerCompanyAddressEntry> loadLiveCustomerCompanyAddressById(Long id);
 }

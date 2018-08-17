@@ -3,14 +3,12 @@ package my.com.engpeng.engpengsalesorder.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.logging.Handler;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
@@ -34,7 +32,7 @@ public class CustomerSelectionAdapter extends RecyclerView.Adapter<CustomerSelec
     @Override
     public CustomerCompanyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.list_item_customer_selection, viewGroup, false);
+                .inflate(R.layout.list_item_two_line, viewGroup, false);
         return new CustomerCompanyViewHolder(view);
     }
 
@@ -71,8 +69,8 @@ public class CustomerSelectionAdapter extends RecyclerView.Adapter<CustomerSelec
 
         public CustomerCompanyViewHolder(View view) {
             super(view);
-            tvName = view.findViewById(R.id.li_customer_selection_name);
-            tvCode = view.findViewById(R.id.li_customer_selection_code);
+            tvName = view.findViewById(R.id.li_tv_primary);
+            tvCode = view.findViewById(R.id.li_tv_secondary);
         }
     }
 }

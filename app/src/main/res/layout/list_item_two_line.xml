@@ -8,12 +8,12 @@
     <LinearLayout style="@style/ListItemLinearLayoutStyle">
 
         <TextView
-            android:id="@+id/li_customer_selection_name"
+            android:id="@+id/li_tv_primary"
             style="@style/ListItemPrimaryTextViewStyle"
             tools:text="Customer Name" />
 
         <TextView
-            android:id="@+id/li_customer_selection_code"
+            android:id="@+id/li_tv_secondary"
             style="@style/ListItemSecondaryTextViewStyle"
             tools:text="Customer Code" />
     </LinearLayout>

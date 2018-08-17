@@ -28,9 +28,14 @@
 
                 <Spinner
                     android:id="@+id/temp_salesorder_head_sn_company"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorTextFieldBackground" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/colorDivider"
+                    android:layout_marginBottom="8dp"/>
 
             </LinearLayout>
 
@@ -55,23 +60,14 @@
                     android:id="@+id/temp_salesorder_head_et_customer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_search_grey_24px"
                     android:focusable="false"
                     android:hint="@string/customer_company"
                     android:inputType="text"
-                    android:text="@string/no_customer_selected" />
+                    android:text="@string/no_customer_selected"
+                    android:textColor="@color/colorHint" />
 
             </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/temp_salesorder_head_btn_select_customer"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:drawableStart="@drawable/ic_baseline_search_white_24px"
-                android:text="@string/search"
-                android:textAllCaps="true"
-                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -89,21 +85,14 @@
                     android:id="@+id/temp_salesorder_head_et_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_search_grey_24px"
+                    android:focusable="false"
                     android:hint="@string/customer_address"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="@string/no_address_selected"
+                    android:textColor="@color/colorHint" />
 
             </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/temp_salesorder_head_btn_select_address"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:drawableStart="@drawable/ic_baseline_search_white_24px"
-                android:text="@string/search"
-                android:textAllCaps="true"
-                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -121,6 +110,8 @@
                     android:id="@+id/temp_salesorder_head_et_document_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_date_range_grey_24px"
+                    android:focusable="false"
                     android:hint="@string/document_date"
                     android:inputType="date" />
 
@@ -137,10 +128,13 @@
                     android:id="@+id/temp_salesorder_head_et_delivery_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_baseline_date_range_grey_24px"
+                    android:focusable="false"
                     android:hint="@string/delivery_date"
                     android:inputType="date" />
 
             </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -171,8 +165,7 @@
 
         <Button
             android:id="@+id/temp_salesorder_head_btn_start"
-            style="@style/Widget.MaterialComponents.Button"
-
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start"

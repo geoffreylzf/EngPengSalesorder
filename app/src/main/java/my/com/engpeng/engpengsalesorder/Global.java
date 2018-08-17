@@ -27,6 +27,10 @@ public class Global {
     public static final String I_KEY_ACTION = "I_KEY_ACTION";
     public static final String I_KEY_TABLE = "I_KEY_TABLE";
     public static final String I_KEY_LOCAL = "I_KEY_LOCAL";
+    public static final String I_KEY_CUSTOMER_COMPANY_ID = "I_KEY_CUSTOMER_COMPANY_ID";
+
+    public static final String DATE_DISPLAY_FORMAT = "EEE, d MMM yyyy";
+    public static final String DATE_SAVE_FORMAT = "yyyy-MM-dd";
 
     public static String getCurrentDateTime(){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);

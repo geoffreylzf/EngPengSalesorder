@@ -20,8 +20,12 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.CustomerSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.adapter.ItemSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
+
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 
 public class ItemSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener {
 
@@ -34,6 +38,16 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
 
     private AppDatabase mDb;
     public static final String ITEM_PACKING_ID = "ITEM_PACKING_ID";
+    public static final String QUANTITY = "QUANTITY";
+    public static final int RC_QUANTITY_PICKER = 9101;
+
+    //receive from intent
+    private Long customerCompanyId;
+    private Long priceGroupId;
+    private String deliveryDate;
+
+    private Long itemPackingId, priceSettingId;
+    private double sellingPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,7 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         setupLayout();
+        setupIntent();
         setupRecycleView();
         retrieveItemPacking("");
     }
@@ -64,28 +79,43 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         toggle.syncState();
     }
 
+    private void setupIntent(){
+        Intent intentStart = getIntent();
+        if (intentStart.hasExtra(I_KEY_CUSTOMER_COMPANY_ID)) {
+            customerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
+        }
+        if (intentStart.hasExtra(I_KEY_DELIVERY_DATE)) {
+            deliveryDate = intentStart.getStringExtra(I_KEY_DELIVERY_DATE );
+        }
+    }
+
     private void setupRecycleView() {
         //rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         adapter = new ItemSelectionAdapter(this, new ItemSelectionAdapter.ItemSelectionAdapterListener() {
             @Override
             public void onItemSelected(Long id) {
-                Intent data = new Intent();
+                /*Intent data = new Intent();
                 data.putExtra(ITEM_PACKING_ID, id);
                 setResult(RESULT_OK, data);
-                finish();
+                finish();*/
+                itemPackingId = id;
+                Intent intent = new Intent(ItemSelectionActivity.this, QuantityPickerActivity.class);
+                startActivityForResult(intent, RC_QUANTITY_PICKER);
             }
         });
         rv.setAdapter(adapter);
     }
 
+
+
     private void retrieveItemPacking(final String filter) {
-        final LiveData<List<ItemPackingEntry>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%");
-        cc.observe(this, new Observer<List<ItemPackingEntry>>() {
+        final LiveData<List<ItemPackingDisplay>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%", customerCompanyId, deliveryDate);
+        cc.observe(this, new Observer<List<ItemPackingDisplay>>() {
             @Override
-            public void onChanged(@Nullable List<ItemPackingEntry> itemPackingEntries) {
+            public void onChanged(@Nullable List<ItemPackingDisplay> itemPackingDisplays) {
                 cc.removeObserver(this);
-                adapter.setItemEntryList(itemPackingEntries);
+                adapter.setItemEntryList(itemPackingDisplays);
             }
         });
     }
@@ -93,5 +123,21 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
     @Override
     public void onFilterChanged(String filter) {
         retrieveItemPacking(filter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_QUANTITY_PICKER) {
+            if (resultCode == RESULT_OK & data != null) {
+                int quantity = data.getIntExtra(QuantityPickerActivity.QUANTITY, 0);
+                //return to summary
+                Intent intent = new Intent();
+                intent.putExtra(ITEM_PACKING_ID, itemPackingId);
+                intent.putExtra(QUANTITY, quantity);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
     }
 }

@@ -30,9 +30,10 @@ public interface CustomerCompanyDao {
     @Query("SELECT * " +
             "FROM " + CustomerCompanyEntry.TABLE_NAME + " " +
             "WHERE person_customer_company_code||person_customer_company_name LIKE :filter " +
-            "ORDER BY id "+
+            "AND company_id = :companyId " +
+            "ORDER BY id " +
             "LIMIT 100")
-    LiveData<List<CustomerCompanyEntry>> loadLiveAllCustomerCompaniesByFilter(String filter);
+    LiveData<List<CustomerCompanyEntry>> loadLiveAllCustomerCompaniesByCompanyIdFilter(Long companyId, String filter);
 
     @Query("SELECT * FROM " + CustomerCompanyEntry.TABLE_NAME + " WHERE id = :id")
     LiveData<CustomerCompanyEntry> loadLiveCustomerCompanyById(Long id);

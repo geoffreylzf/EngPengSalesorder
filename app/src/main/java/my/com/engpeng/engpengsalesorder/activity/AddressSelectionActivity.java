@@ -29,7 +29,7 @@ public class AddressSelectionActivity extends AppCompatActivity implements Searc
 
     private AppDatabase mDb;
 
-    private Long personCustomerCompanyId;
+    private Long customerCompanyId;
 
     public static final String CUSTOMER_ADDRESS_ID = "CUSTOMER_ADDRESS_ID";
 
@@ -54,7 +54,7 @@ public class AddressSelectionActivity extends AppCompatActivity implements Searc
     private void setupIntent(){
         Intent intentStart = getIntent();
         if (intentStart.hasExtra(I_KEY_CUSTOMER_COMPANY_ID)) {
-            personCustomerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
+            customerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
         }
     }
 
@@ -77,7 +77,7 @@ public class AddressSelectionActivity extends AppCompatActivity implements Searc
     }
 
     private void retrieveCustomerAddress(String filter) {
-        final LiveData<List<CustomerCompanyAddressEntry>> cca = mDb.customerCompanyAddressDao().loadAllCustmerCompanyAddressesByPersonCustomerCompanyIdFilter(personCustomerCompanyId, "%" + filter + "%");
+        final LiveData<List<CustomerCompanyAddressEntry>> cca = mDb.customerCompanyAddressDao().loadAllCustmerCompanyAddressesByPersonCustomerCompanyIdFilter(customerCompanyId, "%" + filter + "%");
         cca.observe(this, new Observer<List<CustomerCompanyAddressEntry>>() {
             @Override
             public void onChanged(@Nullable List<CustomerCompanyAddressEntry> customerCompanyEntries) {

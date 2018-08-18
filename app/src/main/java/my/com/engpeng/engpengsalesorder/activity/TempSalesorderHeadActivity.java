@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,8 +18,10 @@ import android.widget.Spinner;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
@@ -28,7 +31,9 @@ import my.com.engpeng.engpengsalesorder.utilities.UIUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 
 public class TempSalesorderHeadActivity extends AppCompatActivity {
 
@@ -43,6 +48,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
     private static final int RC_SELECT_ADDRESS = 9002;
 
     private AppDatabase mDb;
+    private Map<String, Long> map;
 
     private Long customerCompanyId, customerAddressId;
     private String documentDate, deliveryDate;
@@ -76,8 +82,10 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
         etCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(TempSalesorderHeadActivity.this, CustomerSelectionActivity.class)
-                        , RC_SELECT_CUSTOMER);
+                Intent intent = new Intent(TempSalesorderHeadActivity.this, CustomerSelectionActivity.class);
+                Log.e("getCompanyIdFromSpinner()", getCompanyIdFromSpinner()+"");
+                intent.putExtra(I_KEY_COMPANY_ID, getCompanyIdFromSpinner());
+                startActivityForResult(intent, RC_SELECT_CUSTOMER);
             }
         });
 
@@ -133,21 +141,37 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(TempSalesorderHeadActivity.this, ItemSelectionActivity.class));
+                if (customerCompanyId == null || customerCompanyId == 0) {
+                    return;
+                }
+                if (deliveryDate == null || deliveryDate.equals("")) {
+                    return;
+                }
+
+                Intent intent = new Intent(TempSalesorderHeadActivity.this, ItemSelectionActivity.class);
+                intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
+                intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
+                startActivity(intent);
             }
         });
     }
 
     private void setupSpinner() {
-        List<String> labels = new ArrayList<>();
-        labels.add("Eng Peng Cold Storage ");
-        labels.add("Salam Marketing");
+        map = new HashMap<>();
+        map.put("Salam Marketing", 17L);
+        map.put("Eng Peng Cold Storage", 3L);
+
+        List<String> labels = new ArrayList<>(map.keySet());
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item, labels);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         snCompany.setAdapter(dataAdapter);
+    }
+
+    private Long getCompanyIdFromSpinner() {
+        return map.get(snCompany.getSelectedItem().toString());
     }
 
     @Override
@@ -158,7 +182,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
                 customerCompanyId = data.getLongExtra(CustomerSelectionActivity.CUSTOMER_COMPANY_ID, 0);
                 retrieveCustomer();
             }
-        }else if (requestCode == RC_SELECT_ADDRESS) {
+        } else if (requestCode == RC_SELECT_ADDRESS) {
             if (resultCode == RESULT_OK & data != null) {
                 customerAddressId = data.getLongExtra(AddressSelectionActivity.CUSTOMER_ADDRESS_ID, 0);
                 retrieveAddress();

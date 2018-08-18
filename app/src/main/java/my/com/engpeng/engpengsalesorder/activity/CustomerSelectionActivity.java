@@ -12,11 +12,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import java.util.List;
 
@@ -26,8 +21,9 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
 
-public class CustomerSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener
-{
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
+
+public class CustomerSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener {
 
     private Toolbar tb;
     private DrawerLayout dl;
@@ -37,6 +33,8 @@ public class CustomerSelectionActivity extends AppCompatActivity implements Sear
     private CustomerSelectionAdapter adapter;
 
     private AppDatabase mDb;
+
+    private Long companyId;
 
     public static final String CUSTOMER_COMPANY_ID = "CUSTOMER_COMPANY_ID";
 
@@ -57,8 +55,16 @@ public class CustomerSelectionActivity extends AppCompatActivity implements Sear
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         setupLayout();
+        setupIntent();
         setupRecycleView();
         retrieveCustomerCompany("");
+    }
+
+    private void setupIntent() {
+        Intent intentStart = getIntent();
+        if (intentStart.hasExtra(I_KEY_COMPANY_ID)) {
+            companyId = intentStart.getLongExtra(I_KEY_COMPANY_ID, 0);
+        }
     }
 
     private void setupLayout() {
@@ -84,7 +90,7 @@ public class CustomerSelectionActivity extends AppCompatActivity implements Sear
     }
 
     private void retrieveCustomerCompany(final String filter) {
-        final LiveData<List<CustomerCompanyEntry>> cc = mDb.customerCompanyDao().loadLiveAllCustomerCompaniesByFilter("%" + filter + "%");
+        final LiveData<List<CustomerCompanyEntry>> cc = mDb.customerCompanyDao().loadLiveAllCustomerCompaniesByCompanyIdFilter(companyId, "%" + filter + "%");
         cc.observe(this, new Observer<List<CustomerCompanyEntry>>() {
             @Override
             public void onChanged(@Nullable List<CustomerCompanyEntry> customerCompanyEntries) {

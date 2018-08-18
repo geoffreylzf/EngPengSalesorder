@@ -11,12 +11,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
+import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
 
-public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdapter.ItemViewHolder>{
+import static my.com.engpeng.engpengsalesorder.Global.getDisplayPrice;
+
+public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdapter.ItemViewHolder> {
 
     private Context context;
-    private List<ItemPackingEntry> itemPackingEntryList;
+    private List<ItemPackingDisplay> itemPackingDisplays;
     private ItemSelectionAdapterListener isaListener;
 
     public interface ItemSelectionAdapterListener {
@@ -38,10 +40,26 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
-        final ItemPackingEntry cc = itemPackingEntryList.get(i);
+        final ItemPackingDisplay cc = itemPackingDisplays.get(i);
+
+        double price = 0;
+        long priceSettingId = 0;
+        boolean isStandard = true;
+        String priceIndicator = "*";
+
+        if(cc.getCustomerPrice() != 0){
+            price = cc.getCustomerPrice();
+            priceSettingId = cc.getCustomerPriceSettingId();
+            isStandard = false;
+            priceIndicator = "";
+        }else{
+            price = cc.getStandardPrice();
+            priceSettingId = cc.getStandardPriceSettingId();
+        }
+
         itemViewHolder.tvCode.setText(cc.getSkuCode());
         itemViewHolder.tvName.setText(cc.getSkuName());
-        itemViewHolder.tvPrice.setText("RM9999.99");
+        itemViewHolder.tvPrice.setText(getDisplayPrice(price) + priceIndicator);
 
         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +71,14 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
 
     @Override
     public int getItemCount() {
-        if (itemPackingEntryList == null) {
+        if (itemPackingDisplays == null) {
             return 0;
         }
-        return itemPackingEntryList.size();
+        return itemPackingDisplays.size();
     }
 
-    public void setItemEntryList(List<ItemPackingEntry> itemPackingEntryList) {
-        this.itemPackingEntryList = itemPackingEntryList;
+    public void setItemEntryList(List<ItemPackingDisplay> itemPackingDisplays) {
+        this.itemPackingDisplays = itemPackingDisplays;
         notifyDataSetChanged();
     }
 

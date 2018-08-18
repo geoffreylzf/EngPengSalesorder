@@ -28,24 +28,31 @@ public class Global {
     public static final String I_KEY_TABLE = "I_KEY_TABLE";
     public static final String I_KEY_LOCAL = "I_KEY_LOCAL";
     public static final String I_KEY_CUSTOMER_COMPANY_ID = "I_KEY_CUSTOMER_COMPANY_ID";
+    public static final String I_KEY_PRICE_GROUP_ID = "I_KEY_PRICE_GROUP_ID";
+    public static final String I_KEY_DELIVERY_DATE = "I_KEY_DELIVERY_DATE";
+    public static final String I_KEY_COMPANY_ID = "I_KEY_COMPANY_ID";
 
     public static final String DATE_DISPLAY_FORMAT = "EEE, d MMM yyyy";
     public static final String DATE_SAVE_FORMAT = "yyyy-MM-dd";
 
-    public static String getCurrentDateTime(){
+    public static String getCurrentDateTime() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         Date currentTime = Calendar.getInstance().getTime();
         return df.format(currentTime);
     }
 
-    public static String getTableDisplayName(String table_name){
-        if(table_name.equals(ItemPackingEntry.TABLE_NAME)){
+    public static String getDisplayPrice(double price) {
+        return String.format(Locale.getDefault(), "RM%.2f", price);
+    }
+
+    public static String getTableDisplayName(String table_name) {
+        if (table_name.equals(ItemPackingEntry.TABLE_NAME)) {
             return ItemPackingEntry.TABLE_DISPLAY_NAME;
-        }else if(table_name.equals(PriceSettingEntry.TABLE_NAME)){
+        } else if (table_name.equals(PriceSettingEntry.TABLE_NAME)) {
             return PriceSettingEntry.TABLE_DISPLAY_NAME;
-        }else if(table_name.equals(CustomerCompanyEntry.TABLE_NAME)){
+        } else if (table_name.equals(CustomerCompanyEntry.TABLE_NAME)) {
             return CustomerCompanyEntry.TABLE_DISPLAY_NAME;
-        }else if(table_name.equals(CustomerCompanyAddressEntry.TABLE_NAME)){
+        } else if (table_name.equals(CustomerCompanyAddressEntry.TABLE_NAME)) {
             return CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME;
         }
         return null;

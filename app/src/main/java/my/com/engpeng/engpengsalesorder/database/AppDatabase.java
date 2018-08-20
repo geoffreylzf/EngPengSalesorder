@@ -15,12 +15,15 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingDao;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoDao;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDao;
+import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 
 @Database(entities = {TableInfoEntry.class,
         PriceSettingEntry.class,
         ItemPackingEntry.class,
         CustomerCompanyEntry.class,
-        CustomerCompanyAddressEntry.class},
+        CustomerCompanyAddressEntry.class,
+        TempSalesorderDetailEntry.class},
         version = 1,
         exportSchema = false)
 
@@ -46,4 +49,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ItemPackingDao itemPackingDao();
     public abstract CustomerCompanyDao customerCompanyDao();
     public abstract CustomerCompanyAddressDao customerCompanyAddressDao();
+    public abstract TempSalesorderDetailDao tempSalesorderDetailDao();
 }

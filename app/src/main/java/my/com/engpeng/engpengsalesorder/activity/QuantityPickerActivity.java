@@ -81,7 +81,7 @@ public class QuantityPickerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent data = new Intent();
-                data.putExtra(QUANTITY, Integer.parseInt(etQty.getText().toString()));
+                data.putExtra(QUANTITY, Double.parseDouble(etQty.getText().toString()));
                 setResult(RESULT_OK, data);
                 finish();
             }

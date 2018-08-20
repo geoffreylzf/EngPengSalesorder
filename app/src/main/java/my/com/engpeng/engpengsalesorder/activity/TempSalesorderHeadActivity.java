@@ -83,7 +83,6 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TempSalesorderHeadActivity.this, CustomerSelectionActivity.class);
-                Log.e("getCompanyIdFromSpinner()", getCompanyIdFromSpinner()+"");
                 intent.putExtra(I_KEY_COMPANY_ID, getCompanyIdFromSpinner());
                 startActivityForResult(intent, RC_SELECT_CUSTOMER);
             }
@@ -148,7 +147,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
                     return;
                 }
 
-                Intent intent = new Intent(TempSalesorderHeadActivity.this, ItemSelectionActivity.class);
+                Intent intent = new Intent(TempSalesorderHeadActivity.this, TempSalesorderSummaryActivity.class);
                 intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
                 intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
                 startActivity(intent);

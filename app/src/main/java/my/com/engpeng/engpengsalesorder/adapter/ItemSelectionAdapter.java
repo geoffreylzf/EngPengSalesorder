@@ -40,31 +40,31 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
-        final ItemPackingDisplay cc = itemPackingDisplays.get(i);
+        final ItemPackingDisplay item = itemPackingDisplays.get(i);
 
         double price = 0;
         long priceSettingId = 0;
         boolean isStandard = true;
         String priceIndicator = "*";
 
-        if(cc.getCustomerPrice() != 0){
-            price = cc.getCustomerPrice();
-            priceSettingId = cc.getCustomerPriceSettingId();
+        if(item.getCustomerPrice() != 0){
+            price = item.getCustomerPrice();
+            priceSettingId = item.getCustomerPriceSettingId();
             isStandard = false;
             priceIndicator = "";
         }else{
-            price = cc.getStandardPrice();
-            priceSettingId = cc.getStandardPriceSettingId();
+            price = item.getStandardPrice();
+            priceSettingId = item.getStandardPriceSettingId();
         }
 
-        itemViewHolder.tvCode.setText(cc.getSkuCode());
-        itemViewHolder.tvName.setText(cc.getSkuName());
+        itemViewHolder.tvCode.setText(item.getSkuCode());
+        itemViewHolder.tvName.setText(item.getSkuName());
         itemViewHolder.tvPrice.setText(getDisplayPrice(price) + priceIndicator);
 
         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isaListener.onItemSelected(cc.getId());
+                isaListener.onItemSelected(item.getId());
             }
         });
     }

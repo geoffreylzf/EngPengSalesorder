@@ -58,6 +58,9 @@
             android:name=".activity.QuantityPickerActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity
+            android:name=".activity.TempSalesorderSummaryActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

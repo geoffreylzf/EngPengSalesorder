@@ -22,6 +22,8 @@ import my.com.engpeng.engpengsalesorder.adapter.ItemSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
+import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
@@ -73,19 +75,20 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
 
     private void setupLayout() {
         setSupportActionBar(tb);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dl, tb,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, dl, tb
+                ,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         dl.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    private void setupIntent(){
+    private void setupIntent() {
         Intent intentStart = getIntent();
         if (intentStart.hasExtra(I_KEY_CUSTOMER_COMPANY_ID)) {
             customerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
         }
         if (intentStart.hasExtra(I_KEY_DELIVERY_DATE)) {
-            deliveryDate = intentStart.getStringExtra(I_KEY_DELIVERY_DATE );
+            deliveryDate = intentStart.getStringExtra(I_KEY_DELIVERY_DATE);
         }
     }
 
@@ -106,7 +109,6 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         });
         rv.setAdapter(adapter);
     }
-
 
 
     private void retrieveItemPacking(final String filter) {
@@ -130,13 +132,24 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_QUANTITY_PICKER) {
             if (resultCode == RESULT_OK & data != null) {
-                int quantity = data.getIntExtra(QuantityPickerActivity.QUANTITY, 0);
+                double quantity = data.getDoubleExtra(QuantityPickerActivity.QUANTITY, 0);
                 //return to summary
-                Intent intent = new Intent();
-                intent.putExtra(ITEM_PACKING_ID, itemPackingId);
-                intent.putExtra(QUANTITY, quantity);
-                setResult(RESULT_OK, intent);
-                finish();
+                final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
+                        itemPackingId,
+                        quantity,
+                        0,
+                        0,
+                        0,
+                        0,
+                        "IDK",
+                        0);
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDb.tempSalesorderDetailDao().insertTempSalesorderDetail(detail);
+                        finish();
+                    }
+                });
             }
         }
     }

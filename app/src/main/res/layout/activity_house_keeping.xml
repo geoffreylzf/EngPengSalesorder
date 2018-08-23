@@ -291,21 +291,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <android.support.design.button.MaterialButton
                 android:id="@+id/house_keeping_btn_resync_all"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_refresh_24px"
-                android:text="@string/re_sync_all" />
+                android:text="@string/re_sync_all"
+                app:icon="@drawable/ic_baseline_refresh_24px"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:layout_marginEnd="4dp"/>
 
-            <Button
+            <android.support.design.button.MaterialButton
                 android:id="@+id/house_keeping_btn_update_all"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_update_24px"
-                android:text="@string/update_all" />
+                android:text="@string/update_all"
+                android:layout_marginStart="4dp"
+                app:icon="@drawable/ic_baseline_update_24px"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"/>
 
         </LinearLayout>
 

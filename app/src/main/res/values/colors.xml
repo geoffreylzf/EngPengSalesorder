@@ -3,7 +3,8 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#2E7D32</color>
     <color name="colorAccent">#004D40</color>
-    <color name="colorPrimaryLight">#C8E6C9</color>
+    <color name="colorPrimaryXLight">#C8E6C9</color>
+    <color name="colorPrimaryLight">#81C784</color>
 
     <color name="colorTranslucent">#80FFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
@@ -11,6 +12,7 @@
     <color name="colorHint">#808080</color>
 
     <color name="colorSearchBarBg">#dcffffff</color>
+    <color name="colorWhite">#ffffff</color>
 
     <color name="colorSearchTextColor">#939393</color>
     <color name="colorSearchHintColor">#bababa</color>
@@ -20,5 +22,8 @@
 
     <color name="colorDivider">#1e000000</color>
     <color name="colorTextFieldBackground">#0c00000a</color>
+
+    <color name="colorDeepOrange600">#F4511E</color>
+    <color name="colorBrown600">#795548</color>
 
 </resources>

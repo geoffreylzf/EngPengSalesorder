@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -31,11 +32,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorTextFieldBackground" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/colorDivider"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/colorDivider" />
 
             </LinearLayout>
 
@@ -163,13 +165,14 @@
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <android.support.design.button.MaterialButton
             android:id="@+id/temp_salesorder_head_btn_start"
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start"
-            android:textAllCaps="true"
-            android:textSize="16sp" />
+            app:icon="@drawable/ic_baseline_shop_white_24px"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"/>
     </LinearLayout>
 </ScrollView>

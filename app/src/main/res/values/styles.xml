@@ -1,7 +1,9 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <!--parent="Base.Theme.AppCompat.Light.DarkActionBar"-->
+    <style name="AppTheme"
+        parent="Base.Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -82,9 +84,9 @@
     <style name="ListItemPrimaryTextViewStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">32dp</item>
+        <item name="android:singleLine">true</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/colorListItemPrimaryText</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:gravity">bottom</item>
     </style>
 
@@ -93,7 +95,6 @@
         <item name="android:layout_height">20dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorListItemSecondaryText</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:gravity">bottom</item>
     </style>
 
@@ -102,7 +103,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:gravity">bottom</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textAlignment">textEnd</item>

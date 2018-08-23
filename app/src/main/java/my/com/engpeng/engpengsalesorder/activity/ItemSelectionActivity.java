@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -17,17 +16,16 @@ import android.support.v7.widget.Toolbar;
 import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.adapter.CustomerSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.adapter.ItemSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
-import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
 public class ItemSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener {
 
@@ -49,7 +47,9 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
     private String deliveryDate;
 
     private Long itemPackingId, priceSettingId;
-    private double sellingPrice;
+    private String priceMethod;
+    private double factor, price;
+    private int priceByWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +97,18 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         adapter = new ItemSelectionAdapter(this, new ItemSelectionAdapter.ItemSelectionAdapterListener() {
             @Override
-            public void onItemSelected(Long id) {
-                /*Intent data = new Intent();
-                data.putExtra(ITEM_PACKING_ID, id);
-                setResult(RESULT_OK, data);
-                finish();*/
+            public void onItemSelected(long id, double p_factor, int p_priceByWeight, String p_priceMethod, long p_priceSettingId, double p_price) {
                 itemPackingId = id;
-                Intent intent = new Intent(ItemSelectionActivity.this, QuantityPickerActivity.class);
+                factor = p_factor;
+                priceMethod = p_priceMethod;
+                priceSettingId = p_priceSettingId;
+                priceByWeight = p_priceByWeight;
+                price = p_price;
+                Intent intent = new Intent(ItemSelectionActivity.this, MeasurementPickerActivity.class);
+                intent.putExtra(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
+                //pass factor
+                //receive qty and weight
+                //price if 0 price
                 startActivityForResult(intent, RC_QUANTITY_PICKER);
             }
         });
@@ -132,17 +137,18 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_QUANTITY_PICKER) {
             if (resultCode == RESULT_OK & data != null) {
-                double quantity = data.getDoubleExtra(QuantityPickerActivity.QUANTITY, 0);
+                double quantity = data.getDoubleExtra(MeasurementPickerActivity.QUANTITY, 0);
                 //return to summary
                 final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
                         itemPackingId,
                         quantity,
-                        0,
-                        0,
-                        0,
-                        0,
-                        "IDK",
-                        0);
+                        quantity * factor,
+                        factor,
+                        price,
+                        priceSettingId,
+                        priceMethod,
+                        quantity * price);
+
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {

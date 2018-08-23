@@ -21,7 +21,8 @@ public interface TempSalesorderDetailDao {
 
     @Query("SELECT temp_salesorder_detail.*," +
             " item_packing.sku_code AS skuCode," +
-            " item_packing.sku_name AS skuName" +
+            " item_packing.sku_name AS skuName," +
+            " item_packing.price_by_weight AS priceByWeight" +
             " FROM temp_salesorder_detail" +
             " LEFT JOIN item_packing ON item_packing.id = temp_salesorder_detail.item_packing_id" +
             " ORDER BY id DESC")

@@ -9,16 +9,23 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import my.com.engpeng.engpengsalesorder.R;
 
-public class QuantityPickerActivity extends AppCompatActivity {
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
+
+public class MeasurementPickerActivity extends AppCompatActivity {
 
     private EditText etQty;
     private SeekBar sbQty, sbQtyMulti;
     private Button btnSave, btnCancel;
+    private TextView tvKg;
 
     public static final String QUANTITY = "QUANTITY";
+
+    //receive from intent
+    private int priceByWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +38,33 @@ public class QuantityPickerActivity extends AppCompatActivity {
         this.getWindow().setAttributes(params);
         this.setFinishOnTouchOutside(false);
 
-        setTitle("Pick Quantity");
-
         etQty = findViewById(R.id.quantity_picker_et_qty);
         sbQty = findViewById(R.id.quantity_picker_sb_qty);
         sbQtyMulti = findViewById(R.id.quantity_picker_sb_qty_multi);
         btnSave = findViewById(R.id.quantity_picker_btn_save);
         btnCancel = findViewById(R.id.quantity_picker_btn_cancel);
+        tvKg = findViewById(R.id.quantity_picker_tv_kg);
 
         etQty.setSelection(0, etQty.getText().length());
 
+        setupIntent();
+        setupListener();
+    }
+
+    private void setupIntent(){
+        Intent intentStart = getIntent();
+        if (intentStart.hasExtra(I_KEY_PRICE_BY_WEIGHT)) {
+            priceByWeight = intentStart.getIntExtra(I_KEY_PRICE_BY_WEIGHT, 0);
+            if(priceByWeight == 1){
+                setTitle("Enter Weight");
+            }else{
+                setTitle("Enter Quantity");
+                tvKg.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void setupListener(){
         sbQty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

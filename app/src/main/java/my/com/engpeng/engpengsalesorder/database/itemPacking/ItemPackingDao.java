@@ -62,6 +62,7 @@ public interface ItemPackingDao {
             "        ORDER BY starting_date DESC, end_date DESC, create_date DESC) B " +
             "        ON id = B.item_packing_id " +
             " WHERE sku_code||sku_name LIKE :filter" +
+            " AND id NOT IN (SELECT item_packing_id FROM temp_salesorder_detail)" +
             " ORDER BY item_packing.id" +
             " LIMIT 100")
     LiveData<List<ItemPackingDisplay>> loadLiveAllItemPackingsByFilter(String filter, Long customerCompanyId, String deliveryDate);

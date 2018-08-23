@@ -55,7 +55,7 @@
             android:name=".activity.ItemSelectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.QuantityPickerActivity"
+            android:name=".activity.MeasurementPickerActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity

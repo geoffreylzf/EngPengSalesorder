@@ -1,6 +1,7 @@
 package my.com.engpeng.engpengsalesorder;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class Global {
     public static final String I_KEY_CUSTOMER_COMPANY_ID = "I_KEY_CUSTOMER_COMPANY_ID";
     public static final String I_KEY_PRICE_GROUP_ID = "I_KEY_PRICE_GROUP_ID";
     public static final String I_KEY_DELIVERY_DATE = "I_KEY_DELIVERY_DATE";
+    public static final String I_KEY_PRICE_BY_WEIGHT = "I_KEY_DELIVERY_DATE";
     public static final String I_KEY_COMPANY_ID = "I_KEY_COMPANY_ID";
 
     public static final String DATE_DISPLAY_FORMAT = "EEE, d MMM yyyy";
@@ -42,7 +44,15 @@ public class Global {
     }
 
     public static String getDisplayPrice(double price) {
-        return String.format(Locale.getDefault(), "RM%.2f", price);
+        return String.format(Locale.getDefault(), "RM %.2f", price);
+    }
+
+    public static String getDisplayQty(int qty) {
+        return String.format(Locale.getDefault(), "Qty: %d", qty);
+    }
+
+    public static String getDisplayWgt(double wgt) {
+        return String.format(Locale.getDefault(), "Wgt: %sKg", (new DecimalFormat("##.###")).format(wgt));
     }
 
     public static String getTableDisplayName(String table_name) {
@@ -56,5 +66,9 @@ public class Global {
             return CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME;
         }
         return null;
+    }
+
+    public enum PriceMethod {
+        STANDARD, CUSTOMER, SELF;
     }
 }

@@ -27,6 +27,7 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.UIUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
@@ -75,7 +76,16 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
 
         setupSpinner();
         setupListener();
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.tempSalesorderDetailDao().deleteAll();
+            }
+        });
     }
+
+
 
     private void setupListener() {
 

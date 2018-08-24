@@ -12,7 +12,7 @@ import my.com.engpeng.engpengsalesorder.utilities.ScheduleUtils;
 public class MainActivity extends AppCompatActivity {
 
     private Button btn;
-    private Button btn3;
+    private Button btn3, btn4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, TempSalesorderHeadActivity.class));
+            }
+        });
+
+        btn4 = findViewById(R.id.button4);
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, EnterPriceActivity.class));
             }
         });
     }

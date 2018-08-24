@@ -25,6 +25,7 @@ import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_FACTOR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
 public class ItemSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener {
@@ -39,7 +40,8 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
     private AppDatabase mDb;
     public static final String ITEM_PACKING_ID = "ITEM_PACKING_ID";
     public static final String QUANTITY = "QUANTITY";
-    public static final int RC_QUANTITY_PICKER = 9101;
+    public static final int RC_ENTER_QTY_WGT = 9101;
+    public static final int RC_ENTER_PRICE = 9102;
 
     //receive from intent
     private Long customerCompanyId;
@@ -104,12 +106,12 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
                 priceSettingId = p_priceSettingId;
                 priceByWeight = p_priceByWeight;
                 price = p_price;
-                Intent intent = new Intent(ItemSelectionActivity.this, MeasurementPickerActivity.class);
-                intent.putExtra(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
-                //pass factor
-                //receive qty and weight
-                //price if 0 price
-                startActivityForResult(intent, RC_QUANTITY_PICKER);
+
+                if(price != 0){
+                    openEnterQtyWgtDialog();
+                }else{
+                    openEnterPriceDialog();
+                }
             }
         });
         rv.setAdapter(adapter);
@@ -135,19 +137,26 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_QUANTITY_PICKER) {
+        if (requestCode == RC_ENTER_QTY_WGT) {
             if (resultCode == RESULT_OK & data != null) {
-                double quantity = data.getDoubleExtra(MeasurementPickerActivity.QUANTITY, 0);
+                double quantity = data.getDoubleExtra(EnterQtyWgtActivity.QUANTITY, 0);
+                double weight = data.getDoubleExtra(EnterQtyWgtActivity.WEIGHT, 0);
+                double totalPrice = 0 ;
+                if(priceByWeight == 1){
+                    totalPrice = price * weight;
+                }else{
+                    totalPrice = price * quantity;
+                }
                 //return to summary
                 final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
                         itemPackingId,
                         quantity,
-                        quantity * factor,
+                        weight,
                         factor,
                         price,
                         priceSettingId,
                         priceMethod,
-                        quantity * price);
+                        totalPrice);
 
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
@@ -157,6 +166,24 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
                     }
                 });
             }
+        }else if (requestCode == RC_ENTER_PRICE){
+            if (resultCode == RESULT_OK & data != null) {
+                double price = data.getDoubleExtra(EnterPriceActivity.PRICE, 0);
+                this.price = price;
+                openEnterQtyWgtDialog();
+            }
         }
+    }
+
+    private void openEnterPriceDialog(){
+        Intent intent = new Intent(ItemSelectionActivity.this, EnterPriceActivity.class);
+        startActivityForResult(intent, RC_ENTER_PRICE);
+    }
+
+    private void openEnterQtyWgtDialog(){
+        Intent intent = new Intent(ItemSelectionActivity.this, EnterQtyWgtActivity.class);
+        intent.putExtra(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
+        intent.putExtra(I_KEY_FACTOR, factor);
+        startActivityForResult(intent, RC_ENTER_QTY_WGT);
     }
 }

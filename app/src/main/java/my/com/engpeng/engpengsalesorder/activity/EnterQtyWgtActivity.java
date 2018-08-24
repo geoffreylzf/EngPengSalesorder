@@ -3,7 +3,6 @@ package my.com.engpeng.engpengsalesorder.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -13,19 +12,22 @@ import android.widget.TextView;
 
 import my.com.engpeng.engpengsalesorder.R;
 
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_FACTOR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
-public class MeasurementPickerActivity extends AppCompatActivity {
+public class EnterQtyWgtActivity extends AppCompatActivity {
 
-    private EditText etQty;
+    private EditText etValue;
     private SeekBar sbQty, sbQtyMulti;
     private Button btnSave, btnCancel;
     private TextView tvKg;
 
     public static final String QUANTITY = "QUANTITY";
+    public static final String WEIGHT = "WEIGHT";
 
     //receive from intent
     private int priceByWeight;
+    private double factor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +40,14 @@ public class MeasurementPickerActivity extends AppCompatActivity {
         this.getWindow().setAttributes(params);
         this.setFinishOnTouchOutside(false);
 
-        etQty = findViewById(R.id.quantity_picker_et_qty);
-        sbQty = findViewById(R.id.quantity_picker_sb_qty);
-        sbQtyMulti = findViewById(R.id.quantity_picker_sb_qty_multi);
-        btnSave = findViewById(R.id.quantity_picker_btn_save);
-        btnCancel = findViewById(R.id.quantity_picker_btn_cancel);
-        tvKg = findViewById(R.id.quantity_picker_tv_kg);
+        etValue = findViewById(R.id.enter_qty_wgt_et_value);
+        sbQty = findViewById(R.id.enter_qty_wgt_sb_qty);
+        sbQtyMulti = findViewById(R.id.enter_qty_wgt_sb_qty_multi);
+        btnSave = findViewById(R.id.enter_qty_wgt_btn_save);
+        btnCancel = findViewById(R.id.enter_qty_wgt_btn_cancel);
+        tvKg = findViewById(R.id.enter_qty_wgt_tv_kg);
 
-        etQty.setSelection(0, etQty.getText().length());
+        etValue.setSelection(0, etValue.getText().length());
 
         setupIntent();
         setupListener();
@@ -62,14 +64,17 @@ public class MeasurementPickerActivity extends AppCompatActivity {
                 tvKg.setVisibility(View.GONE);
             }
         }
+        if (intentStart.hasExtra(I_KEY_FACTOR)) {
+            factor = intentStart.getDoubleExtra(I_KEY_FACTOR, 0);
+        }
     }
 
     private void setupListener(){
         sbQty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                etQty.setText(String.valueOf(i));
-                etQty.setSelection(0, etQty.getText().length());
+                etValue.setText(String.valueOf(i));
+                etValue.setSelection(0, etValue.getText().length());
             }
 
             @Override
@@ -86,8 +91,8 @@ public class MeasurementPickerActivity extends AppCompatActivity {
         sbQtyMulti.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                etQty.setText(String.valueOf(i*10));
-                etQty.setSelection(0, etQty.getText().length());
+                etValue.setText(String.valueOf(i*10));
+                etValue.setSelection(0, etValue.getText().length());
             }
 
             @Override
@@ -105,7 +110,16 @@ public class MeasurementPickerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent data = new Intent();
-                data.putExtra(QUANTITY, Double.parseDouble(etQty.getText().toString()));
+                double qty, wgt;
+                if(priceByWeight == 1){
+                    wgt = Double.parseDouble(etValue.getText().toString());
+                    qty = wgt / factor;
+                }else{
+                    qty = Double.parseDouble(etValue.getText().toString());
+                    wgt = qty * factor;
+                }
+                data.putExtra(QUANTITY, qty);
+                data.putExtra(WEIGHT, wgt);
                 setResult(RESULT_OK, data);
                 finish();
             }

@@ -13,8 +13,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+
+import com.tubb.smrv.SwipeMenuRecyclerView;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.TempSalesorderSummaryAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
@@ -34,7 +36,7 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
     private FloatingActionButton fabAdd;
 
     private TempSalesorderSummaryAdapter adapter;
-    private RecyclerView rv;
+    private SwipeMenuRecyclerView rv;
 
     private AppDatabase mDb;
 
@@ -42,6 +44,10 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
     private Long customerCompanyId;
     private Long priceGroupId;
     private String deliveryDate;
+
+    //for delete item
+    private boolean isDeleting = false;
+    private int deletePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +93,32 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
 
     private void setupRecycleView() {
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TempSalesorderSummaryAdapter(this);
+        adapter = new TempSalesorderSummaryAdapter(this, new TempSalesorderSummaryAdapter.TempSalesorderSummaryAdapterListener() {
+            @Override
+            public void afterItemDelete(final long item_packing_id, final int position) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        isDeleting = true;
+                        deletePosition = position;
+                        mDb.tempSalesorderDetailDao().deleteByItemPackingId(item_packing_id);
+                    }
+                });
+            }
+        });
         rv.setAdapter(adapter);
+
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    fabAdd.hide();
+                } else {
+                    fabAdd.show();
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private void retrieveDetail() {
@@ -96,7 +126,13 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
         cc.observe(this, new Observer<List<TempSalesorderDetailDisplay>>() {
             @Override
             public void onChanged(@Nullable List<TempSalesorderDetailDisplay> details) {
-                adapter.setList(details);
+                if(isDeleting){
+                    adapter.setListAfterDelete(details, deletePosition);
+                    isDeleting = false;
+                }else{
+                    adapter.setList(details);
+                    rv.reset();
+                }
             }
         });
     }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,7 +81,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                mDb.tempSalesorderDetailDao().deleteAll();
+                //mDb.tempSalesorderDetailDao().deleteAll();
             }
         });
     }
@@ -102,7 +103,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (customerCompanyId == null || customerCompanyId == 0) {
-                    UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select customer first.").show();
+                    UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select customer first.");
                 } else {
                     Intent intent = new Intent(TempSalesorderHeadActivity.this, AddressSelectionActivity.class);
                     intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
@@ -151,9 +152,11 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (customerCompanyId == null || customerCompanyId == 0) {
+                    UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select customer.");
                     return;
                 }
                 if (deliveryDate == null || deliveryDate.equals("")) {
+                    UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select delivery date.");
                     return;
                 }
 

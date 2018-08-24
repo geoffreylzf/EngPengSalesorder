@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -23,8 +24,8 @@ public class UIUtils {
         return progressDialog;
     }
 
-    public static AlertDialog getMessageDialog(Context context, String title, String msg) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+    public static void getMessageDialog(Context context, String title, String msg) {
+        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Material_Light_Dialog_Alert)).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(msg);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
@@ -33,7 +34,7 @@ public class UIUtils {
                         dialog.dismiss();
                     }
                 });
-        return alertDialog;
+        alertDialog.show();
     }
 
     public static void showToastMessage(Context context, String message) {

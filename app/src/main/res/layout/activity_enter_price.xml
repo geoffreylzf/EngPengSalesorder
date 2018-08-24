@@ -5,61 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.EnterQtyWgtActivity">
+    tools:context=".activity.EnterPriceActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
 
+        <TextView
+            android:id="@+id/enter_price_tv_rm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:textSize="24sp"
+            android:text="@string/rm"/>
 
         <EditText
-            android:id="@+id/enter_qty_wgt_et_value"
+            android:id="@+id/enter_price_et_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="32dp"
             android:layout_marginTop="32dp"
-            android:inputType="number"
-            android:text="@string/default_quantity"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/enter_qty_wgt_tv_kg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginBottom="32dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/kg"
+            android:inputType="numberDecimal"
             android:textSize="24sp" />
 
     </LinearLayout>
-
-    <SeekBar
-        android:id="@+id/enter_qty_wgt_sb_qty"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:max="10"
-        android:progress="1" />
-
-    <SeekBar
-        android:id="@+id/enter_qty_wgt_sb_qty_multi"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:max="10"
-        android:progress="1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.button.MaterialButton
-            android:id="@+id/enter_qty_wgt_btn_save"
+            android:id="@+id/enter_price_btn_save"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,19 +47,16 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="32dp"
             android:layout_marginTop="16dp"
-            android:text="@string/add_to_cart"
-            app:icon="@drawable/ic_baseline_add_shopping_cart_grey_24px"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp" />
+            android:text="@string/_continue" />
 
         <android.support.design.button.MaterialButton
-            android:id="@+id/enter_qty_wgt_btn_cancel"
+            android:id="@+id/enter_price_btn_cancel"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
             android:layout_marginTop="16dp"
-            android:layout_toStartOf="@+id/enter_qty_wgt_btn_save"
+            android:layout_toStartOf="@+id/enter_price_btn_save"
             android:text="@string/cancel" />
 
     </RelativeLayout>

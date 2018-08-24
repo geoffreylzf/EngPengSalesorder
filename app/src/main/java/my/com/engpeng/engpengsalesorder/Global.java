@@ -33,6 +33,7 @@ public class Global {
     public static final String I_KEY_DELIVERY_DATE = "I_KEY_DELIVERY_DATE";
     public static final String I_KEY_PRICE_BY_WEIGHT = "I_KEY_DELIVERY_DATE";
     public static final String I_KEY_COMPANY_ID = "I_KEY_COMPANY_ID";
+    public static final String I_KEY_FACTOR = "I_KEY_FACTOR";
 
     public static final String DATE_DISPLAY_FORMAT = "EEE, d MMM yyyy";
     public static final String DATE_SAVE_FORMAT = "yyyy-MM-dd";

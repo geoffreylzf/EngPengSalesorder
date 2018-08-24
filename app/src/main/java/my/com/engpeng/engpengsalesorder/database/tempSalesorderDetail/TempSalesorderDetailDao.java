@@ -16,6 +16,9 @@ public interface TempSalesorderDetailDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTempSalesorderDetail(TempSalesorderDetailEntry tempSalesorderDetailEntry);
 
+    @Query("DELETE FROM temp_salesorder_detail WHERE item_packing_id = :itemPackingId")
+    void deleteByItemPackingId(long itemPackingId);
+
     @Query("DELETE FROM temp_salesorder_detail")
     void deleteAll();
 

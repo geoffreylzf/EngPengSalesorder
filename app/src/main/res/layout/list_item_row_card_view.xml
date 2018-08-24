@@ -1,96 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="2dp">
+    android:foreground="?attr/selectableItemBackground">
 
-    <RelativeLayout
+    <com.tubb.smrv.SwipeHorizontalMenuLayout
+        android:id="@+id/li_shml"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/li_tv_primary"
-            style="@style/ListItemPrimaryTextViewStyle"
-            tools:text="Customer Name" />
-
-        <TextView
-            android:id="@+id/li_tv_secondary"
-            style="@style/ListItemSecondaryTextViewStyle"
-            android:layout_below="@id/li_tv_primary" />
-
-        <TextView
-            android:id="@+id/li_tv_price"
+        <RelativeLayout
+            android:id="@id/smContentView"
             android:layout_width="match_parent"
-            android:layout_toEndOf="@id/li_tv_primary"
-            android:layout_height="32dp"
-            android:textColor="@color/colorHint"
-            android:gravity="bottom|end"
-            android:textSize="14sp" />
-
-        <android.support.design.chip.Chip
-            android:id="@+id/li_cp_price_method"
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/li_tv_secondary"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/colorWhite"
-            app:chipBackgroundColor="@color/colorAccent" />
+            android:animateLayoutChanges="true">
 
-        <android.support.design.chip.Chip
-            android:id="@+id/li_cp_price_by_weight"
-            style="@style/Widget.MaterialComponents.Chip.Action"
+            <android.support.v7.widget.CardView
+                style="@style/Widget.MaterialComponents.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
+
+                    <TextView
+                        android:id="@+id/li_tv_primary"
+                        style="@style/ListItemPrimaryTextViewStyle"
+                        tools:text="Customer Name" />
+
+                    <TextView
+                        android:id="@+id/li_tv_secondary"
+                        style="@style/ListItemSecondaryTextViewStyle"
+                        android:layout_below="@id/li_tv_primary" />
+
+                    <TextView
+                        android:id="@+id/li_tv_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_toEndOf="@id/li_tv_primary"
+                        android:gravity="bottom|end"
+                        android:textColor="@color/colorHint"
+                        android:textSize="14sp" />
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/li_cp_price_method"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/li_tv_secondary"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/colorWhite"
+                        app:chipBackgroundColor="@color/colorAccent" />
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/li_cp_price_by_weight"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/li_tv_secondary"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_toEndOf="@id/li_cp_price_method"
+                        android:text="@string/px_by_wgt"
+                        android:textColor="@color/colorWhite"
+                        app:chipBackgroundColor="@color/colorBrown600" />
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/li_cp_qty"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/li_tv_secondary"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_toEndOf="@id/li_cp_price_by_weight" />
+
+                    <android.support.design.chip.Chip
+                        android:id="@+id/li_cp_wgt"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/li_tv_secondary"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_toEndOf="@id/li_cp_qty" />
+
+                    <TextView
+                        android:id="@+id/li_tv_total_price"
+                        style="@style/ListItemTertiaryTextViewStyle"
+                        android:layout_below="@id/li_tv_secondary"
+                        android:layout_marginTop="12dp"
+                        android:layout_toEndOf="@+id/li_cp_wgt"
+                        android:textStyle="bold"
+                        tools:text="RM9999.99" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@id/smMenuViewRight"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/li_tv_secondary"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/px_by_wgt"
-            android:textColor="@color/colorWhite"
-            app:chipBackgroundColor="@color/colorBrown600"
-            android:layout_toEndOf="@id/li_cp_price_method" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <android.support.design.chip.Chip
-            android:id="@+id/li_cp_qty"
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/li_tv_secondary"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_toEndOf="@id/li_cp_price_by_weight" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/li_fab_delete"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="28dp"
+                android:layout_marginStart="28dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:backgroundTint="@color/colorRed"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_baseline_delete_white_24px" />
 
-        <android.support.design.chip.Chip
-            android:id="@+id/li_cp_wgt"
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/li_tv_secondary"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_toEndOf="@id/li_cp_qty" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/li_tv_total_price"
-            style="@style/ListItemTertiaryTextViewStyle"
-            android:layout_below="@id/li_tv_secondary"
-            android:layout_marginTop="12dp"
-            android:layout_toEndOf="@+id/li_cp_wgt"
-            android:textStyle="bold"
-            tools:text="RM9999.99" />
-
-    </RelativeLayout>
-
-</android.support.v7.widget.CardView>
+    </com.tubb.smrv.SwipeHorizontalMenuLayout>
+</FrameLayout>

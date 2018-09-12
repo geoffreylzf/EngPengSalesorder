@@ -29,10 +29,14 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/customer_selection_tb"
+                style="@style/ToolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="6dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                android:paddingStart="12dp"
+                android:paddingLeft="12dp"
+                android:paddingEnd="12dp"
+                android:paddingRight="12dp"
+                app:contentInsetStart="0dp">
 
             </android.support.v7.widget.Toolbar>
 

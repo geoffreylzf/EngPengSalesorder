@@ -13,20 +13,30 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.tubb.smrv.SwipeMenuRecyclerView;
 
 import java.util.List;
 
+import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.TempSalesorderSummaryAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 
 public class TempSalesorderSummaryActivity extends AppCompatActivity {
 
@@ -34,6 +44,7 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private NavigationView nvStart;
     private FloatingActionButton fabAdd;
+    private TextView tvTotalPrice;
 
     private TempSalesorderSummaryAdapter adapter;
     private SwipeMenuRecyclerView rv;
@@ -41,9 +52,13 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
     private AppDatabase mDb;
 
     //receive from intent
+    private Long companyId;
     private Long customerCompanyId;
-    private Long priceGroupId;
+    private Long customerAddressId;
+    private String documentDate;
     private String deliveryDate;
+    private String lpo;
+    private String remark;
 
     //for delete item
     private boolean isDeleting = false;
@@ -54,7 +69,7 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp_salesorder_summary);
 
-        setTitle("In-Cart List");
+        setTitle("In Cart List");
 
         this.getWindow().setStatusBarColor(this.getColor(R.color.colorTransparent));
 
@@ -63,13 +78,16 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
         nvStart = findViewById(R.id.temp_so_summary_start_nv);
         rv = findViewById(R.id.temp_so_summary_rv);
         fabAdd = findViewById(R.id.temp_so_summary_fab_add);
+        tvTotalPrice = findViewById(R.id.temp_so_summary_tv_total_price);
 
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         setupLayout();
         setupIntent();
+        setupHeadDetail();
         setupRecycleView();
         retrieveDetail();
+        retrieveTotalPrice();
         setupListener();
     }
 
@@ -83,12 +101,17 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
 
     private void setupIntent() {
         Intent intentStart = getIntent();
-        if (intentStart.hasExtra(I_KEY_CUSTOMER_COMPANY_ID)) {
-            customerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
-        }
-        if (intentStart.hasExtra(I_KEY_DELIVERY_DATE)) {
-            deliveryDate = intentStart.getStringExtra(I_KEY_DELIVERY_DATE);
-        }
+        companyId = intentStart.getLongExtra(I_KEY_COMPANY_ID, 0);
+        customerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
+        customerAddressId = intentStart.getLongExtra(I_KEY_CUSTOMER_ADDRESS_ID, 0);
+        documentDate = intentStart.getStringExtra(I_KEY_DOCUMENT_DATE);
+        deliveryDate = intentStart.getStringExtra(I_KEY_DELIVERY_DATE);
+        lpo = intentStart.getStringExtra(I_KEY_LPO);
+        remark = intentStart.getStringExtra(I_KEY_REMARK);
+    }
+
+    private void setupHeadDetail(){
+
     }
 
     private void setupRecycleView() {
@@ -126,12 +149,27 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
         cc.observe(this, new Observer<List<TempSalesorderDetailDisplay>>() {
             @Override
             public void onChanged(@Nullable List<TempSalesorderDetailDisplay> details) {
-                if(isDeleting){
+                if (isDeleting) {
+                    rv.reset();
                     adapter.setListAfterDelete(details, deletePosition);
                     isDeleting = false;
-                }else{
-                    adapter.setList(details);
+                } else {
                     rv.reset();
+                    adapter.setList(details);
+                }
+            }
+        });
+    }
+
+    private void retrieveTotalPrice() {
+        final LiveData<Double> cc = mDb.tempSalesorderDetailDao().getLiveSumTotalPrice();
+        cc.observe(this, new Observer<Double>() {
+            @Override
+            public void onChanged(@Nullable Double d) {
+                if(d == null){
+                    tvTotalPrice.setText(Global.getDisplayPrice(0));
+                }else{
+                    tvTotalPrice.setText(Global.getDisplayPrice(d));
                 }
             }
         });
@@ -151,5 +189,30 @@ public class TempSalesorderSummaryActivity extends AppCompatActivity {
         intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
         intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.temp_so_summary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_checkout) {
+            Intent intent = new Intent(this, TempSalesorderConfirmActivity.class);
+            intent.putExtra(I_KEY_COMPANY_ID, companyId);
+            intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
+            intent.putExtra(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
+            intent.putExtra(I_KEY_DOCUMENT_DATE, documentDate);
+            intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
+            intent.putExtra(I_KEY_LPO, lpo);
+            intent.putExtra(I_KEY_REMARK, remark);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

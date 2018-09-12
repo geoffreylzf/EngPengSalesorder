@@ -19,10 +19,14 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/address_selection_tb"
+            style="@style/ToolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="6dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            android:paddingEnd="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingStart="20dp"
+            app:contentInsetStart="0dp">
 
         </android.support.v7.widget.Toolbar>
 
@@ -41,9 +45,9 @@
 
         <fragment
             android:name="my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment"
-            android:layout_margin="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp" />
 
     </LinearLayout>
 

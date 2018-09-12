@@ -29,10 +29,14 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/temp_so_summary_tb"
+                style="@style/ToolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="6dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                android:paddingStart="12dp"
+                android:paddingLeft="12dp"
+                android:paddingEnd="12dp"
+                android:paddingRight="12dp"
+                app:contentInsetStart="0dp">
 
             </android.support.v7.widget.Toolbar>
 
@@ -78,21 +82,21 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:layout_weight="1"
-                android:text="Total Price"
+                android:text="@string/total_price"
                 android:textAlignment="textStart"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorBlueGrey700"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/temp_so_summary_tv_total_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:layout_weight="1"
-                android:text="RM9999.99"
                 android:textAlignment="textEnd"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorBlueGrey700"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp"
                 android:textStyle="bold" />

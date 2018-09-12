@@ -34,13 +34,17 @@ import my.com.engpeng.engpengsalesorder.utilities.UIUtils;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 
 public class TempSalesorderHeadActivity extends AppCompatActivity {
 
     private Spinner snCompany;
-    private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate;
+    private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
     private Button btnStart;
 
     private Calendar calendar;
@@ -65,6 +69,8 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.temp_salesorder_head_et_address);
         etDocumentDate = findViewById(R.id.temp_salesorder_head_et_document_date);
         etDeliveryDate = findViewById(R.id.temp_salesorder_head_et_delivery_date);
+        etLpo = findViewById(R.id.temp_salesorder_head_et_lpo);
+        etRemark = findViewById(R.id.temp_salesorder_head_et_remark);
         btnStart = findViewById(R.id.temp_salesorder_head_btn_start);
 
         mDb = AppDatabase.getInstance(getApplicationContext());
@@ -112,7 +118,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
             }
         });
 
-        etDocumentDate.setOnClickListener(new View.OnClickListener() {
+        /*etDocumentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dpd = new DatePickerDialog(TempSalesorderHeadActivity.this,
@@ -128,7 +134,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
                         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
             }
-        });
+        });*/
 
         etDeliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,14 +161,23 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
                     UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select customer.");
                     return;
                 }
+                if (customerAddressId == null || customerAddressId == 0) {
+                    UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select address.");
+                    return;
+                }
                 if (deliveryDate == null || deliveryDate.equals("")) {
                     UIUtils.getMessageDialog(TempSalesorderHeadActivity.this, "Error", "Please select delivery date.");
                     return;
                 }
 
                 Intent intent = new Intent(TempSalesorderHeadActivity.this, TempSalesorderSummaryActivity.class);
+                intent.putExtra(I_KEY_COMPANY_ID, getCompanyIdFromSpinner());
                 intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
+                intent.putExtra(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
+                intent.putExtra(I_KEY_DOCUMENT_DATE, documentDate);
                 intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
+                intent.putExtra(I_KEY_LPO, etLpo.getText().toString());
+                intent.putExtra(I_KEY_REMARK, etRemark.getText().toString());
                 startActivity(intent);
             }
         });

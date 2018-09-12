@@ -36,8 +36,7 @@
 
                     <TextView
                         android:id="@+id/li_tv_primary"
-                        style="@style/ListItemPrimaryTextViewStyle"
-                        tools:text="Customer Name" />
+                        style="@style/ListItemPrimaryTextViewStyle"/>
 
                     <TextView
                         android:id="@+id/li_tv_secondary"

@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#2E7D32</color>
     <color name="colorAccent">#004D40</color>
     <color name="colorPrimaryXLight">#C8E6C9</color>
+    <color name="colorPrimaryXXLight">#E8F5E9</color>
     <color name="colorPrimaryLight">#81C784</color>
+    <color name="colorControlActivated">#2E7D32</color>
 
     <color name="colorTranslucent">#80FFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
@@ -24,6 +26,7 @@
 
     <color name="colorDeepOrange600">#F4511E</color>
     <color name="colorBrown600">#795548</color>
+    <color name="colorBlueGrey700">#455A64</color>
 
 
     <color name="colorWhite">#ffffff</color>

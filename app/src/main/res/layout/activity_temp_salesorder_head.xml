@@ -148,7 +148,7 @@
                 android:id="@+id/temp_salesorder_head_et_lpo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/local_purchase_ordero"
+                android:hint="@string/local_purchase_order"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
 
@@ -171,7 +171,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start"
-            app:icon="@drawable/ic_baseline_shop_white_24px"
+            app:icon="@drawable/ic_baseline_shopping_cart_white_24px"
             app:iconGravity="textStart"
             app:iconPadding="8dp"/>
     </LinearLayout>

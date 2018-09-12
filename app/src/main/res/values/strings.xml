@@ -11,7 +11,7 @@
     <string name="customer_address">Customer Address</string>
     <string name="item_packing">Item Packing</string>
     <string name="company">Company</string>
-    <string name="local_purchase_ordero">Local Purchase Order</string>
+    <string name="local_purchase_order">Local Purchase Order</string>
     <string name="remark">Remark</string>
     <string name="delivery_date">Delivery Date</string>
     <string name="document_date">Document Date</string>
@@ -25,6 +25,10 @@
     <string name="px_by_wgt">Px By Wgt</string>
     <string name="kg">Kg</string>
     <string name="rm">RM</string>
+    <string name="total_price">Total Price</string>
+    <string name="list_of_items">List of Items</string>
+    <string name="save_as_draft">Save as Draft</string>
+    <string name="confirm">Confirm</string>
 
     <string name="default_progress">0/0 (0.00%)</string>
     <string name="default_quantity">1</string>

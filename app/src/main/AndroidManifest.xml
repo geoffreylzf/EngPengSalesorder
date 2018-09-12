@@ -65,6 +65,7 @@
             android:name=".activity.EnterPriceActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.MaterialComponents.Dialog" />
+        <activity android:name=".activity.TempSalesorderConfirmActivity"></activity>
     </application>
 
 </manifest>

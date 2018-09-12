@@ -28,11 +28,17 @@ public class Global {
     public static final String I_KEY_ACTION = "I_KEY_ACTION";
     public static final String I_KEY_TABLE = "I_KEY_TABLE";
     public static final String I_KEY_LOCAL = "I_KEY_LOCAL";
-    public static final String I_KEY_CUSTOMER_COMPANY_ID = "I_KEY_CUSTOMER_COMPANY_ID";
-    public static final String I_KEY_PRICE_GROUP_ID = "I_KEY_PRICE_GROUP_ID";
-    public static final String I_KEY_DELIVERY_DATE = "I_KEY_DELIVERY_DATE";
-    public static final String I_KEY_PRICE_BY_WEIGHT = "I_KEY_DELIVERY_DATE";
+
     public static final String I_KEY_COMPANY_ID = "I_KEY_COMPANY_ID";
+    public static final String I_KEY_CUSTOMER_COMPANY_ID = "I_KEY_CUSTOMER_COMPANY_ID";
+    public static final String I_KEY_CUSTOMER_ADDRESS_ID = "I_KEY_CUSTOMER_ADDRESS_ID";
+    public static final String I_KEY_DOCUMENT_DATE = "I_KEY_DOCUMENT_DATE";
+    public static final String I_KEY_DELIVERY_DATE = "I_KEY_DELIVERY_DATE";
+    public static final String I_KEY_LPO = "I_KEY_LPO";
+    public static final String I_KEY_REMARK = "I_KEY_REMARK";
+
+    public static final String I_KEY_PRICE_GROUP_ID = "I_KEY_PRICE_GROUP_ID";
+    public static final String I_KEY_PRICE_BY_WEIGHT = "I_KEY_DELIVERY_DATE";
     public static final String I_KEY_FACTOR = "I_KEY_FACTOR";
 
     public static final String DATE_DISPLAY_FORMAT = "EEE, d MMM yyyy";
@@ -70,6 +76,6 @@ public class Global {
     }
 
     public enum PriceMethod {
-        STANDARD, CUSTOMER, SELF;
+        STANDARD, CUSTOMER, SELF
     }
 }

@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.chip.Chip;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,7 @@ public class TempSalesorderSummaryAdapter extends RecyclerView.Adapter<TempSales
     @Override
     public DetailViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.list_item_row_card_view, viewGroup, false);
+                .inflate(R.layout.list_item_temp_so_summary, viewGroup, false);
         return new DetailViewHolder(view);
     }
 

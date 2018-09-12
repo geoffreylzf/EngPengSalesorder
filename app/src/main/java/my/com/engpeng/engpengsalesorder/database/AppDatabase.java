@@ -5,6 +5,8 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import my.com.engpeng.engpengsalesorder.database.branch.BranchDao;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressDao;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDao;
@@ -19,6 +21,7 @@ import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSaleso
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 
 @Database(entities = {TableInfoEntry.class,
+        BranchEntry.class,
         PriceSettingEntry.class,
         ItemPackingEntry.class,
         CustomerCompanyEntry.class,
@@ -45,6 +48,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract TableInfoDao tableInfoDao();
+    public abstract BranchDao branchDao();
     public abstract PriceSettingDao priceSettingDao();
     public abstract ItemPackingDao itemPackingDao();
     public abstract CustomerCompanyDao customerCompanyDao();

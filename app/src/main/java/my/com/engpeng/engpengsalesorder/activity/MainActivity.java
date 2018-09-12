@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, EnterPriceActivity.class));
+                startActivity(new Intent(MainActivity.this, SetupActivity.class));
             }
         });
     }

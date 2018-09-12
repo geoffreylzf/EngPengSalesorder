@@ -21,6 +21,7 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.TempSalesorderConfirmAdapter;
 import my.com.engpeng.engpengsalesorder.adapter.TempSalesorderSummaryAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
@@ -93,10 +94,10 @@ public class TempSalesorderConfirmActivity extends AppCompatActivity {
     }
 
     private void setupHeadInfo() {
-        etCompany.setText(companyId.toString());
         etLpo.setText(lpo.equals("") ? " ": lpo);
         etRemark.setText(remark.equals("") ? " ": remark);
 
+        retrieveBranch();
         retrieveCustomer();
         retrieveAddress();
 
@@ -107,6 +108,17 @@ public class TempSalesorderConfirmActivity extends AppCompatActivity {
             etDocumentDate.setText(documentDate);
             etDeliveryDate.setText(deliveryDate);
         }
+    }
+
+    private void retrieveBranch(){
+        final LiveData<BranchEntry> cc = mDb.branchDao().loadLiveBranchById(companyId);
+        cc.observe(this, new Observer<BranchEntry>() {
+            @Override
+            public void onChanged(@Nullable BranchEntry branchEntry) {
+                cc.removeObserver(this);
+                etCompany.setText(branchEntry.getBranchName());
+            }
+        });
     }
 
     private void retrieveCustomer() {

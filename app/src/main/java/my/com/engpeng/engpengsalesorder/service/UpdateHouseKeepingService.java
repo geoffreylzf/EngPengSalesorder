@@ -22,6 +22,7 @@ import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.asyncTask.UpdateHouseKeepingAsyncTask;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
@@ -99,6 +100,7 @@ public class UpdateHouseKeepingService extends Service implements
 
         List<TableInfoEntry> tableInfoList = new ArrayList<>();
         if (table.equals(ACTION_GET_ALL_TABLE)) {
+            tableInfoList.add(new TableInfoEntry(BranchEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(ItemPackingEntry.TABLE_NAME, false));

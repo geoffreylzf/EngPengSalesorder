@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
@@ -71,6 +72,8 @@ public class Global {
             return CustomerCompanyEntry.TABLE_DISPLAY_NAME;
         } else if (table_name.equals(CustomerCompanyAddressEntry.TABLE_NAME)) {
             return CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME;
+        }else if (table_name.equals(BranchEntry.TABLE_NAME)) {
+            return BranchEntry.TABLE_DISPLAY_NAME;
         }
         return null;
     }

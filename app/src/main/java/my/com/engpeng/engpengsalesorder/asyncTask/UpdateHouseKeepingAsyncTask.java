@@ -11,6 +11,7 @@ import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
@@ -117,6 +118,12 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
                             mDb.priceSettingDao().deleteAll();
                         }
                         return InsertPriceSetting(json);
+                    }
+                    if (table_info_type.equals(BranchEntry.TABLE_NAME)) {
+                        if (action.equals(ACTION_REFRESH)) {
+                            mDb.branchDao().deleteAll();
+                        }
+                        return InsertBranch(json);
                     }
                 }
             }
@@ -227,6 +234,33 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
                 uhkatListener.updateProgress(CustomerCompanyAddressEntry.TABLE_NAME, row, total);
             }
             return CustomerCompanyAddressEntry.TABLE_NAME;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String InsertBranch(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            JSONArray jsonArray = json.getJSONArray(BranchEntry.TABLE_NAME);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                BranchEntry branchEntry = new BranchEntry(jsonObject);
+
+                mDb.branchDao().insertBranch(branchEntry);
+
+                TableInfoEntry tableInfo = new TableInfoEntry(BranchEntry.TABLE_NAME, last_sync_date, (i + 1), jsonArray.length());
+                mDb.tableInfoDao().insertTableInfo(tableInfo);
+
+                double row = i + 1;
+                double total = (double) jsonArray.length();
+
+                uhkatListener.updateProgress(BranchEntry.TABLE_NAME, row, total);
+            }
+            return BranchEntry.TABLE_NAME;
         } catch (Exception e) {
             e.printStackTrace();
         }

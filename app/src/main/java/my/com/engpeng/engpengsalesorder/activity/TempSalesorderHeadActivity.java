@@ -26,6 +26,7 @@ import java.util.Map;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
@@ -184,17 +185,26 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
     }
 
     private void setupSpinner() {
-        map = new HashMap<>();
-        map.put("Salam Marketing", 17L);
-        map.put("Eng Peng Cold Storage", 3L);
 
-        List<String> labels = new ArrayList<>(map.keySet());
+        final LiveData<List<BranchEntry>> cc = mDb.branchDao().loadLiveAllCompany();
+        cc.observe(this, new Observer<List<BranchEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<BranchEntry> branchEntryList) {
+                cc.removeObserver(this);
+                map = new HashMap<>();
+                for (BranchEntry branchEntry : branchEntryList) {
+                    map.put(branchEntry.getBranchName(), branchEntry.getId());
+                }
+                List<String> labels = new ArrayList<>(map.keySet());
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_item, labels);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(TempSalesorderHeadActivity.this,
+                        R.layout.spinner_item, labels);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        snCompany.setAdapter(dataAdapter);
+                snCompany.setAdapter(dataAdapter);
+            }
+        });
+
     }
 
     private Long getCompanyIdFromSpinner() {

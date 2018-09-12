@@ -8,6 +8,7 @@
     <string name="price_setting">Price Setting</string>
     <string name="customer">Customer</string>
     <string name="customer_company">Customer Company</string>
+    <string name="branch">Branch</string>
     <string name="customer_address">Customer Address</string>
     <string name="item_packing">Item Packing</string>
     <string name="company">Company</string>

@@ -18,6 +18,7 @@ import java.util.Locale;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
@@ -33,6 +34,10 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LOCAL;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TABLE;
 
 public class HouseKeepingActivity extends AppCompatActivity {
+
+    private ImageButton ibBranchRefresh;
+    private TextView tvBranchCount, tvBranchProgress, tvBranchLastSync;
+    private ProgressBar pbBranchProgress;
 
     private ImageButton ibCustRefresh;
     private TextView tvCustCount, tvCustProgress, tvCustLastSync;
@@ -59,6 +64,12 @@ public class HouseKeepingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_keeping);
+
+        tvBranchCount = findViewById(R.id.house_keeping_tv_branch_count);
+        tvBranchProgress = findViewById(R.id.house_keeping_tv_branch_progress);
+        tvBranchLastSync = findViewById(R.id.house_keeping_tv_branch_last_sync);
+        pbBranchProgress = findViewById(R.id.house_keeping_pb_branch_progress);
+        ibBranchRefresh = findViewById(R.id.house_keeping_btn_branch_refresh);
 
         tvCustCount = findViewById(R.id.house_keeping_tv_cust_count);
         tvCustProgress = findViewById(R.id.house_keeping_tv_cust_progress);
@@ -88,6 +99,8 @@ public class HouseKeepingActivity extends AppCompatActivity {
         btnReSyncAll = findViewById(R.id.house_keeping_btn_resync_all);
         btnUpdateAll = findViewById(R.id.house_keeping_btn_update_all);
 
+        setTitle("House Keeping Management");
+
         mDb = AppDatabase.getInstance(getApplicationContext());
 
         retrieveHouseKeeping();
@@ -101,6 +114,18 @@ public class HouseKeepingActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<TableInfoEntry> tableInfoEntries) {
                 if (tableInfoEntries != null) {
                     for (TableInfoEntry tableInfo : tableInfoEntries) {
+
+                        if (tableInfo.getType().equals(BranchEntry.TABLE_NAME)) {
+                            String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
+                            double row = tableInfo.getInsert();
+                            double total = tableInfo.getTotal();
+                            double percentage = row / total * 100;
+                            String msg_progress = (int) row + "/" + (int) total + " (" + String.format(Locale.US, "%.2f", percentage) + "%)";
+                            tvBranchLastSync.setText(msg_last_sync);
+                            pbBranchProgress.setProgress((int) percentage);
+                            tvBranchProgress.setText(msg_progress);
+                        }
+
                         if (tableInfo.getType().equals(PriceSettingEntry.TABLE_NAME)) {
                             String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
                             double row = tableInfo.getInsert();
@@ -148,6 +173,16 @@ public class HouseKeepingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        final LiveData<Integer> branchCount = mDb.branchDao().getLiveCount();
+        branchCount.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                String msg = BranchEntry.TABLE_DISPLAY_NAME + " (" + integer + ")";
+                tvBranchCount.setText(msg);
+            }
+        });
+
         final LiveData<Integer> priceSettingCount = mDb.priceSettingDao().getLiveCount();
         priceSettingCount.observe(this, new Observer<Integer>() {
             @Override
@@ -203,6 +238,18 @@ public class HouseKeepingActivity extends AppCompatActivity {
                 Intent intent = new Intent(HouseKeepingActivity.this, UpdateHouseKeepingService.class);
                 intent.putExtra(I_KEY_TABLE, ACTION_GET_ALL_TABLE);
                 intent.putExtra(I_KEY_ACTION, ACTION_UPDATE);
+                intent.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
+                stopService(intent);
+                startService(intent);
+            }
+        });
+
+        ibBranchRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HouseKeepingActivity.this, UpdateHouseKeepingService.class);
+                intent.putExtra(I_KEY_TABLE, BranchEntry.TABLE_NAME);
+                intent.putExtra(I_KEY_ACTION, ACTION_REFRESH);
                 intent.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
                 stopService(intent);
                 startService(intent);

@@ -74,6 +74,7 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
         etRemark = findViewById(R.id.temp_salesorder_head_et_remark);
         btnStart = findViewById(R.id.temp_salesorder_head_btn_start);
 
+        setTitle("New Salesorder");
         mDb = AppDatabase.getInstance(getApplicationContext());
         calendar = Calendar.getInstance();
         sdfDisplay = new SimpleDateFormat(DATE_DISPLAY_FORMAT, Locale.US);
@@ -208,6 +209,9 @@ public class TempSalesorderHeadActivity extends AppCompatActivity {
     }
 
     private Long getCompanyIdFromSpinner() {
+        if(snCompany.getSelectedItem() == null){
+            return 0L;
+        }
         return map.get(snCompany.getSelectedItem().toString());
     }
 

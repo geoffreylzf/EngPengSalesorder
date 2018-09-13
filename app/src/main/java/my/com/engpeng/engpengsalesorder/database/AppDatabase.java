@@ -5,6 +5,8 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import my.com.engpeng.engpengsalesorder.database.SalesorderDetail.SalesorderDetailDao;
+import my.com.engpeng.engpengsalesorder.database.SalesorderDetail.SalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchDao;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressDao;
@@ -15,6 +17,8 @@ import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompany
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingDao;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
+import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderDao;
+import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoDao;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDao;
@@ -26,7 +30,9 @@ import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSaleso
         ItemPackingEntry.class,
         CustomerCompanyEntry.class,
         CustomerCompanyAddressEntry.class,
-        TempSalesorderDetailEntry.class},
+        TempSalesorderDetailEntry.class,
+        SalesorderEntry.class,
+        SalesorderDetailEntry.class},
         version = 1,
         exportSchema = false)
 
@@ -54,4 +60,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CustomerCompanyDao customerCompanyDao();
     public abstract CustomerCompanyAddressDao customerCompanyAddressDao();
     public abstract TempSalesorderDetailDao tempSalesorderDetailDao();
+    public abstract SalesorderDao salesorderDao();
+    public abstract SalesorderDetailDao salesorderDetailDao();
 }

@@ -8,8 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,6 +64,8 @@ public class TempSoCartFragment extends Fragment {
     private boolean isDeleting = false;
     private int deletePosition;
 
+    private boolean allowRefresh = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +91,32 @@ public class TempSoCartFragment extends Fragment {
         setupListener();
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(allowRefresh){
+            allowRefresh = false;
+
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.remove(this);
+            trans.commit();
+            manager.popBackStack();
+
+            TempSoCartFragment tempSoCartFragment = new TempSoCartFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong(I_KEY_COMPANY_ID, companyId);
+            bundle.putLong(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
+            bundle.putLong(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
+            bundle.putString(I_KEY_DOCUMENT_DATE, documentDate);
+            bundle.putString(I_KEY_DELIVERY_DATE, deliveryDate);
+            bundle.putString(I_KEY_LPO, lpo);
+            bundle.putString(I_KEY_REMARK, remark);
+            tempSoCartFragment.setArguments(bundle);
+            ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, true);
+        }
     }
 
     private void setupBundle() {
@@ -188,6 +219,8 @@ public class TempSoCartFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_checkout) {
+
+            allowRefresh = true;
 
             TempSoConfirmFragment tempSoConfirmFragment = new TempSoConfirmFragment();
             Bundle bundle = new Bundle();

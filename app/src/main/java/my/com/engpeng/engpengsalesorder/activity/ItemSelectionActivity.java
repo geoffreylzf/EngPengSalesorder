@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 import java.util.List;
 
@@ -21,6 +23,8 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
+import my.com.engpeng.engpengsalesorder.fragment.EnterPriceFragment;
+import my.com.engpeng.engpengsalesorder.fragment.EnterQtyWgtFragment;
 import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
@@ -28,7 +32,10 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_FACTOR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
-public class ItemSelectionActivity extends AppCompatActivity implements SearchBarFragment.SearchBarFragmentListener {
+public class ItemSelectionActivity extends AppCompatActivity
+        implements SearchBarFragment.SearchBarFragmentListener,
+        EnterQtyWgtFragment.EnterQtyWgtFragmentListener,
+        EnterPriceFragment.EnterPriceFragmentListener{
 
     private Toolbar tb;
     private DrawerLayout dl;
@@ -107,9 +114,9 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
                 priceByWeight = p_priceByWeight;
                 price = p_price;
 
-                if(price != 0){
+                if (price != 0) {
                     openEnterQtyWgtDialog();
-                }else{
+                } else {
                     openEnterPriceDialog();
                 }
             }
@@ -141,10 +148,10 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
             if (resultCode == RESULT_OK & data != null) {
                 double quantity = data.getDoubleExtra(EnterQtyWgtActivity.QUANTITY, 0);
                 double weight = data.getDoubleExtra(EnterQtyWgtActivity.WEIGHT, 0);
-                double totalPrice = 0 ;
-                if(priceByWeight == 1){
+                double totalPrice = 0;
+                if (priceByWeight == 1) {
                     totalPrice = price * weight;
-                }else{
+                } else {
                     totalPrice = price * quantity;
                 }
                 //return to summary
@@ -166,7 +173,7 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
                     }
                 });
             }
-        }else if (requestCode == RC_ENTER_PRICE){
+        } else if (requestCode == RC_ENTER_PRICE) {
             if (resultCode == RESULT_OK & data != null) {
                 double price = data.getDoubleExtra(EnterPriceActivity.PRICE, 0);
                 this.price = price;
@@ -175,15 +182,53 @@ public class ItemSelectionActivity extends AppCompatActivity implements SearchBa
         }
     }
 
-    private void openEnterPriceDialog(){
-        Intent intent = new Intent(ItemSelectionActivity.this, EnterPriceActivity.class);
-        startActivityForResult(intent, RC_ENTER_PRICE);
+    @Override
+    public void afterEnterQtyWgt(double quantity, double weight) {
+        double totalPrice = 0;
+        if (priceByWeight == 1) {
+            totalPrice = price * weight;
+        } else {
+            totalPrice = price * quantity;
+        }
+
+        final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
+                itemPackingId,
+                quantity,
+                weight,
+                factor,
+                price,
+                priceSettingId,
+                priceMethod,
+                totalPrice);
+
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.tempSalesorderDetailDao().insertTempSalesorderDetail(detail);
+                finish();
+            }
+        });
     }
 
-    private void openEnterQtyWgtDialog(){
-        Intent intent = new Intent(ItemSelectionActivity.this, EnterQtyWgtActivity.class);
-        intent.putExtra(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
-        intent.putExtra(I_KEY_FACTOR, factor);
-        startActivityForResult(intent, RC_ENTER_QTY_WGT);
+    @Override
+    public void afterEnterPrice(double price) {
+        this.price = price;
+        openEnterQtyWgtDialog();
+    }
+
+    private void openEnterPriceDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        EnterPriceFragment fragment = new EnterPriceFragment();
+        fragment.show(fm, "enter_price");
+    }
+
+    private void openEnterQtyWgtDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        EnterQtyWgtFragment fragment = new EnterQtyWgtFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
+        bundle.putDouble(I_KEY_FACTOR, factor);
+        fragment.setArguments(bundle);
+        fragment.show(fm, "enter_qty_wgt");
     }
 }

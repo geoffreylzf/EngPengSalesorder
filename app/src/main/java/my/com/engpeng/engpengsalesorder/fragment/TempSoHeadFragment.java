@@ -29,7 +29,6 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.AddressSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.CustomerSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
-import my.com.engpeng.engpengsalesorder.activity.TempSalesorderHeadActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;

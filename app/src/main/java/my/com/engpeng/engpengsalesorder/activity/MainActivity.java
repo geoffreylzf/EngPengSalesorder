@@ -29,14 +29,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn3 = findViewById(R.id.button3);
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, TempSalesorderHeadActivity.class));
-            }
-        });
-
         btn4 = findViewById(R.id.button4);
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override

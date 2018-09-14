@@ -43,8 +43,6 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.TempSalesorderHeadActivity" />
-        <activity android:name=".activity.TestActivity" />
         <activity
             android:name=".activity.CustomerSelectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -54,18 +52,6 @@
         <activity
             android:name=".activity.ItemSelectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.EnterQtyWgtActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.MaterialComponents.Dialog" />
-        <activity
-            android:name=".activity.TempSalesorderSummaryActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.EnterPriceActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/Theme.MaterialComponents.Dialog" />
-        <activity android:name=".activity.TempSalesorderConfirmActivity" />
         <activity android:name=".activity.SetupActivity" />
         <activity android:name=".activity.TempSalesorderActivity"
             android:theme="@style/AppTheme.NoActionBar"/>

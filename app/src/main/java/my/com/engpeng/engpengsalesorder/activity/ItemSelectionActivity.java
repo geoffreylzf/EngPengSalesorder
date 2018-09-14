@@ -45,10 +45,6 @@ public class ItemSelectionActivity extends AppCompatActivity
     private ItemSelectionAdapter adapter;
 
     private AppDatabase mDb;
-    public static final String ITEM_PACKING_ID = "ITEM_PACKING_ID";
-    public static final String QUANTITY = "QUANTITY";
-    public static final int RC_ENTER_QTY_WGT = 9101;
-    public static final int RC_ENTER_PRICE = 9102;
 
     //receive from intent
     private Long customerCompanyId;
@@ -139,47 +135,6 @@ public class ItemSelectionActivity extends AppCompatActivity
     @Override
     public void onFilterChanged(String filter) {
         retrieveItemPacking(filter);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_ENTER_QTY_WGT) {
-            if (resultCode == RESULT_OK & data != null) {
-                double quantity = data.getDoubleExtra(EnterQtyWgtActivity.QUANTITY, 0);
-                double weight = data.getDoubleExtra(EnterQtyWgtActivity.WEIGHT, 0);
-                double totalPrice = 0;
-                if (priceByWeight == 1) {
-                    totalPrice = price * weight;
-                } else {
-                    totalPrice = price * quantity;
-                }
-                //return to summary
-                final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
-                        itemPackingId,
-                        quantity,
-                        weight,
-                        factor,
-                        price,
-                        priceSettingId,
-                        priceMethod,
-                        totalPrice);
-
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        mDb.tempSalesorderDetailDao().insertTempSalesorderDetail(detail);
-                        finish();
-                    }
-                });
-            }
-        } else if (requestCode == RC_ENTER_PRICE) {
-            if (resultCode == RESULT_OK & data != null) {
-                double price = data.getDoubleExtra(EnterPriceActivity.PRICE, 0);
-                this.price = price;
-                openEnterQtyWgtDialog();
-            }
-        }
     }
 
     @Override

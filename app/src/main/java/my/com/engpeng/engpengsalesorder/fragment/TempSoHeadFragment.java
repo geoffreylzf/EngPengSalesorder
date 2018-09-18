@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
-import my.com.engpeng.engpengsalesorder.utilities.UIUtils;
+import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static android.app.Activity.RESULT_OK;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
@@ -51,9 +50,10 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
-import static my.com.engpeng.engpengsalesorder.Global.hideKeyboard;
 
 public class TempSoHeadFragment extends Fragment {
+
+    public static final String tag = "TEMP_SO_HEAD_FRAGMENT";
 
     private Spinner snCompany;
     private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
@@ -74,6 +74,8 @@ public class TempSoHeadFragment extends Fragment {
 
     //Receive from bundle
     private RevealAnimationSetting revealAnimationSetting;
+
+    private boolean isStartingAnimationDone = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -121,13 +123,14 @@ public class TempSoHeadFragment extends Fragment {
     }
 
     private void setupAnimation() {
-        if (revealAnimationSetting != null) {
+        if (revealAnimationSetting != null && !isStartingAnimationDone) {
             FabOpenAnimation.registerCircularRevealAnimation(
                     getContext(),
                     rootView,
                     revealAnimationSetting,
                     ContextCompat.getColor(getContext(), R.color.colorPrimary),
                     ContextCompat.getColor(getContext(), R.color.colorBackground));
+            isStartingAnimationDone = true;
         }
     }
 
@@ -145,7 +148,7 @@ public class TempSoHeadFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (customerCompanyId == null || customerCompanyId == 0) {
-                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select customer first.");
+                    UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please select customer first.");
                 } else {
                     Intent intent = new Intent(getActivity(), AddressSelectionActivity.class);
                     intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
@@ -194,15 +197,15 @@ public class TempSoHeadFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (customerCompanyId == null || customerCompanyId == 0) {
-                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select customer.");
+                    UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please select customer.");
                     return;
                 }
                 if (customerAddressId == null || customerAddressId == 0) {
-                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select address.");
+                    UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please select address.");
                     return;
                 }
                 if (deliveryDate == null || deliveryDate.equals("")) {
-                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select delivery date.");
+                    UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please select delivery date.");
                     return;
                 }
 
@@ -216,7 +219,7 @@ public class TempSoHeadFragment extends Fragment {
                 intent.putExtra(I_KEY_REMARK, etRemark.getText().toString());
                 startActivity(intent);*/
 
-                hideKeyboard(getActivity());
+                UiUtils.hideKeyboard(getActivity());
 
                 TempSoCartFragment tempSoCartFragment = new TempSoCartFragment();
                 Bundle bundle = new Bundle();
@@ -229,7 +232,7 @@ public class TempSoHeadFragment extends Fragment {
                 bundle.putString(I_KEY_REMARK, etRemark.getText().toString());
                 tempSoCartFragment.setArguments(bundle);
 
-                ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, true);
+                ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);
             }
         });
     }

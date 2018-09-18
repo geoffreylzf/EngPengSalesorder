@@ -8,7 +8,10 @@
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
@@ -81,6 +84,17 @@
                     android:layout_marginTop="8dp" />
 
                 <android.support.design.chip.Chip
+                    android:id="@+id/li_cp_count"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toStartOf="@+id/li_cp_delivery_date"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="4dp"
+                    app:chipIcon="@drawable/ic_outline_view_agenda_24px"/>
+
+                <android.support.design.chip.Chip
                     android:id="@+id/li_cp_delivery_date"
                     style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
@@ -88,7 +102,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="4dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     app:chipIcon="@drawable/ic_round_local_shipping_24px" />
 

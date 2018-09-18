@@ -36,7 +36,8 @@ import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
-import my.com.engpeng.engpengsalesorder.utilities.UIUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
+import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
@@ -49,10 +50,11 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
-import static my.com.engpeng.engpengsalesorder.Global.getCurrentDateTime;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFragment.ConfirmDialogFragmentListener {
+
+    public static final String tag = "TEMP_SO_CONFIRM_FRAGMENT";
 
     private EditText etCompany, etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
     private TextView tvTotalPrice;
@@ -206,9 +208,9 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
             @Override
             public void onChanged(@Nullable Double d) {
                 if (d == null) {
-                    tvTotalPrice.setText(Global.getDisplayPrice(0));
+                    tvTotalPrice.setText(StringUtils.getDisplayPrice(0));
                 } else {
-                    tvTotalPrice.setText(Global.getDisplayPrice(d));
+                    tvTotalPrice.setText(StringUtils.getDisplayPrice(d));
                 }
             }
         });
@@ -243,8 +245,8 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
                         status,
                         newRunningNo,
                         0,
-                        getCurrentDateTime(),
-                        getCurrentDateTime());
+                        StringUtils.getCurrentDateTime(),
+                        StringUtils.getCurrentDateTime());
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -266,7 +268,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
                     mDb.salesorderDetailDao().insertSalesorderDetail(salesorderDetailEntry);
                 }
 
-                ((NavigationHost) getActivity()).clearAllNavigateTo(new SoDashboardFragment());
+                ((NavigationHost) getActivity()).clearAllNavigateTo(new SoDashboardFragment(), SoDashboardFragment.tag);
             }
         });
     }
@@ -274,17 +276,17 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     private void initSaveSO() {
         if (tempSalesorderDetailEntries.size() != 0) {
             if (status.equals(SO_STATUS_DRAFT)) {
-                UIUtils.showConfirmDialog(getFragmentManager(), this, "Are you sure to save as draft?", "Upload is not allowed in draft", "Save as draft");
+                UiUtils.showConfirmDialog(getFragmentManager(), this, "Are you sure to save as draft?", "Upload is not allowed in draft", "Save as draft");
             } else if (status.equals(SO_STATUS_CONFIRM)) {
-                UIUtils.showConfirmDialog(getFragmentManager(), this, "Are you sure to confirm?", "Edit is not allowed after confirm.", "Confirm");
+                UiUtils.showConfirmDialog(getFragmentManager(), this, "Are you sure to confirm?", "Edit is not allowed after confirm.", "Confirm");
             }
         } else {
-            UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please add atleast 1 item to save.");
+            UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please add atleast 1 item to save.");
         }
     }
 
     private void constructRunningNo() {
-        final String prefix = sUsername + "-" + Global.getCurrentYear() + "-" + Global.RUNNING_CODE_SALESORDER;
+        final String prefix = sUsername + "-" + StringUtils.getCurrentYear() + "-" + Global.RUNNING_CODE_SALESORDER;
         final String defaultRunningNo = prefix + "-1";
 
         final LiveData<String> ld = mDb.salesorderDao().getLastRunningNoByPrefix(prefix + "%");
@@ -311,7 +313,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
         } else if (status.equals(SO_STATUS_CONFIRM)) {
             saveSo(runningNo);
         } else {
-            UIUtils.showAlertDialog(getFragmentManager(), "Error", getString(R.string.msg_unexpected_error));
+            UiUtils.showAlertDialog(getFragmentManager(), "Error", getString(R.string.msg_unexpected_error));
         }
     }
 

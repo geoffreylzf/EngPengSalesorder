@@ -22,10 +22,9 @@ import android.view.animation.LayoutAnimationController;
 
 import java.util.List;
 
-import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
-import my.com.engpeng.engpengsalesorder.activity.TempSalesorderActivity;
+import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.adapter.SoDashboardDateAdapter;
 import my.com.engpeng.engpengsalesorder.adapter.SoDashboardSoAdapter;
 import my.com.engpeng.engpengsalesorder.animation.BackdropMenuAnimation;
@@ -33,6 +32,7 @@ import my.com.engpeng.engpengsalesorder.animation.RevealAnimationSetting;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoDisplay;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoGroupByDateDisplay;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
@@ -40,6 +40,8 @@ import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_YEAR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 
 public class SoDashboardFragment extends Fragment {
+
+    public static final String tag = "SO_DASHBOARD_FRAGMENT";
 
     private RecyclerView rvDate, rvSo;
     private FloatingActionButton fabAdd, fabRefresh;
@@ -71,12 +73,12 @@ public class SoDashboardFragment extends Fragment {
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         getActivity().setTitle("Salesorder Dashboard");
-        ((TempSalesorderActivity) getActivity()).setAppBarLayoutElevation(0);
+        ((SalesorderActivity) getActivity()).setAppBarLayoutElevation(0);
 
-        setupListener();
         setupRecycleView();
-        retrieveDateList("MONTH", Global.getCurrentYearMonth());
-        retrieveSoList(Global.getCurrentDate());
+        retrieveDateList("MONTH", StringUtils.getCurrentYearMonth());
+        retrieveSoList(StringUtils.getCurrentDate());
+        setupListener();
 
         return rootView;
     }
@@ -98,7 +100,7 @@ public class SoDashboardFragment extends Fragment {
                 bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, revealAnimationSetting);
                 tempSoHeadFragment.setArguments(bundle);
 
-                ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, true);
+                ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true);
 
             }
         });
@@ -208,6 +210,6 @@ public class SoDashboardFragment extends Fragment {
 
     private void triggerBackdrop() {
         backdropShow = !backdropShow;
-        BackdropMenuAnimation.showBackdropMenu(getContext(), rootView.findViewById(R.id.so_dashboard_ll), new AccelerateDecelerateInterpolator(), backdropShow);
+        BackdropMenuAnimation.showBackdropMenu(getContext(), rootView.findViewById(R.id.so_dashboard_cl), new AccelerateDecelerateInterpolator(), backdropShow);
     }
 }

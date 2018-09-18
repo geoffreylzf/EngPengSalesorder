@@ -21,6 +21,7 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
 import static my.com.engpeng.engpengsalesorder.Global.sPassword;
@@ -87,7 +88,7 @@ public class TestIntentService extends IntentService {
 
     private void InsertDataTask() {
 
-        last_sync_date = Global.getCurrentDateTime();
+        last_sync_date = StringUtils.getCurrentDateTime();
 
         try {
 

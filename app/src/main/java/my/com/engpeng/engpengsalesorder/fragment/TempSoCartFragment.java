@@ -32,6 +32,7 @@ import my.com.engpeng.engpengsalesorder.adapter.TempSoCartAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
@@ -42,6 +43,8 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 
 public class TempSoCartFragment extends Fragment {
+
+    public static final String tag = "TEMP_SO_CART_FRAGMENT";
 
     private FloatingActionButton fabAdd;
     private TextView tvTotalPrice;
@@ -114,7 +117,7 @@ public class TempSoCartFragment extends Fragment {
             bundle.putString(I_KEY_LPO, lpo);
             bundle.putString(I_KEY_REMARK, remark);
             tempSoCartFragment.setArguments(bundle);
-            ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, true);
+            ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);
         }
     }
 
@@ -184,9 +187,9 @@ public class TempSoCartFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Double d) {
                 if(d == null){
-                    tvTotalPrice.setText(Global.getDisplayPrice(0));
+                    tvTotalPrice.setText(StringUtils.getDisplayPrice(0));
                 }else{
-                    tvTotalPrice.setText(Global.getDisplayPrice(d));
+                    tvTotalPrice.setText(StringUtils.getDisplayPrice(d));
                 }
             }
         });
@@ -231,7 +234,7 @@ public class TempSoCartFragment extends Fragment {
             bundle.putString(I_KEY_LPO, lpo);
             bundle.putString(I_KEY_REMARK, remark);
             tempSoConfirmFragment.setArguments(bundle);
-            ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, true);
+            ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true);
 
             return true;
         }

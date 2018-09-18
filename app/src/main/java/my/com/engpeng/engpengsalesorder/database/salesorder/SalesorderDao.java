@@ -39,13 +39,16 @@ public interface SalesorderDao {
     @Query("SELECT salesorder.*, " +
             " branch_name AS companyName," +
             " pcc.person_customer_company_name AS customerCompanyName," +
-            " pcca.person_customer_address_name AS customerAddressName" +
+            " pcca.person_customer_address_name AS customerAddressName," +
+            " COUNT(salesorder_detail.id) AS count" +
             " FROM salesorder" +
             " LEFT JOIN branch ON salesorder.company_id = branch.id" +
             " LEFT JOIN person_customer_company pcc ON salesorder.customer_company_id = pcc.id" +
             " LEFT JOIN person_customer_company_address pcca ON salesorder.customer_address_id = pcca.id" +
+            " LEFT JOIN salesorder_detail ON salesorder.id = salesorder_detail.salesorder_id" +
             " WHERE salesorder.document_date = :documentDate" +
-            " ORDER BY ID DESC")
+            " GROUP BY salesorder.id" +
+            " ORDER BY salesorder.id DESC")
     LiveData<List<SoDisplay>> loadAllSoDisplayByDocumentDate(String documentDate);
 
     @Query("SELECT MAX(running_no)" +

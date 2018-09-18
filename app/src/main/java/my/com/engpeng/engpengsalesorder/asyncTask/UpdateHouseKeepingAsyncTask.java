@@ -19,6 +19,7 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_UPDATE;
@@ -86,7 +87,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
         uhkatListener.initialProgress(type);
 
-        last_sync_date = Global.getCurrentDateTime();
+        last_sync_date = StringUtils.getCurrentDateTime();
         URL url = NetworkUtils.buildUrl(NetworkUtils.MODULE_GET_HOUSE_KEEPING, isLocal);
         try {
             String json = NetworkUtils.sendPostToHttpUrl(url, username, password, data);

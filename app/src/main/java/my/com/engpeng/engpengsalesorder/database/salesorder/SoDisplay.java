@@ -3,6 +3,7 @@ package my.com.engpeng.engpengsalesorder.database.salesorder;
 public class SoDisplay extends SalesorderEntry {
 
     private String companyName, customerCompanyName, customerAddressName;
+    private int count;
 
     public SoDisplay(long id,
                      long companyId, long customerCompanyId, long customerAddressId,
@@ -10,12 +11,14 @@ public class SoDisplay extends SalesorderEntry {
                      String lpo, String remark,
                      String status, String runningNo, int isUpload,
                      String createDatetime, String modifyDatetime,
-                     String companyName, String customerCompanyName, String customerAddressName) {
+                     String companyName, String customerCompanyName, String customerAddressName,
+                     int count) {
         super(id, companyId, customerCompanyId, customerAddressId, documentDate, deliveryDate, lpo, remark, status, runningNo, isUpload, createDatetime, modifyDatetime);
 
         this.companyName = companyName;
         this.customerCompanyName = customerCompanyName;
         this.customerAddressName = customerAddressName;
+        this.count = count;
     }
 
     public String getCompanyName() {
@@ -40,5 +43,13 @@ public class SoDisplay extends SalesorderEntry {
 
     public void setCustomerAddressName(String customerAddressName) {
         this.customerAddressName = customerAddressName;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

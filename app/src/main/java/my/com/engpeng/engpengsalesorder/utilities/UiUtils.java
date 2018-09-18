@@ -1,5 +1,6 @@
 package my.com.engpeng.engpengsalesorder.utilities;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import my.com.engpeng.engpengsalesorder.R;
@@ -17,7 +19,7 @@ import static my.com.engpeng.engpengsalesorder.Global.ALERT_DIALOG_TAG;
 import static my.com.engpeng.engpengsalesorder.Global.CONFIRM_DIALOG_TAG;
 import static my.com.engpeng.engpengsalesorder.Global.RC_CONFIRM_DIALOG_ID;
 
-public class UIUtils {
+public class UiUtils {
 
     public static Dialog getProgressDialog(Context context) {
         Dialog progressDialog = new Dialog(context, android.R.style.Theme_Black);
@@ -43,5 +45,16 @@ public class UIUtils {
     public static void showToastMessage(Context context, String message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

@@ -53,7 +53,7 @@
             android:name=".activity.ItemSelectionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.SetupActivity" />
-        <activity android:name=".activity.TempSalesorderActivity"
+        <activity android:name=".activity.SalesorderActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

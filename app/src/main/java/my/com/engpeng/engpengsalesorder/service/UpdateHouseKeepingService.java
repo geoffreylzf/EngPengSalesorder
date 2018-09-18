@@ -30,6 +30,7 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_GET_ALL_TABLE;
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
@@ -132,7 +133,7 @@ public class UpdateHouseKeepingService extends Service implements
 
     private void startNotificationProgress(String table) {
 
-        String content_text = "Downloading " + Global.getTableDisplayName(table) + " from server...";
+        String content_text = "Downloading " + StringUtils.getTableDisplayName(table) + " from server...";
         notificationBuilder.setContentText(content_text)
                 .setProgress(PROGRESS_MAX, PROGRESS_MIN, false);
         notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_ID, notificationBuilder.build());
@@ -141,7 +142,7 @@ public class UpdateHouseKeepingService extends Service implements
 
     private void updateNotificationProgress(String table, double row, double total) {
         int percentage = (int) (row / total * 100);
-        String content_text = "Updating " + Global.getTableDisplayName(table) + "...";
+        String content_text = "Updating " + StringUtils.getTableDisplayName(table) + "...";
 
         if (percentage != progressCurrent) {
             if (percentage % 5 == 0) {

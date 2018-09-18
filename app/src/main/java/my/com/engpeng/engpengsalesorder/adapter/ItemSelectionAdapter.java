@@ -13,9 +13,7 @@ import java.util.List;
 import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
-
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayPrice;
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayWgt;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdapter.ItemViewHolder> {
 
@@ -75,8 +73,8 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
 
         itemViewHolder.tvCode.setText(item.getSkuCode());
         itemViewHolder.tvName.setText(item.getSkuName());
-        itemViewHolder.tvPrice.setText(getDisplayPrice(price) + priceIndicator);
-        itemViewHolder.tvWeight.setText(getDisplayWgt(item.getFactor()) + priceByWeightIndicator);
+        itemViewHolder.tvPrice.setText(StringUtils.getDisplayPrice(price) + priceIndicator);
+        itemViewHolder.tvWeight.setText(StringUtils.getDisplayWgt(item.getFactor()) + priceByWeightIndicator);
 
         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

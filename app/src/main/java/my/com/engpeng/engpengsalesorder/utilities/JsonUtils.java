@@ -27,24 +27,24 @@ public class JsonUtils {
                     case HttpURLConnection.HTTP_OK:
                         return true;
                     case HttpURLConnection.HTTP_NOT_FOUND:
-                        UIUtils.showToastMessage(context, "The request URL was not found");
+                        UiUtils.showToastMessage(context, "The request URL was not found");
                         return false;
                     case HttpURLConnection.HTTP_NOT_ACCEPTABLE:
-                        UIUtils.showToastMessage(context, "Insufficient data to login");
+                        UiUtils.showToastMessage(context, "Insufficient data to login");
                         return false;
                     case HttpURLConnection.HTTP_UNAUTHORIZED:
-                        UIUtils.showToastMessage(context, "Unauthorized (Please check username or password)");
+                        UiUtils.showToastMessage(context, "Unauthorized (Please check username or password)");
                         return false;
                     default:
-                        UIUtils.showToastMessage(context, "Unknown error");
+                        UiUtils.showToastMessage(context, "Unknown error");
                         return false;
                 }
             }
-            UIUtils.showToastMessage(context, "Error (no respond)");
+            UiUtils.showToastMessage(context, "Error (no respond)");
             return false;
         } catch (Exception e) {
             e.printStackTrace();
-            UIUtils.showToastMessage(context, "Error (" + e.getMessage() + ")");
+            UiUtils.showToastMessage(context, "Error (" + e.getMessage() + ")");
             return false;
         }
     }

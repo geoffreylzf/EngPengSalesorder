@@ -13,10 +13,7 @@ import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
-
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayPrice;
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayQty;
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayWgt;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 public class TempSoConfirmAdapter extends RecyclerView.Adapter<TempSoConfirmAdapter.DetailViewHolder>{
 
@@ -41,9 +38,9 @@ public class TempSoConfirmAdapter extends RecyclerView.Adapter<TempSoConfirmAdap
 
         detailViewHolder.tvCode.setText(dt.getSkuCode());
         detailViewHolder.tvName.setText(dt.getSkuName());
-        detailViewHolder.cpQty.setText(getDisplayQty((int) dt.getQty()));
-        detailViewHolder.cpWgt.setText(getDisplayWgt(dt.getWeight()));
-        detailViewHolder.tvTotalPrice.setText(getDisplayPrice(dt.getTotalPrice()));
+        detailViewHolder.cpQty.setText(StringUtils.getDisplayQty((int) dt.getQty()));
+        detailViewHolder.cpWgt.setText(StringUtils.getDisplayWgt(dt.getWeight()));
+        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
     }
 
     @Override

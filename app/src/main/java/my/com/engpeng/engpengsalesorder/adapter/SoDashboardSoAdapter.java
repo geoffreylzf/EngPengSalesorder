@@ -14,6 +14,7 @@ import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoDisplay;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
@@ -49,7 +50,10 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             title = item.getStatus();
         } else if (item.getRunningNo().equals("")) {
             title = item.getStatus();
+        } else {
+            title = StringUtils.getDisplayRunningNo(title);
         }
+
         soViewHolder.tvTitle.setText(title);
 
         soViewHolder.tvCustomer.setText(item.getCustomerCompanyName());
@@ -58,14 +62,19 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
         soViewHolder.tvRemark.setText(item.getRemark());
         soViewHolder.tvCreateDate.setText(item.getCreateDatetime());
         soViewHolder.cpDeliveryDate.setText(item.getDeliveryDate());
+        soViewHolder.cpCount.setText(String.valueOf(item.getCount()));
 
-        //TODO set ivUpload
+        if (item.getIsUpload() == 1) {
+            soViewHolder.ivUpload.setVisibility(View.VISIBLE);
+        } else {
+            soViewHolder.ivUpload.setVisibility(View.GONE);
+        }
 
-        if(item.getStatus().equals(SO_STATUS_DRAFT)){
+        if (item.getStatus().equals(SO_STATUS_DRAFT)) {
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_drafts_24px);
-        }else if(item.getStatus().equals(SO_STATUS_CONFIRM)){
+        } else if (item.getStatus().equals(SO_STATUS_CONFIRM)) {
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_done_all_24px);
-        }else{
+        } else {
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_error_24px);
         }
 
@@ -92,7 +101,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
 
     class SoViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvCustomer, tvAddress, tvLpo, tvRemark, tvCreateDate;
-        Chip cpDeliveryDate;
+        Chip cpDeliveryDate, cpCount;
         ImageView ivIcon, ivUpload;
 
         public SoViewHolder(View view) {
@@ -104,6 +113,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             tvLpo = view.findViewById(R.id.li_tv_lpo);
             tvRemark = view.findViewById(R.id.li_tv_remark);
             cpDeliveryDate = view.findViewById(R.id.li_cp_delivery_date);
+            cpCount = view.findViewById(R.id.li_cp_count);
             ivUpload = view.findViewById(R.id.li_iv_upload);
             tvCreateDate = view.findViewById(R.id.li_tv_create_date);
         }

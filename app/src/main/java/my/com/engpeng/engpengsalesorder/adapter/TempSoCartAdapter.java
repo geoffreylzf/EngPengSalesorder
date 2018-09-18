@@ -16,10 +16,7 @@ import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
-
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayPrice;
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayQty;
-import static my.com.engpeng.engpengsalesorder.Global.getDisplayWgt;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.DetailViewHolder> {
 
@@ -53,10 +50,10 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
 
         detailViewHolder.tvCode.setText(dt.getSkuCode());
         detailViewHolder.tvName.setText(dt.getSkuName());
-        detailViewHolder.tvPrice.setText(getDisplayPrice(dt.getPrice()));
-        detailViewHolder.tvTotalPrice.setText(getDisplayPrice(dt.getTotalPrice()));
-        detailViewHolder.cpQty.setText(getDisplayQty((int) dt.getQty()));
-        detailViewHolder.cpWgt.setText(getDisplayWgt(dt.getWeight()));
+        detailViewHolder.tvPrice.setText(StringUtils.getDisplayPrice(dt.getPrice()));
+        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
+        detailViewHolder.cpQty.setText(StringUtils.getDisplayQty((int) dt.getQty()));
+        detailViewHolder.cpWgt.setText(StringUtils.getDisplayWgt(dt.getWeight()));
         detailViewHolder.cpPriceMethod.setText(dt.getPriceMethod());
         if (dt.getPriceByWeight() == 1) {
             detailViewHolder.cpPriceByWeight.setVisibility(View.VISIBLE);

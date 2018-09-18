@@ -18,12 +18,12 @@ import static my.com.engpeng.engpengsalesorder.Global.getDisplayPrice;
 import static my.com.engpeng.engpengsalesorder.Global.getDisplayQty;
 import static my.com.engpeng.engpengsalesorder.Global.getDisplayWgt;
 
-public class TempSalesorderConfirmAdapter extends RecyclerView.Adapter<TempSalesorderConfirmAdapter.DetailViewHolder>{
+public class TempSoConfirmAdapter extends RecyclerView.Adapter<TempSoConfirmAdapter.DetailViewHolder>{
 
     private Context context;
     private List<TempSalesorderDetailDisplay> tempSalesorderDetailDisplayList;
 
-    public TempSalesorderConfirmAdapter(Context context) {
+    public TempSoConfirmAdapter(Context context) {
         this.context = context;
     }
 

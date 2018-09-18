@@ -1,16 +1,21 @@
 package my.com.engpeng.engpengsalesorder.utilities;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.ContextThemeWrapper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
 import my.com.engpeng.engpengsalesorder.R;
+import my.com.engpeng.engpengsalesorder.fragment.AlertDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
+
+import static my.com.engpeng.engpengsalesorder.Global.ALERT_DIALOG_TAG;
+import static my.com.engpeng.engpengsalesorder.Global.CONFIRM_DIALOG_TAG;
+import static my.com.engpeng.engpengsalesorder.Global.RC_CONFIRM_DIALOG_ID;
 
 public class UIUtils {
 
@@ -24,17 +29,15 @@ public class UIUtils {
         return progressDialog;
     }
 
-    public static void getMessageDialog(Context context, String title, String msg) {
-        AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(context, android.R.style.Theme_Material_Light_Dialog_Alert)).create();
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
+    public static void showConfirmDialog(FragmentManager fragmentManager, Fragment fragment, String title, String msg, String positiveText) {
+        ConfirmDialogFragment confirmDialogFragment = ConfirmDialogFragment.newInstance(title, msg, positiveText);
+        confirmDialogFragment.setTargetFragment(fragment, RC_CONFIRM_DIALOG_ID);
+        confirmDialogFragment.show(fragmentManager, CONFIRM_DIALOG_TAG);
+    }
+
+    public static void showAlertDialog(FragmentManager fragmentManager, String title, String msg) {
+        AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(title, msg);
+        alertDialogFragment.show(fragmentManager, ALERT_DIALOG_TAG);
     }
 
     public static void showToastMessage(Context context, String message) {

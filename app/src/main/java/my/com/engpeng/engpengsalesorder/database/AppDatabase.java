@@ -5,8 +5,8 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import my.com.engpeng.engpengsalesorder.database.SalesorderDetail.SalesorderDetailDao;
-import my.com.engpeng.engpengsalesorder.database.SalesorderDetail.SalesorderDetailEntry;
+import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailDao;
+import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchDao;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressDao;

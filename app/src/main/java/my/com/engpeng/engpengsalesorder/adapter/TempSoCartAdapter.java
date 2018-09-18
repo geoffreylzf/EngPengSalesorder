@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.chip.Chip;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import static my.com.engpeng.engpengsalesorder.Global.getDisplayPrice;
 import static my.com.engpeng.engpengsalesorder.Global.getDisplayQty;
 import static my.com.engpeng.engpengsalesorder.Global.getDisplayWgt;
 
-public class TempSalesorderSummaryAdapter extends RecyclerView.Adapter<TempSalesorderSummaryAdapter.DetailViewHolder> {
+public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.DetailViewHolder> {
 
     private Context context;
     private List<TempSalesorderDetailDisplay> tempSalesorderDetailDisplayList;
@@ -32,7 +31,7 @@ public class TempSalesorderSummaryAdapter extends RecyclerView.Adapter<TempSales
         void afterItemDelete(long item_packing_id, int position);
     }
 
-    public TempSalesorderSummaryAdapter(Context context, TempSalesorderSummaryAdapterListener tssaListener) {
+    public TempSoCartAdapter(Context context, TempSalesorderSummaryAdapterListener tssaListener) {
         this.context = context;
         this.tssaListener = tssaListener;
     }
@@ -41,7 +40,7 @@ public class TempSalesorderSummaryAdapter extends RecyclerView.Adapter<TempSales
     @Override
     public DetailViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.list_item_temp_so_summary, viewGroup, false);
+                .inflate(R.layout.list_item_temp_so_cart, viewGroup, false);
         return new DetailViewHolder(view);
     }
 

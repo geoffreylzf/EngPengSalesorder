@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.database.SalesorderDetail;
+package my.com.engpeng.engpengsalesorder.database.salesorderDetail;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -31,6 +31,20 @@ public class SalesorderDetailEntry {
     @ColumnInfo(name = "total_price")
     private double totalPrice;
 
+    public SalesorderDetailEntry(long id, long salesorderId, long itemPackingId, long priceSettingId, String priceMethod, double qty, double weight, double factor, double price, double totalPrice) {
+        this.id = id;
+        this.salesorderId = salesorderId;
+        this.itemPackingId = itemPackingId;
+        this.priceSettingId = priceSettingId;
+        this.priceMethod = priceMethod;
+        this.qty = qty;
+        this.weight = weight;
+        this.factor = factor;
+        this.price = price;
+        this.totalPrice = totalPrice;
+    }
+
+    @Ignore
     public SalesorderDetailEntry(long salesorderId, long itemPackingId,
                                  long priceSettingId, String priceMethod, double qty,
                                  double weight, double factor, double price,

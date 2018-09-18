@@ -29,15 +29,19 @@ public class SalesorderEntry {
     private String status;
     @ColumnInfo(name = "running_no")
     private String runningNo;
+    @ColumnInfo(name = "is_upload")
+    private int isUpload;
     @ColumnInfo(name = "create_datetime")
     private String createDatetime;
     @ColumnInfo(name = "modify_datetime")
     private String modifyDatetime;
 
-    public SalesorderEntry(long companyId, long customerCompanyId,
-                           long customerAddressId, String documentDate, String deliveryDate,
-                           String lpo, String remark, String status,
-                           String runningNo, String createDatetime, String modifyDatetime) {
+    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
+                           String documentDate, String deliveryDate,
+                           String lpo, String remark,
+                           String status, String runningNo, int isUpload,
+                           String createDatetime, String modifyDatetime) {
+        this.id = id;
         this.companyId = companyId;
         this.customerCompanyId = customerCompanyId;
         this.customerAddressId = customerAddressId;
@@ -47,7 +51,50 @@ public class SalesorderEntry {
         this.remark = remark;
         this.status = status;
         this.runningNo = runningNo;
+        this.isUpload = isUpload;
         this.createDatetime = createDatetime;
+        this.modifyDatetime = modifyDatetime;
+    }
+
+    @Ignore
+    //for new insert
+    public SalesorderEntry(long companyId, long customerCompanyId,
+                           long customerAddressId, String documentDate, String deliveryDate,
+                           String lpo, String remark, String status,
+                           String runningNo, int isUpload,
+                           String createDatetime, String modifyDatetime) {
+        this.companyId = companyId;
+        this.customerCompanyId = customerCompanyId;
+        this.customerAddressId = customerAddressId;
+        this.documentDate = documentDate;
+        this.deliveryDate = deliveryDate;
+        this.lpo = lpo;
+        this.remark = remark;
+        this.status = status;
+        this.runningNo = runningNo;
+        this.isUpload = isUpload;
+        this.createDatetime = createDatetime;
+        this.modifyDatetime = modifyDatetime;
+    }
+
+    @Ignore
+    //for update
+    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
+                           String documentDate, String deliveryDate,
+                           String lpo, String remark, String status,
+                           String runningNo, int isUpload,
+                           String modifyDatetime) {
+        this.id = id;
+        this.companyId = companyId;
+        this.customerCompanyId = customerCompanyId;
+        this.customerAddressId = customerAddressId;
+        this.documentDate = documentDate;
+        this.deliveryDate = deliveryDate;
+        this.lpo = lpo;
+        this.remark = remark;
+        this.status = status;
+        this.runningNo = runningNo;
+        this.isUpload = isUpload;
         this.modifyDatetime = modifyDatetime;
     }
 
@@ -129,6 +176,14 @@ public class SalesorderEntry {
 
     public void setRunningNo(String runningNo) {
         this.runningNo = runningNo;
+    }
+
+    public int getIsUpload() {
+        return isUpload;
+    }
+
+    public void setIsUpload(int isUpload) {
+        this.isUpload = isUpload;
     }
 
     public String getCreateDatetime() {

@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +28,7 @@ import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.ItemSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
-import my.com.engpeng.engpengsalesorder.adapter.TempSalesorderSummaryAdapter;
+import my.com.engpeng.engpengsalesorder.adapter.TempSoCartAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
@@ -49,7 +48,7 @@ public class TempSoCartFragment extends Fragment {
     private SwipeMenuRecyclerView rv;
 
     private AppDatabase mDb;
-    private TempSalesorderSummaryAdapter adapter;
+    private TempSoCartAdapter adapter;
 
     //receive from bundle
     private Long companyId;
@@ -134,7 +133,7 @@ public class TempSoCartFragment extends Fragment {
 
     private void setupRecycleView() {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new TempSalesorderSummaryAdapter(getActivity(), new TempSalesorderSummaryAdapter.TempSalesorderSummaryAdapterListener() {
+        adapter = new TempSoCartAdapter(getActivity(), new TempSoCartAdapter.TempSalesorderSummaryAdapterListener() {
             @Override
             public void afterItemDelete(final long item_packing_id, final int position) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {

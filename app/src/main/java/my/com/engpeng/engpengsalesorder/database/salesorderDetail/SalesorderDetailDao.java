@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.database.SalesorderDetail;
+package my.com.engpeng.engpengsalesorder.database.salesorderDetail;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

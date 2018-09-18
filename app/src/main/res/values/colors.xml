@@ -3,13 +3,15 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#2E7D32</color>
     <color name="colorAccent">#004D40</color>
-    <color name="colorPrimaryXLight">#C8E6C9</color>
-    <color name="colorPrimaryXXLight">#E8F5E9</color>
-    <color name="colorPrimaryLight">#81C784</color>
+    <color name="colorPrimaryXXLight">#C8E6C9</color>
+    <color name="colorPrimaryXXXLight">#E8F5E9</color>
+    <color name="colorPrimaryXLight">#81C784</color>
+    <color name="colorPrimaryLight">#66BB6A</color>
     <color name="colorControlActivated">#2E7D32</color>
 
     <color name="colorTranslucent">#80FFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorBackground">@android:color/background_light</color>
 
     <color name="colorHint">#808080</color>
 

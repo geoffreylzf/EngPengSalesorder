@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
-        android:text="@string/date"
+        android:text="@string/documentDate"
         android:textColor="@color/colorHint"
         android:textSize="12sp" />
 
@@ -22,7 +22,7 @@
         android:layout_centerVertical="true"
         android:background="@color/colorTransparent"
         android:gravity="start"
-        android:hint="@string/date"
+        android:hint="@string/documentDate"
         android:paddingBottom="8dp"
         android:paddingEnd="12dp"
         android:paddingStart="12dp"

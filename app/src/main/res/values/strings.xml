@@ -17,11 +17,13 @@
     <string name="delivery_date">Delivery Date</string>
     <string name="document_date">Document Date</string>
     <string name="start">Start</string>
-    <string name="date">Date</string>
+    <string name="documentDate">Date</string>
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
     <string name="search_here">Search Here</string>
     <string name="add_to_cart">Add To Cart</string>
+    <string name="filter">Filter</string>
+    <string name="filter_document_date">Filter Document Date</string>
     <string name="_continue">Continue</string>
     <string name="px_by_wgt">Px By Wgt</string>
     <string name="kg">Kg</string>
@@ -43,4 +45,6 @@
     <string name="main_notification_channel_name">Primary</string>
 
     <string name="error_field_required">This field is required</string>
+
+    <string name="msg_unexpected_error">Unexpected error occurs!</string>
 </resources>

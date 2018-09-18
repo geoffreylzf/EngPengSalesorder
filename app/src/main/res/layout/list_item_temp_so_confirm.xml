@@ -38,8 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                android:layout_toStartOf="@id/li_cp_wgt"
-                android:text="Qty: 1" />
+                android:layout_toStartOf="@id/li_cp_wgt" />
 
             <android.support.design.chip.Chip
                 android:id="@+id/li_cp_wgt"
@@ -48,15 +47,13 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="12dp"
-                android:text="Wgt: 5Kg" />
+                android:layout_marginTop="12dp" />
 
             <TextView
                 android:id="@+id/li_tv_total_price"
                 style="@style/ListItemTertiaryTextViewStyle"
                 android:layout_below="@id/li_cp_wgt"
                 android:layout_marginTop="4dp"
-                android:text="RM9999.99"
                 android:textStyle="bold" />
 
         </RelativeLayout>

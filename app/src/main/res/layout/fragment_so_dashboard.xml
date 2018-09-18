@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/filter_document_date"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/so_dashboard_cl_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/so_dashboard_rv_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/so_dashboard_fab_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="36dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_refresh_white_24px"
+                app:fabSize="normal"
+                app:layout_anchor="@id/so_dashboard_rv_date"
+                app:layout_anchorGravity="bottom|right|end" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/so_dashboard_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_fragment_so_dashboard_front"
+        android:orientation="vertical">
+
+        <android.support.design.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <android.support.design.chip.Chip
+                android:id="@+id/so_dashboard_cp_document_date"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                app:chipBackgroundColor="@color/colorAccent" />
+
+        </android.support.design.chip.ChipGroup>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/so_dashboard_rv_so"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutAnimation="@anim/layout_animation_from_bottom">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/so_dashboard_fab_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="36dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_edit_white_24px"
+                app:fabSize="normal"
+                app:layout_anchor="@id/so_dashboard_rv_so"
+                app:layout_anchorGravity="bottom|right|end" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+    </LinearLayout>
+</FrameLayout>

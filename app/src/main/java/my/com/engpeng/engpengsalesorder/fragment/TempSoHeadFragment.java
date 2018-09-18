@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,8 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.AddressSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.CustomerSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
+import my.com.engpeng.engpengsalesorder.animation.FabOpenAnimation;
+import my.com.engpeng.engpengsalesorder.animation.RevealAnimationSetting;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
@@ -46,6 +50,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 import static my.com.engpeng.engpengsalesorder.Global.hideKeyboard;
 
 public class TempSoHeadFragment extends Fragment {
@@ -53,6 +58,7 @@ public class TempSoHeadFragment extends Fragment {
     private Spinner snCompany;
     private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
     private Button btnStart;
+    private View rootView;
 
     private Calendar calendar;
     private SimpleDateFormat sdfSave, sdfDisplay;
@@ -66,9 +72,12 @@ public class TempSoHeadFragment extends Fragment {
     private Long customerCompanyId, customerAddressId;
     private String documentDate, deliveryDate;
 
+    //Receive from bundle
+    private RevealAnimationSetting revealAnimationSetting;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_temp_so_head, container, false);
+        rootView = inflater.inflate(R.layout.fragment_temp_so_head, container, false);
 
         snCompany = rootView.findViewById(R.id.temp_so_head_sn_company);
         etCustomer = rootView.findViewById(R.id.temp_so_head_et_customer);
@@ -89,6 +98,8 @@ public class TempSoHeadFragment extends Fragment {
         etDocumentDate.setText(sdfDisplay.format(calendar.getTime()));
         documentDate = sdfSave.format(calendar.getTime());
 
+        setupBundle();
+        setupAnimation();
         setupSpinner();
         setupListener();
 
@@ -100,6 +111,24 @@ public class TempSoHeadFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void setupBundle() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            revealAnimationSetting = bundle.getParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS);
+        }
+    }
+
+    private void setupAnimation() {
+        if (revealAnimationSetting != null) {
+            FabOpenAnimation.registerCircularRevealAnimation(
+                    getContext(),
+                    rootView,
+                    revealAnimationSetting,
+                    ContextCompat.getColor(getContext(), R.color.colorPrimary),
+                    ContextCompat.getColor(getContext(), R.color.colorBackground));
+        }
     }
 
     private void setupListener() {
@@ -116,7 +145,7 @@ public class TempSoHeadFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (customerCompanyId == null || customerCompanyId == 0) {
-                    UIUtils.getMessageDialog(getActivity(), "Error", "Please select customer first.");
+                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select customer first.");
                 } else {
                     Intent intent = new Intent(getActivity(), AddressSelectionActivity.class);
                     intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
@@ -125,10 +154,10 @@ public class TempSoHeadFragment extends Fragment {
             }
         });
 
-        /*etDocumentDate.setOnClickListener(new View.OnClickListener() {
+        etDocumentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(TempSalesorderHeadActivity.this,
+                DatePickerDialog dpd = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -141,7 +170,7 @@ public class TempSoHeadFragment extends Fragment {
                         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
             }
-        });*/
+        });
 
         etDeliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,15 +194,15 @@ public class TempSoHeadFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (customerCompanyId == null || customerCompanyId == 0) {
-                    UIUtils.getMessageDialog(getActivity(), "Error", "Please select customer.");
+                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select customer.");
                     return;
                 }
                 if (customerAddressId == null || customerAddressId == 0) {
-                    UIUtils.getMessageDialog(getActivity(), "Error", "Please select address.");
+                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select address.");
                     return;
                 }
                 if (deliveryDate == null || deliveryDate.equals("")) {
-                    UIUtils.getMessageDialog(getActivity(), "Error", "Please select delivery date.");
+                    UIUtils.showAlertDialog(getFragmentManager(), "Error", "Please select delivery date.");
                     return;
                 }
 
@@ -229,7 +258,7 @@ public class TempSoHeadFragment extends Fragment {
     }
 
     private Long getCompanyIdFromSpinner() {
-        if(snCompany.getSelectedItem() == null){
+        if (snCompany.getSelectedItem() == null) {
             return 0L;
         }
         return map.get(snCompany.getSelectedItem().toString());
@@ -261,6 +290,7 @@ public class TempSoHeadFragment extends Fragment {
                 etCustomer.setTextColor(getActivity().getColor(android.R.color.primary_text_light));
 
                 customerAddressId = null;
+                etAddress.setText("");
                 //etAddress.setText(getString(R.string.no_address_selected));
                 //etAddress.setTextColor(getActivity().getColor(R.color.colorHint));
             }

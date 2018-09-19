@@ -15,6 +15,9 @@ public interface SalesorderDao {
     @Query("SELECT * FROM salesorder")
     LiveData<List<SalesorderEntry>> loadLiveAllSalesorders();
 
+    @Query("SELECT * FROM salesorder WHERE id = :id")
+    LiveData<SalesorderEntry> loadLiveSalesorder(Long id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertSalesorder(SalesorderEntry salesorderEntry);
 

@@ -17,9 +17,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.parceler.Parcels;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,12 +48,7 @@ import static android.app.Activity.RESULT_OK;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 
@@ -63,6 +60,7 @@ public class TempSoHeadFragment extends Fragment {
     private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
     private Button btnStart;
     private View rootView;
+    private TextView tvNote;
 
     private Calendar calendar;
     private SimpleDateFormat sdfSave, sdfDisplay;
@@ -79,6 +77,9 @@ public class TempSoHeadFragment extends Fragment {
     //Receive from bundle
     private RevealAnimationSetting revealAnimationSetting;
 
+    //Receive from bundle and use for next fragment
+    private SalesorderEntry salesorderEntry;
+
     private boolean isStartingAnimationDone = false;
 
     @Override
@@ -93,8 +94,7 @@ public class TempSoHeadFragment extends Fragment {
         etLpo = rootView.findViewById(R.id.temp_so_head_et_lpo);
         etRemark = rootView.findViewById(R.id.temp_so_head_et_remark);
         btnStart = rootView.findViewById(R.id.temp_so_head_btn_start);
-
-        getActivity().setTitle("New Salesorder");
+        tvNote = rootView.findViewById(R.id.temp_so_head_tv_note);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         calendar = Calendar.getInstance();
@@ -105,16 +105,9 @@ public class TempSoHeadFragment extends Fragment {
         documentDate = sdfSave.format(calendar.getTime());
 
         setupBundle();
-        setupAnimation();
         setupSpinner();
+        setupAnimation();
         setupListener();
-
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                //mDb.tempSalesorderDetailDao().deleteAll();
-            }
-        });
 
         return rootView;
     }
@@ -123,6 +116,13 @@ public class TempSoHeadFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             revealAnimationSetting = Parcels.unwrap(bundle.getParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS));
+            salesorderEntry = Parcels.unwrap(bundle.getParcelable(I_KEY_SALESORDER_ENTRY));
+            if (salesorderEntry == null) {
+                getActivity().setTitle("New Salesorder");
+            } else {
+                getActivity().setTitle("Draft Salesorder");
+                populateUi();
+            }
         }
     }
 
@@ -138,7 +138,30 @@ public class TempSoHeadFragment extends Fragment {
         }
     }
 
+    private void populateUi() {
+        tvNote.setVisibility(View.VISIBLE);
+        customerCompanyId = salesorderEntry.getCustomerCompanyId();
+        retrieveCustomer(false);
+
+        customerAddressId = salesorderEntry.getCustomerAddressId();
+        retrieveAddress();
+
+        documentDate = salesorderEntry.getDocumentDate();
+        deliveryDate = salesorderEntry.getDeliveryDate();
+        try {
+            etDocumentDate.setText(sdfDisplay.format(sdfSave.parse(documentDate).getTime()));
+            etDeliveryDate.setText(sdfDisplay.format(sdfSave.parse(deliveryDate).getTime()));
+        } catch (ParseException e) {
+            etDocumentDate.setText(salesorderEntry.getDocumentDate());
+            etDeliveryDate.setText(salesorderEntry.getDeliveryDate());
+        }
+
+        etLpo.setText(salesorderEntry.getLpo());
+        etRemark.setText(salesorderEntry.getRemark());
+    }
+
     private void setupListener() {
+
         etCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,6 +214,7 @@ public class TempSoHeadFragment extends Fragment {
                                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                                 etDeliveryDate.setText(sdfDisplay.format(calendar.getTime()));
                                 deliveryDate = sdfSave.format(calendar.getTime());
+                                clearTempSoDetailEntry();
                             }
                         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
@@ -215,7 +239,12 @@ public class TempSoHeadFragment extends Fragment {
 
                 UiUtils.hideKeyboard(getActivity());
 
-                SalesorderEntry salesorderEntry = new SalesorderEntry();
+                SalesorderEntry salesorderEntry;
+                if (TempSoHeadFragment.this.salesorderEntry == null) {
+                    salesorderEntry = new SalesorderEntry();
+                } else {
+                    salesorderEntry = TempSoHeadFragment.this.salesorderEntry;
+                }
                 salesorderEntry.setCompanyId(getCompanyIdFromSpinner());
                 salesorderEntry.setCustomerCompanyId(customerCompanyId);
                 salesorderEntry.setCustomerAddressId(customerAddressId);
@@ -270,7 +299,7 @@ public class TempSoHeadFragment extends Fragment {
         if (requestCode == RC_SELECT_CUSTOMER) {
             if (resultCode == RESULT_OK & data != null) {
                 customerCompanyId = data.getLongExtra(CustomerSelectionActivity.CUSTOMER_COMPANY_ID, 0);
-                retrieveCustomer();
+                retrieveCustomer(true);
             }
         } else if (requestCode == RC_SELECT_ADDRESS) {
             if (resultCode == RESULT_OK & data != null) {
@@ -280,19 +309,19 @@ public class TempSoHeadFragment extends Fragment {
         }
     }
 
-    private void retrieveCustomer() {
+    private void retrieveCustomer(final boolean clearRelatedData) {
         final LiveData<CustomerCompanyEntry> cc = mDb.customerCompanyDao().loadLiveCustomerCompanyById(customerCompanyId);
         cc.observe(this, new Observer<CustomerCompanyEntry>() {
             @Override
             public void onChanged(@Nullable CustomerCompanyEntry customerCompanyEntry) {
                 cc.removeObserver(this);
                 etCustomer.setText(customerCompanyEntry.getPersonCustomerCompanyName());
-                etCustomer.setTextColor(getActivity().getColor(android.R.color.primary_text_light));
 
-                customerAddressId = null;
-                etAddress.setText("");
-                //etAddress.setText(getString(R.string.no_address_selected));
-                //etAddress.setTextColor(getActivity().getColor(R.color.colorHint));
+                if (clearRelatedData) {
+                    customerAddressId = null;
+                    etAddress.setText("");
+                    clearTempSoDetailEntry();
+                }
             }
         });
     }
@@ -304,7 +333,15 @@ public class TempSoHeadFragment extends Fragment {
             public void onChanged(@Nullable CustomerCompanyAddressEntry customerCompanyAddressEntry) {
                 cca.removeObserver(this);
                 etAddress.setText(customerCompanyAddressEntry.getPersonCustomerAddressName());
-                //etAddress.setTextColor(getActivity().getColor(android.R.color.primary_text_light));
+            }
+        });
+    }
+
+    private void clearTempSoDetailEntry() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.tempSalesorderDetailDao().deleteAll();
             }
         });
     }

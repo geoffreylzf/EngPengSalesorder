@@ -24,6 +24,7 @@ import android.view.animation.LayoutAnimationController;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.Global;
@@ -38,10 +39,16 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoDisplay;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoGroupByDateDisplay;
+import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
+import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
+import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
+import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
 
 public class SoDashboardFragment extends Fragment {
 
@@ -182,8 +189,8 @@ public class SoDashboardFragment extends Fragment {
         rvSo.setLayoutManager(new LinearLayoutManager(getActivity()));
         soAdapter = new SoDashboardSoAdapter(getActivity(), new SoDashboardSoAdapter.SoDashboardSoAdapterListener() {
             @Override
-            public void onSoSelected(long id) {
-                //TODO
+            public void onSoActionBtnClicked(long salesorderId) {
+                openEditOrView(salesorderId);
             }
         });
         rvSo.setAdapter(soAdapter);
@@ -252,5 +259,57 @@ public class SoDashboardFragment extends Fragment {
     private void triggerBackdrop() {
         backdropShow = !backdropShow;
         BackdropMenuAnimation.showBackdropMenu(getContext(), rootView.findViewById(R.id.so_dashboard_cl), new AccelerateDecelerateInterpolator(), backdropShow);
+    }
+
+    private void openEditOrView(final Long salesorderId) {
+        final LiveData<SalesorderEntry> ld
+                = mDb.salesorderDao().loadLiveSalesorder(salesorderId);
+        ld.observe(this, new Observer<SalesorderEntry>() {
+            @Override
+            public void onChanged(final SalesorderEntry salesorderEntry) {
+                ld.removeObserver(this);
+                final String status = salesorderEntry.getStatus();
+
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Copy Selected SO detail into Temp SO Detail
+                        mDb.tempSalesorderDetailDao().deleteAll();
+                        List<SalesorderDetailEntry> soDetailEntryList = mDb.salesorderDetailDao().loadAllSalesorderDetailsBySalesorderId(salesorderId);
+                        List<TempSalesorderDetailEntry> tempSoDetailEntryList = new ArrayList<>();
+                        for (SalesorderDetailEntry soDetailEntry : soDetailEntryList) {
+                            TempSalesorderDetailEntry tempSoDetailEntry = new TempSalesorderDetailEntry(
+                                    soDetailEntry.getItemPackingId(),
+                                    soDetailEntry.getQty(),
+                                    soDetailEntry.getWeight(),
+                                    soDetailEntry.getFactor(),
+                                    soDetailEntry.getPrice(),
+                                    soDetailEntry.getPriceSettingId(),
+                                    soDetailEntry.getPriceMethod(),
+                                    soDetailEntry.getTotalPrice());
+                            tempSoDetailEntryList.add(tempSoDetailEntry);
+                        }
+                        mDb.tempSalesorderDetailDao().insertTempSalesorderDetail(tempSoDetailEntryList);
+
+                        if (status.equals(SO_STATUS_CONFIRM)) {
+
+                            TempSoConfirmFragment tempSoConfirmFragment = new TempSoConfirmFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
+                            tempSoConfirmFragment.setArguments(bundle);
+                            ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true);
+
+                        } else if (status.equals(SO_STATUS_DRAFT)) {
+
+                            TempSoHeadFragment tempSoHeadFragment = new TempSoHeadFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
+                            tempSoHeadFragment.setArguments(bundle);
+                            ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true);
+                        }
+                    }
+                });
+            }
+        });
     }
 }

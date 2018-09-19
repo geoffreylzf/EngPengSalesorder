@@ -22,26 +22,26 @@ public class SalesorderEntry {
     public final static String TABLE_DISPLAY_NAME = "Salesorder";
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    public long id;
     @ColumnInfo(name = "company_id")
-    private long companyId;
+    public long companyId;
     @ColumnInfo(name = "customer_company_id")
-    private long customerCompanyId;
+    public long customerCompanyId;
     @ColumnInfo(name = "customer_address_id")
-    private long customerAddressId;
+    public long customerAddressId;
     @ColumnInfo(name = "document_date")
-    private String documentDate;
+    public String documentDate;
     @ColumnInfo(name = "delivery_date")
-    private String deliveryDate;
-    private String lpo;
-    private String remark;
-    private String status;
+    public String deliveryDate;
+    public String lpo;
+    public String remark;
+    public String status;
     @ColumnInfo(name = "running_no")
-    private String runningNo;
+    public String runningNo;
     @ColumnInfo(name = "is_upload")
-    private int isUpload;
+    public int isUpload;
     @ColumnInfo(name = "create_datetime")
-    private String createDatetime;
+    public String createDatetime;
     @ColumnInfo(name = "modify_datetime")
     private String modifyDatetime;
 

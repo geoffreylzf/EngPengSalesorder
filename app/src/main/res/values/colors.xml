@@ -30,9 +30,8 @@
     <color name="colorDeepOrange600">#F4511E</color>
     <color name="colorBrown600">#795548</color>
     <color name="colorBlueGrey700">#455A64</color>
-
+    <color name="colorRed800">#C62828</color>
 
     <color name="colorWhite">#ffffff</color>
-    <color name="colorRed">#ff0000</color>
 
 </resources>

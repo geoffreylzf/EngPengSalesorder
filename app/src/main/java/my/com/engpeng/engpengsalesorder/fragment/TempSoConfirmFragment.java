@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -43,13 +43,6 @@ import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_DISPLAY_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
@@ -63,6 +56,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     private TextView tvTotalPrice;
     private RecyclerView rv;
     private Button btnDraft, btnConfirm;
+    private LinearLayout llAction;
 
     private AppDatabase mDb;
     private SimpleDateFormat sdfSave, sdfDisplay;
@@ -90,6 +84,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
         etRemark = rootView.findViewById(R.id.temp_so_confirm_et_remark);
         rv = rootView.findViewById(R.id.temp_so_confirm_rv);
         tvTotalPrice = rootView.findViewById(R.id.temp_so_confirm_tv_total_price);
+        llAction = rootView.findViewById(R.id.temp_so_confirm_ll_action);
         btnDraft = rootView.findViewById(R.id.temp_so_confirm_btn_draft);
         btnConfirm = rootView.findViewById(R.id.temp_so_confirm_btn_confirm);
 
@@ -97,14 +92,10 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
         sdfDisplay = new SimpleDateFormat(DATE_DISPLAY_FORMAT, Locale.US);
         sdfSave = new SimpleDateFormat(DATE_SAVE_FORMAT, Locale.US);
 
-        getActivity().setTitle("Salesorder Confirm");
-
         setupBundle();
-        setupHeadInfo();
         setupRecycleView();
         retrieveTotalPrice();
         setupListener();
-        constructRunningNo();
 
         return rootView;
     }
@@ -113,10 +104,23 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
         Bundle bundle = getArguments();
         if (bundle != null) {
             salesorderEntry = Parcels.unwrap(bundle.getParcelable(I_KEY_SALESORDER_ENTRY));
+            populateHeadInfo();
+
+            String status = salesorderEntry.getStatus();
+            if (status == null || status.equals("")) {
+                constructRunningNo();
+                getActivity().setTitle("Salesorder Confirmation");
+            } else if (status.equals(SO_STATUS_CONFIRM)) {
+                llAction.setVisibility(View.GONE);
+                getActivity().setTitle("Salesorder Summary");
+            } else if (status.equals(SO_STATUS_DRAFT)) {
+                constructRunningNo();
+                getActivity().setTitle("Saved Draft Salesorder");
+            }
         }
     }
 
-    private void setupHeadInfo() {
+    private void populateHeadInfo() {
         String lpo = salesorderEntry.getLpo();
         String remark = salesorderEntry.getRemark();
         etLpo.setText(lpo.equals("") ? " " : lpo);
@@ -227,30 +231,24 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     }
 
     private void saveSo(String newRunningNo) {
-        /*final SalesorderEntry salesorderEntry =
-                new SalesorderEntry(companyId,
-                        customerCompanyId,
-                        customerAddressId,
-                        documentDate,
-                        deliveryDate,
-                        lpo,
-                        remark,
-                        status,
-                        newRunningNo,
-                        0,
-                        StringUtils.getCurrentDateTime(),
-                        StringUtils.getCurrentDateTime());*/
+        final String existStatus = salesorderEntry.getStatus();
+        if (existStatus == null || !existStatus.equals(SO_STATUS_DRAFT)) {
+            salesorderEntry.setCreateDatetime(StringUtils.getCurrentDateTime());
+        }
 
         salesorderEntry.setStatus(status);
         salesorderEntry.setRunningNo(newRunningNo);
         salesorderEntry.setIsUpload(0);
-        salesorderEntry.setCreateDatetime(StringUtils.getCurrentDateTime());
         salesorderEntry.setModifyDatetime(StringUtils.getCurrentDateTime());
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                final Long salesorderId = mDb.salesorderDao().insertSalesorder(salesorderEntry);
+                if (existStatus != null && existStatus.equals(SO_STATUS_DRAFT)) { //clear exist detail if draft
+                    mDb.salesorderDetailDao().deleteAllBySalesorderId(salesorderEntry.getId());
+                }
+
+                Long salesorderId = mDb.salesorderDao().insertSalesorder(salesorderEntry);
 
                 for (TempSalesorderDetailEntry tempSalesorderDetailEntry : tempSalesorderDetailEntries) {
                     SalesorderDetailEntry salesorderDetailEntry =

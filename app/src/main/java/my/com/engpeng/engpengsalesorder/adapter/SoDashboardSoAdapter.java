@@ -27,7 +27,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
     private SoDashboardSoAdapterListener sdsaListener;
 
     public interface SoDashboardSoAdapterListener {
-        void onSoSelected(long id);
+        void onSoActionBtnClicked(long salesorderId);
     }
 
     public SoDashboardSoAdapter(Context context, SoDashboardSoAdapterListener sdsaListener) {
@@ -55,10 +55,10 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             title = StringUtils.getDisplayRunningNo(title);
         }
 
+        //TODO clear create and modify date
         soViewHolder.tvTitle.setText(title + " (" + item.getCreateDatetime() + ")");
-
         soViewHolder.tvCustomer.setText(item.getCustomerCompanyName());
-        soViewHolder.tvAddress.setText(item.getCustomerAddressName());
+        soViewHolder.tvAddress.setText(item.getCustomerAddressName()+ " (" + item.getModifyDatetime() + ")");
         soViewHolder.cpDeliveryDate.setText(item.getDeliveryDate());
         soViewHolder.cpCount.setText(String.valueOf(item.getCount()));
 
@@ -81,10 +81,10 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             soViewHolder.btnDelete.setVisibility(View.GONE);
         }
 
-        soViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        soViewHolder.btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sdsaListener.onSoSelected(item.getId());
+                sdsaListener.onSoActionBtnClicked(item.getId());
             }
         });
     }

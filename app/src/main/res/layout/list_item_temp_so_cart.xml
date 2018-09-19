@@ -129,7 +129,7 @@
                 android:layout_marginStart="28dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:backgroundTint="@color/colorRed"
+                app:backgroundTint="@color/colorRed800"
                 app:fabSize="normal"
                 app:srcCompat="@drawable/ic_baseline_delete_white_24px" />
 

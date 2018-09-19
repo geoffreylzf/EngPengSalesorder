@@ -169,7 +169,14 @@
             app:iconGravity="textStart"
             app:iconPadding="8dp"/>
 
-
+        <TextView
+            android:id="@+id/temp_so_head_tv_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorRed800"
+            android:layout_margin="8dp"
+            android:visibility="gone"
+            android:text="@string/note_alert_clear_detail"/>
     </LinearLayout>
 
 </ScrollView>

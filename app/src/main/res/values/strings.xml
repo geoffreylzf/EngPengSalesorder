@@ -62,4 +62,7 @@
 
     <string name="dialog_error_msg_so_no_item">No item to proceed, please add at least 1 item.</string>
 
+    <string name="note_alert_clear_detail">
+        *Please note that changing customer company and delivery date will clear all pre selected items.
+    </string>
 </resources>

@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,7 +85,6 @@ public class TempSoCartFragment extends Fragment {
         tvTotalPrice = rootView.findViewById(R.id.temp_so_cart_tv_total_price);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
-        getActivity().setTitle("In Cart List");
 
         setupBundle();
         setupRecycleView();
@@ -119,6 +119,11 @@ public class TempSoCartFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salesorderEntry = Parcels.unwrap(bundle.getParcelable(I_KEY_SALESORDER_ENTRY));
+            if(salesorderEntry.getId() == 0){
+                getActivity().setTitle("In New Cart List");
+            }else{
+                getActivity().setTitle("In Draft Cart List");
+            }
         }
     }
 

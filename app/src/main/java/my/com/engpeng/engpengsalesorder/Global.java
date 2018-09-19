@@ -64,6 +64,7 @@ public class Global {
     //Salesorder Status
     public static final String SO_STATUS_DRAFT = "DRAFT";
     public static final String SO_STATUS_CONFIRM = "CONFIRM";
+    public static final String SO_STATUS_ALL = "ALL";
 
     public static final String DATE_TYPE_YEAR = "YEAR";
     public static final String DATE_TYPE_MONTH = "MONTH";

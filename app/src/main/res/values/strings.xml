@@ -32,6 +32,9 @@
     <string name="list_of_items">List of Items</string>
     <string name="save_as_draft">Save as Draft</string>
     <string name="confirm">Confirm</string>
+    <string name="status">Status</string>
+
+    <string name="short_document_date">Doc Date</string>
 
     <string name="default_progress">0/0 (0.00%)</string>
     <string name="default_quantity">1</string>

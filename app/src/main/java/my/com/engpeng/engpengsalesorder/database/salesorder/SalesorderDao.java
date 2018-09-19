@@ -1,10 +1,12 @@
 package my.com.engpeng.engpengsalesorder.database.salesorder;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.RawQuery;
 
 import java.util.List;
 
@@ -16,25 +18,8 @@ public interface SalesorderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertSalesorder(SalesorderEntry salesorderEntry);
 
-    @Query("SELECT 'YEAR' AS dateType, strftime('%Y', document_date) AS documentDate, COUNT(*) AS count" +
-            " FROM salesorder" +
-            " GROUP BY strftime('%Y', document_date)" +
-            " ORDER BY document_date DESC")
-    LiveData<List<SoGroupByDateDisplay>> loadAllSoGroupByYearDisplay();
-
-    @Query("SELECT 'MONTH' AS dateType, strftime('%Y-%m', document_date) AS documentDate, COUNT(*) AS count" +
-            " FROM salesorder" +
-            " WHERE strftime('%Y', document_date) = :year" +
-            " GROUP BY strftime('%Y-%m', document_date)" +
-            " ORDER BY document_date DESC")
-    LiveData<List<SoGroupByDateDisplay>> loadAllSoGroupByYearMonthDisplayByYear(String year);
-
-    @Query("SELECT 'DAY' AS dateType, document_date AS documentDate, COUNT(*) AS count" +
-            " FROM salesorder" +
-            " WHERE strftime('%Y-%m', document_date) = :yearMonth" +
-            " GROUP BY document_date" +
-            " ORDER BY document_date DESC")
-    LiveData<List<SoGroupByDateDisplay>> loadAllSoGroupByDateDisplay(String yearMonth);
+    @RawQuery(observedEntities = SalesorderEntry.class)
+    LiveData<List<SoGroupByDateDisplay>> loadAllSoGroupViaQuery(SupportSQLiteQuery q);
 
     @Query("SELECT salesorder.*, " +
             " branch_name AS companyName," +
@@ -50,6 +35,9 @@ public interface SalesorderDao {
             " GROUP BY salesorder.id" +
             " ORDER BY salesorder.id DESC")
     LiveData<List<SoDisplay>> loadAllSoDisplayByDocumentDate(String documentDate);
+
+    @RawQuery(observedEntities = SalesorderEntry.class)
+    LiveData<List<SoDisplay>> loadAllSoDisplayViaQuery(SupportSQLiteQuery q);
 
     @Query("SELECT MAX(running_no)" +
             " FROM salesorder" +

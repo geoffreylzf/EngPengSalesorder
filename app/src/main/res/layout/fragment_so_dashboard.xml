@@ -41,7 +41,7 @@
                 android:id="@+id/so_dashboard_fab_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="36dp"
+                android:layout_margin="32dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_refresh_white_24px"
@@ -72,17 +72,23 @@
             android:orientation="vertical">
 
             <android.support.design.chip.ChipGroup
+                android:id="@+id/so_dashboard_cg_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:layout_margin="16dp">
 
                 <android.support.design.chip.Chip
                     android:id="@+id/so_dashboard_cp_document_date"
                     style="@style/Widget.MaterialComponents.Chip.Action"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    app:chipBackgroundColor="@color/colorAccent" />
+                    android:layout_height="wrap_content"/>
+
+                <android.support.design.chip.Chip
+                    android:id="@+id/so_dashboard_cp_status"
+                    style="@style/Widget.MaterialComponents.Chip.Action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </android.support.design.chip.ChipGroup>
 
@@ -94,12 +100,11 @@
 
         </LinearLayout>
 
-
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/so_dashboard_fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="64dp"
+            android:layout_margin="32dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_baseline_edit_white_24px"

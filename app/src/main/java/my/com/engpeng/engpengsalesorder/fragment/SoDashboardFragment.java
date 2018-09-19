@@ -1,11 +1,13 @@
 package my.com.engpeng.engpengsalesorder.fragment;
 
+import android.animation.LayoutTransition;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.chip.Chip;
+import android.support.design.chip.ChipGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import android.view.animation.LayoutAnimationController;
 
 import java.util.List;
 
+import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
 import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
@@ -30,13 +33,12 @@ import my.com.engpeng.engpengsalesorder.adapter.SoDashboardSoAdapter;
 import my.com.engpeng.engpengsalesorder.animation.BackdropMenuAnimation;
 import my.com.engpeng.engpengsalesorder.animation.RevealAnimationSetting;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoDisplay;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoGroupByDateDisplay;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
-import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
-import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_YEAR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 
 public class SoDashboardFragment extends Fragment {
@@ -45,7 +47,8 @@ public class SoDashboardFragment extends Fragment {
 
     private RecyclerView rvDate, rvSo;
     private FloatingActionButton fabAdd, fabRefresh;
-    private Chip cpDocumentDate;
+    private Chip cpDocumentDate, cpStatus;
+    private ChipGroup cgFilter;
     private View rootView;
 
     private AppDatabase mDb;
@@ -53,6 +56,11 @@ public class SoDashboardFragment extends Fragment {
     private SoDashboardSoAdapter soAdapter;
 
     private boolean backdropShow = false;
+    private String currentFilterStatus;
+    private String currentFilterDocDate;
+
+    private String currentFilterDateType;
+    private String currentFilterDateTypeValue;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,15 +78,22 @@ public class SoDashboardFragment extends Fragment {
         fabAdd = rootView.findViewById(R.id.so_dashboard_fab_add);
         fabRefresh = rootView.findViewById(R.id.so_dashboard_fab_refresh);
         cpDocumentDate = rootView.findViewById(R.id.so_dashboard_cp_document_date);
+        cpStatus = rootView.findViewById(R.id.so_dashboard_cp_status);
+        cgFilter = rootView.findViewById(R.id.so_dashboard_cg_filter);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         getActivity().setTitle("Salesorder Dashboard");
         ((SalesorderActivity) getActivity()).setAppBarLayoutElevation(0);
 
         setupRecycleView();
-        retrieveDateList("MONTH", StringUtils.getCurrentYearMonth());
-        retrieveSoList(StringUtils.getCurrentDate());
         setupListener();
+
+        setupStatusFilter(Global.SO_STATUS_ALL);
+
+        retrieveDateList("MONTH", StringUtils.getCurrentYearMonth());
+
+        currentFilterDocDate = StringUtils.getCurrentDate();
+        retrieveSoList();
 
         return rootView;
     }
@@ -108,9 +123,42 @@ public class SoDashboardFragment extends Fragment {
         fabRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retrieveDateList("", "");
+                retrieveDateList(null, null);
             }
         });
+
+        cpStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currentFilterStatus.equals(Global.SO_STATUS_ALL)) {
+                    setupStatusFilter(Global.SO_STATUS_DRAFT);
+                    retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
+                    retrieveSoList();
+                } else if (currentFilterStatus.equals(Global.SO_STATUS_DRAFT)) {
+                    setupStatusFilter(Global.SO_STATUS_CONFIRM);
+                    retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
+                    retrieveSoList();
+                } else if (currentFilterStatus.equals(Global.SO_STATUS_CONFIRM)) {
+                    setupStatusFilter(Global.SO_STATUS_ALL);
+                    retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
+                    retrieveSoList();
+                }
+            }
+        });
+
+        cpDocumentDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                triggerBackdrop();
+            }
+        });
+
+        cgFilter.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+    }
+
+    private void setupStatusFilter(String status) {
+        currentFilterStatus = status;
+        cpStatus.setText(getString(R.string.status).concat(": ").concat(StringUtils.getDisplaySoStatus(status)));
     }
 
     private void setupRecycleView() {
@@ -120,7 +168,8 @@ public class SoDashboardFragment extends Fragment {
             public void onDateSelected(String dateType, String date) {
                 if (dateType.equals(DATE_TYPE_DAY)) {
                     triggerBackdrop();
-                    retrieveSoList(date);
+                    currentFilterDocDate = date;
+                    retrieveSoList();
                 } else {
                     retrieveDateList(dateType, date);
                 }
@@ -151,39 +200,29 @@ public class SoDashboardFragment extends Fragment {
     }
 
     private void retrieveDateList(String dateType, String date) {
-        if (dateType.equals("")) {
-            final LiveData<List<SoGroupByDateDisplay>> ld = mDb.salesorderDao().loadAllSoGroupByYearDisplay();
-            ld.observe(this, new Observer<List<SoGroupByDateDisplay>>() {
-                @Override
-                public void onChanged(List<SoGroupByDateDisplay> soGroupByDateDisplayList) {
-                    dateAdapter.setList(soGroupByDateDisplayList);
-                }
-            });
-        } else if (dateType.equals(DATE_TYPE_YEAR)) {
-            final LiveData<List<SoGroupByDateDisplay>> ld = mDb.salesorderDao().loadAllSoGroupByYearMonthDisplayByYear(date);
-            ld.observe(this, new Observer<List<SoGroupByDateDisplay>>() {
-                @Override
-                public void onChanged(List<SoGroupByDateDisplay> soGroupByDateDisplayList) {
-                    dateAdapter.setList(soGroupByDateDisplayList);
-                }
-            });
-        } else if (dateType.equals(DATE_TYPE_MONTH)) {
-            final LiveData<List<SoGroupByDateDisplay>> ld = mDb.salesorderDao().loadAllSoGroupByDateDisplay(date);
-            ld.observe(this, new Observer<List<SoGroupByDateDisplay>>() {
-                @Override
-                public void onChanged(List<SoGroupByDateDisplay> soGroupByDateDisplayList) {
-                    dateAdapter.setList(soGroupByDateDisplayList);
-                }
-            });
-        }
+        currentFilterDateType = dateType;
+        currentFilterDateTypeValue = date;
+        final LiveData<List<SoGroupByDateDisplay>> ld
+                = mDb.salesorderDao().
+                loadAllSoGroupViaQuery(
+                        SalesorderEntry.constructSoGroupQuery(dateType, date, currentFilterStatus)
+                );
+        ld.observe(this, new Observer<List<SoGroupByDateDisplay>>() {
+            @Override
+            public void onChanged(List<SoGroupByDateDisplay> soGroupByDateDisplayList) {
+                ld.removeObserver(this);
+                dateAdapter.setList(soGroupByDateDisplayList);
+            }
+        });
     }
 
-    private void retrieveSoList(String documentDate) {
-        cpDocumentDate.setText("Document Date: " + documentDate);
-        final LiveData<List<SoDisplay>> ld = mDb.salesorderDao().loadAllSoDisplayByDocumentDate(documentDate);
+    private void retrieveSoList() {
+        cpDocumentDate.setText(getString(R.string.short_document_date) + ": " + currentFilterDocDate);
+        final LiveData<List<SoDisplay>> ld = mDb.salesorderDao().loadAllSoDisplayViaQuery(SalesorderEntry.constructSoDisplayQuery(currentFilterDocDate, currentFilterStatus));
         ld.observe(this, new Observer<List<SoDisplay>>() {
             @Override
             public void onChanged(@Nullable List<SoDisplay> soDisplays) {
+                ld.removeObserver(this);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_from_bottom);
                 rvSo.setLayoutAnimation(controller);
                 soAdapter.setList(soDisplays);

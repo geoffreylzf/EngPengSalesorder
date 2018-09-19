@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
@@ -74,5 +75,16 @@ public class StringUtils {
             return BranchEntry.TABLE_DISPLAY_NAME;
         }
         return null;
+    }
+
+    public static String getDisplaySoStatus(String status) {
+        if (status.equals(Global.SO_STATUS_CONFIRM)) {
+            return "Confirm";
+        } else if (status.equals(Global.SO_STATUS_DRAFT)) {
+            return "Draft";
+        } else if (status.equals(Global.SO_STATUS_ALL)) {
+            return "All";
+        }
+        return "";
     }
 }

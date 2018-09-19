@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,28 +55,30 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             title = StringUtils.getDisplayRunningNo(title);
         }
 
-        soViewHolder.tvTitle.setText(title);
+        soViewHolder.tvTitle.setText(title + " (" + item.getCreateDatetime() + ")");
 
         soViewHolder.tvCustomer.setText(item.getCustomerCompanyName());
         soViewHolder.tvAddress.setText(item.getCustomerAddressName());
-        soViewHolder.tvLpo.setText(item.getLpo());
-        soViewHolder.tvRemark.setText(item.getRemark());
-        soViewHolder.tvCreateDate.setText(item.getCreateDatetime());
         soViewHolder.cpDeliveryDate.setText(item.getDeliveryDate());
         soViewHolder.cpCount.setText(String.valueOf(item.getCount()));
 
         if (item.getIsUpload() == 1) {
             soViewHolder.ivUpload.setVisibility(View.VISIBLE);
         } else {
-            soViewHolder.ivUpload.setVisibility(View.GONE);
+            //TODO soViewHolder.ivUpload.setVisibility(View.GONE);
         }
 
         if (item.getStatus().equals(SO_STATUS_DRAFT)) {
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_drafts_24px);
+            soViewHolder.btnAction.setText(context.getString(R.string.edit));
+            soViewHolder.btnDelete.setVisibility(View.VISIBLE);
         } else if (item.getStatus().equals(SO_STATUS_CONFIRM)) {
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_done_all_24px);
+            soViewHolder.btnAction.setText(context.getString(R.string.view));
+            soViewHolder.btnDelete.setVisibility(View.GONE);
         } else {
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_error_24px);
+            soViewHolder.btnDelete.setVisibility(View.GONE);
         }
 
         soViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -100,9 +103,10 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
     }
 
     class SoViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvCustomer, tvAddress, tvLpo, tvRemark, tvCreateDate;
+        TextView tvTitle, tvCustomer, tvAddress;
         Chip cpDeliveryDate, cpCount;
         ImageView ivIcon, ivUpload;
+        Button btnAction, btnDelete;
 
         public SoViewHolder(View view) {
             super(view);
@@ -110,12 +114,11 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             tvTitle = view.findViewById(R.id.li_tv_running_no);
             tvCustomer = view.findViewById(R.id.li_tv_customer);
             tvAddress = view.findViewById(R.id.li_tv_address);
-            tvLpo = view.findViewById(R.id.li_tv_lpo);
-            tvRemark = view.findViewById(R.id.li_tv_remark);
             cpDeliveryDate = view.findViewById(R.id.li_cp_delivery_date);
             cpCount = view.findViewById(R.id.li_cp_count);
             ivUpload = view.findViewById(R.id.li_iv_upload);
-            tvCreateDate = view.findViewById(R.id.li_tv_create_date);
+            btnAction = view.findViewById(R.id.li_btn_action);
+            btnDelete = view.findViewById(R.id.li_btn_delete);
         }
     }
 }

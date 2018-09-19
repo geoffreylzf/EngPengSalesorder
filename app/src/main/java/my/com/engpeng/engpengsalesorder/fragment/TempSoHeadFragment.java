@@ -18,6 +18,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.parceler.Parcels;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +38,7 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
+import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
@@ -50,6 +53,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 
 public class TempSoHeadFragment extends Fragment {
 
@@ -118,7 +122,7 @@ public class TempSoHeadFragment extends Fragment {
     private void setupBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            revealAnimationSetting = bundle.getParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS);
+            revealAnimationSetting = Parcels.unwrap(bundle.getParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS));
         }
     }
 
@@ -209,27 +213,20 @@ public class TempSoHeadFragment extends Fragment {
                     return;
                 }
 
-                /*Intent intent = new Intent(TempSalesorderHeadActivity.this, TempSalesorderSummaryActivity.class);
-                intent.putExtra(I_KEY_COMPANY_ID, getCompanyIdFromSpinner());
-                intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
-                intent.putExtra(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
-                intent.putExtra(I_KEY_DOCUMENT_DATE, documentDate);
-                intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
-                intent.putExtra(I_KEY_LPO, etLpo.getText().toString());
-                intent.putExtra(I_KEY_REMARK, etRemark.getText().toString());
-                startActivity(intent);*/
-
                 UiUtils.hideKeyboard(getActivity());
+
+                SalesorderEntry salesorderEntry = new SalesorderEntry();
+                salesorderEntry.setCompanyId(getCompanyIdFromSpinner());
+                salesorderEntry.setCustomerCompanyId(customerCompanyId);
+                salesorderEntry.setCustomerAddressId(customerAddressId);
+                salesorderEntry.setDocumentDate(documentDate);
+                salesorderEntry.setDeliveryDate(deliveryDate);
+                salesorderEntry.setLpo(etLpo.getText().toString());
+                salesorderEntry.setRemark(etRemark.getText().toString());
 
                 TempSoCartFragment tempSoCartFragment = new TempSoCartFragment();
                 Bundle bundle = new Bundle();
-                bundle.putLong(I_KEY_COMPANY_ID, getCompanyIdFromSpinner());
-                bundle.putLong(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
-                bundle.putLong(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
-                bundle.putString(I_KEY_DOCUMENT_DATE, documentDate);
-                bundle.putString(I_KEY_DELIVERY_DATE, deliveryDate);
-                bundle.putString(I_KEY_LPO, etLpo.getText().toString());
-                bundle.putString(I_KEY_REMARK, etRemark.getText().toString());
+                bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
                 tempSoCartFragment.setArguments(bundle);
 
                 ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);

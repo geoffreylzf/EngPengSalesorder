@@ -45,6 +45,8 @@ public class Global {
     public static final String I_KEY_LPO = "I_KEY_LPO";
     public static final String I_KEY_REMARK = "I_KEY_REMARK";
 
+    public static final String I_KEY_SALESORDER_ENTRY = "I_KEY_SALESORDER_ENTRY";
+
     public static final String I_KEY_PRICE_GROUP_ID = "I_KEY_PRICE_GROUP_ID";
     public static final String I_KEY_PRICE_BY_WEIGHT = "I_KEY_DELIVERY_DATE";
     public static final String I_KEY_FACTOR = "I_KEY_FACTOR";
@@ -71,6 +73,7 @@ public class Global {
     public static final String DATE_TYPE_DAY = "DAY";
 
     public static final String RUNNING_CODE_SALESORDER = "S";
+    public static final String SALESORDER_YEARMONTH_FORMAT = "yyyyMM";
 
     public enum PriceMethod {
         STANDARD, CUSTOMER, SELF

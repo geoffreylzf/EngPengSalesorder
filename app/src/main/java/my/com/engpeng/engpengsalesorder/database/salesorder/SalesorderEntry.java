@@ -6,11 +6,14 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.parceler.Parcel;
+
 import my.com.engpeng.engpengsalesorder.Global;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_YEAR;
 
+@Parcel
 @Entity(tableName = SalesorderEntry.TABLE_NAME)
 public class SalesorderEntry {
     @Ignore
@@ -60,6 +63,11 @@ public class SalesorderEntry {
         this.isUpload = isUpload;
         this.createDatetime = createDatetime;
         this.modifyDatetime = modifyDatetime;
+    }
+
+    @Ignore
+    public SalesorderEntry() {
+
     }
 
     @Ignore

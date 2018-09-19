@@ -22,6 +22,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.Global;
@@ -112,7 +114,7 @@ public class SoDashboardFragment extends Fragment {
 
                 TempSoHeadFragment tempSoHeadFragment = new TempSoHeadFragment();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, revealAnimationSetting);
+                bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, Parcels.wrap(revealAnimationSetting));
                 tempSoHeadFragment.setArguments(bundle);
 
                 ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true);

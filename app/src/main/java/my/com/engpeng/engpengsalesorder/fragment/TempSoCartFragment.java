@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.tubb.smrv.SwipeMenuRecyclerView;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.Global;
@@ -30,9 +32,12 @@ import my.com.engpeng.engpengsalesorder.activity.ItemSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
 import my.com.engpeng.engpengsalesorder.adapter.TempSoCartAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
+import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
+import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
@@ -41,6 +46,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 
 public class TempSoCartFragment extends Fragment {
 
@@ -54,13 +60,7 @@ public class TempSoCartFragment extends Fragment {
     private TempSoCartAdapter adapter;
 
     //receive from bundle
-    private Long companyId;
-    private Long customerCompanyId;
-    private Long customerAddressId;
-    private String documentDate;
-    private String deliveryDate;
-    private String lpo;
-    private String remark;
+    private SalesorderEntry salesorderEntry;
 
     //for delete item
     private boolean isDeleting = false;
@@ -98,7 +98,7 @@ public class TempSoCartFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(allowRefresh){
+        if (allowRefresh) {
             allowRefresh = false;
 
             FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -109,13 +109,7 @@ public class TempSoCartFragment extends Fragment {
 
             TempSoCartFragment tempSoCartFragment = new TempSoCartFragment();
             Bundle bundle = new Bundle();
-            bundle.putLong(I_KEY_COMPANY_ID, companyId);
-            bundle.putLong(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
-            bundle.putLong(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
-            bundle.putString(I_KEY_DOCUMENT_DATE, documentDate);
-            bundle.putString(I_KEY_DELIVERY_DATE, deliveryDate);
-            bundle.putString(I_KEY_LPO, lpo);
-            bundle.putString(I_KEY_REMARK, remark);
+            bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
             tempSoCartFragment.setArguments(bundle);
             ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);
         }
@@ -124,13 +118,7 @@ public class TempSoCartFragment extends Fragment {
     private void setupBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            companyId = bundle.getLong(I_KEY_COMPANY_ID, 0);
-            customerCompanyId = bundle.getLong(I_KEY_CUSTOMER_COMPANY_ID, 0);
-            customerAddressId = bundle.getLong(I_KEY_CUSTOMER_ADDRESS_ID, 0);
-            documentDate = bundle.getString(I_KEY_DOCUMENT_DATE);
-            deliveryDate = bundle.getString(I_KEY_DELIVERY_DATE);
-            lpo = bundle.getString(I_KEY_LPO);
-            remark = bundle.getString(I_KEY_REMARK);
+            salesorderEntry = Parcels.unwrap(bundle.getParcelable(I_KEY_SALESORDER_ENTRY));
         }
     }
 
@@ -186,9 +174,9 @@ public class TempSoCartFragment extends Fragment {
         cc.observe(this, new Observer<Double>() {
             @Override
             public void onChanged(@Nullable Double d) {
-                if(d == null){
+                if (d == null) {
                     tvTotalPrice.setText(StringUtils.getDisplayPrice(0));
-                }else{
+                } else {
                     tvTotalPrice.setText(StringUtils.getDisplayPrice(d));
                 }
             }
@@ -206,8 +194,8 @@ public class TempSoCartFragment extends Fragment {
 
     private void callItemSelection() {
         Intent intent = new Intent(getActivity(), ItemSelectionActivity.class);
-        intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
-        intent.putExtra(I_KEY_DELIVERY_DATE, deliveryDate);
+        intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, salesorderEntry.getCustomerCompanyId());
+        intent.putExtra(I_KEY_DELIVERY_DATE, salesorderEntry.getDeliveryDate());
         startActivity(intent);
     }
 
@@ -224,17 +212,28 @@ public class TempSoCartFragment extends Fragment {
 
             allowRefresh = true;
 
-            TempSoConfirmFragment tempSoConfirmFragment = new TempSoConfirmFragment();
-            Bundle bundle = new Bundle();
-            bundle.putLong(I_KEY_COMPANY_ID, companyId);
-            bundle.putLong(I_KEY_CUSTOMER_COMPANY_ID, customerCompanyId);
-            bundle.putLong(I_KEY_CUSTOMER_ADDRESS_ID, customerAddressId);
-            bundle.putString(I_KEY_DOCUMENT_DATE, documentDate);
-            bundle.putString(I_KEY_DELIVERY_DATE, deliveryDate);
-            bundle.putString(I_KEY_LPO, lpo);
-            bundle.putString(I_KEY_REMARK, remark);
-            tempSoConfirmFragment.setArguments(bundle);
-            ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true);
+            final LiveData<List<TempSalesorderDetailEntry>> ld = mDb.tempSalesorderDetailDao().loadAllTempSalesorderDetails();
+            ld.observe(this, new Observer<List<TempSalesorderDetailEntry>>() {
+                @Override
+                public void onChanged(@Nullable List<TempSalesorderDetailEntry> tempSalesorderDetailEntries) {
+                    ld.removeObserver(this);
+
+                    if(tempSalesorderDetailEntries.size() != 0){
+                        TempSoConfirmFragment tempSoConfirmFragment = new TempSoConfirmFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
+                        tempSoConfirmFragment.setArguments(bundle);
+                        ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true);
+
+                    }else{
+                        UiUtils.showAlertDialog(getFragmentManager(),
+                                "Error",
+                                getString(R.string.dialog_error_msg_so_no_item));
+                    }
+                }
+            });
+
+
 
             return true;
         }

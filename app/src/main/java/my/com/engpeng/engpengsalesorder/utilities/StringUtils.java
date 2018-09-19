@@ -2,6 +2,7 @@ package my.com.engpeng.engpengsalesorder.utilities;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +17,7 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATETIME_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
+import static my.com.engpeng.engpengsalesorder.Global.SALESORDER_YEARMONTH_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.YEARMONTH_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.YEAR_SAVE_FORMAT;
 
@@ -48,6 +50,16 @@ public class StringUtils {
         DateFormat df = new SimpleDateFormat(YEAR_SAVE_FORMAT, Locale.US);
         Date currentTime = Calendar.getInstance().getTime();
         return df.format(currentTime);
+    }
+
+    public static String getSoYearMonthFormat(String documentDate){
+        SimpleDateFormat sdfOld = new SimpleDateFormat(DATE_SAVE_FORMAT, Locale.US);
+        SimpleDateFormat sdfNew = new SimpleDateFormat(SALESORDER_YEARMONTH_FORMAT, Locale.US);
+        try{
+            return sdfNew.format(sdfOld.parse(documentDate).getTime());
+        }catch (ParseException e) {
+            return  documentDate;
+        }
     }
 
     public static String getDisplayPrice(double price) {

@@ -34,6 +34,9 @@ dependencies {
 
     implementation 'com.tubb.smrv:swipemenu-recyclerview:5.4.7'
 
+    implementation 'org.parceler:parceler-api:1.1.11'
+    annotationProcessor 'org.parceler:parceler:1.1.11'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -48,6 +50,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
@@ -66,13 +69,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     private TempSoConfirmAdapter adapter;
 
     //receive from bundle
-    private Long companyId;
-    private Long customerCompanyId;
-    private Long customerAddressId;
-    private String documentDate;
-    private String deliveryDate;
-    private String lpo;
-    private String remark;
+    private SalesorderEntry salesorderEntry;
 
     private String status;
     private String runningNo;
@@ -115,17 +112,13 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     private void setupBundle() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            companyId = bundle.getLong(I_KEY_COMPANY_ID, 0);
-            customerCompanyId = bundle.getLong(I_KEY_CUSTOMER_COMPANY_ID, 0);
-            customerAddressId = bundle.getLong(I_KEY_CUSTOMER_ADDRESS_ID, 0);
-            documentDate = bundle.getString(I_KEY_DOCUMENT_DATE);
-            deliveryDate = bundle.getString(I_KEY_DELIVERY_DATE);
-            lpo = bundle.getString(I_KEY_LPO);
-            remark = bundle.getString(I_KEY_REMARK);
+            salesorderEntry = Parcels.unwrap(bundle.getParcelable(I_KEY_SALESORDER_ENTRY));
         }
     }
 
     private void setupHeadInfo() {
+        String lpo = salesorderEntry.getLpo();
+        String remark = salesorderEntry.getRemark();
         etLpo.setText(lpo.equals("") ? " " : lpo);
         etRemark.setText(remark.equals("") ? " " : remark);
 
@@ -134,16 +127,16 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
         retrieveAddress();
 
         try {
-            etDocumentDate.setText(sdfDisplay.format(sdfSave.parse(documentDate).getTime()));
-            etDeliveryDate.setText(sdfDisplay.format(sdfSave.parse(deliveryDate).getTime()));
+            etDocumentDate.setText(sdfDisplay.format(sdfSave.parse(salesorderEntry.getDocumentDate()).getTime()));
+            etDeliveryDate.setText(sdfDisplay.format(sdfSave.parse(salesorderEntry.getDeliveryDate()).getTime()));
         } catch (ParseException e) {
-            etDocumentDate.setText(documentDate);
-            etDeliveryDate.setText(deliveryDate);
+            etDocumentDate.setText(salesorderEntry.getDocumentDate());
+            etDeliveryDate.setText(salesorderEntry.getDeliveryDate());
         }
     }
 
     private void retrieveBranch() {
-        final LiveData<BranchEntry> cc = mDb.branchDao().loadLiveBranchById(companyId);
+        final LiveData<BranchEntry> cc = mDb.branchDao().loadLiveBranchById(salesorderEntry.getCompanyId());
         cc.observe(this, new Observer<BranchEntry>() {
             @Override
             public void onChanged(@Nullable BranchEntry branchEntry) {
@@ -154,7 +147,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     }
 
     private void retrieveCustomer() {
-        final LiveData<CustomerCompanyEntry> cc = mDb.customerCompanyDao().loadLiveCustomerCompanyById(customerCompanyId);
+        final LiveData<CustomerCompanyEntry> cc = mDb.customerCompanyDao().loadLiveCustomerCompanyById(salesorderEntry.getCustomerCompanyId());
         cc.observe(this, new Observer<CustomerCompanyEntry>() {
             @Override
             public void onChanged(@Nullable CustomerCompanyEntry customerCompanyEntry) {
@@ -165,7 +158,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     }
 
     private void retrieveAddress() {
-        final LiveData<CustomerCompanyAddressEntry> cca = mDb.customerCompanyAddressDao().loadLiveCustomerCompanyAddressById(customerAddressId);
+        final LiveData<CustomerCompanyAddressEntry> cca = mDb.customerCompanyAddressDao().loadLiveCustomerCompanyAddressById(salesorderEntry.getCustomerAddressId());
         cca.observe(this, new Observer<CustomerCompanyAddressEntry>() {
             @Override
             public void onChanged(@Nullable CustomerCompanyAddressEntry customerCompanyAddressEntry) {
@@ -234,7 +227,7 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     }
 
     private void saveSo(String newRunningNo) {
-        final SalesorderEntry salesorderEntry =
+        /*final SalesorderEntry salesorderEntry =
                 new SalesorderEntry(companyId,
                         customerCompanyId,
                         customerAddressId,
@@ -246,7 +239,13 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
                         newRunningNo,
                         0,
                         StringUtils.getCurrentDateTime(),
-                        StringUtils.getCurrentDateTime());
+                        StringUtils.getCurrentDateTime());*/
+
+        salesorderEntry.setStatus(status);
+        salesorderEntry.setRunningNo(newRunningNo);
+        salesorderEntry.setIsUpload(0);
+        salesorderEntry.setCreateDatetime(StringUtils.getCurrentDateTime());
+        salesorderEntry.setModifyDatetime(StringUtils.getCurrentDateTime());
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -276,17 +275,25 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     private void initSaveSO() {
         if (tempSalesorderDetailEntries.size() != 0) {
             if (status.equals(SO_STATUS_DRAFT)) {
-                UiUtils.showConfirmDialog(getFragmentManager(), this, "Are you sure to save as draft?", "Upload is not allowed in draft", "Save as draft");
+                UiUtils.showConfirmDialog(getFragmentManager(), this,
+                        getString(R.string.dialog_title_so_draft),
+                        getString(R.string.dialog_msg_so_draft),
+                        getString(R.string.dialog_btn_positive_so_draft));
             } else if (status.equals(SO_STATUS_CONFIRM)) {
-                UiUtils.showConfirmDialog(getFragmentManager(), this, "Are you sure to confirm?", "Edit is not allowed after confirm.", "Confirm");
+                UiUtils.showConfirmDialog(getFragmentManager(), this,
+                        getString(R.string.dialog_title_so_confirm),
+                        getString(R.string.dialog_msg_so_confirm),
+                        getString(R.string.dialog_btn_positive_so_confirm));
             }
         } else {
-            UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please add atleast 1 item to save.");
+            UiUtils.showAlertDialog(getFragmentManager(),
+                    "Error",
+                    getString(R.string.dialog_error_msg_so_no_item));
         }
     }
 
     private void constructRunningNo() {
-        final String prefix = sUsername + "-" + StringUtils.getCurrentYear() + "-" + Global.RUNNING_CODE_SALESORDER;
+        final String prefix = sUsername + "-" + StringUtils.getSoYearMonthFormat(salesorderEntry.getDocumentDate()) + "-" + Global.RUNNING_CODE_SALESORDER;
         final String defaultRunningNo = prefix + "-1";
 
         final LiveData<String> ld = mDb.salesorderDao().getLastRunningNoByPrefix(prefix + "%");
@@ -301,7 +308,6 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
                     int newNo = Integer.parseInt(arr[3]) + 1;
                     runningNo = prefix + "-" + newNo;
                 }
-                Log.e("runningNo", runningNo);
             }
         });
     }

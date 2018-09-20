@@ -12,9 +12,12 @@ public class ConfirmDialogFragment extends DialogFragment{
     private static final String B_KEY_TITLE = "B_KEY_TITLE";
     private static final String B_KEY_MESSAGE = "B_KEY_MESSAGE";
     private static final String B_KEY_POSITIVE_TEXT = "B_KEY_POSITIVE_TEXT";
+    private ConfirmDialogFragmentListener cdfListener;
 
-    public static ConfirmDialogFragment newInstance(String title, String message, String positiveText) {
+    public static ConfirmDialogFragment newInstance(String title, String message, String positiveText, ConfirmDialogFragmentListener cdfListener) {
         ConfirmDialogFragment frag = new ConfirmDialogFragment();
+        frag.setListener(cdfListener);
+
         Bundle args = new Bundle();
         args.putString(B_KEY_TITLE, title);
         args.putString(B_KEY_MESSAGE, message);
@@ -25,6 +28,10 @@ public class ConfirmDialogFragment extends DialogFragment{
 
     public interface ConfirmDialogFragmentListener{
         void onPositiveButtonClicked();
+    }
+
+    public void setListener(ConfirmDialogFragmentListener cdfListener){
+        this.cdfListener = cdfListener;
     }
 
     @NonNull
@@ -40,7 +47,7 @@ public class ConfirmDialogFragment extends DialogFragment{
                 .setPositiveButton(positiveText,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                ((ConfirmDialogFragmentListener)getTargetFragment()).onPositiveButtonClicked();
+                                cdfListener.onPositiveButtonClicked();
                             }
                         }
                 ).setNegativeButton("CANCEL",

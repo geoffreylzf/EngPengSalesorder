@@ -1,6 +1,7 @@
 package my.com.engpeng.engpengsalesorder.utilities;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -11,12 +12,16 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.fragment.AlertDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.DatePickerDialogFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.ALERT_DIALOG_TAG;
 import static my.com.engpeng.engpengsalesorder.Global.CONFIRM_DIALOG_TAG;
+import static my.com.engpeng.engpengsalesorder.Global.DATE_PICKER_DIALOG_TAG;
 import static my.com.engpeng.engpengsalesorder.Global.RC_CONFIRM_DIALOG_ID;
 
 public class UiUtils {
@@ -31,15 +36,23 @@ public class UiUtils {
         return progressDialog;
     }
 
-    public static void showConfirmDialog(FragmentManager fragmentManager, Fragment fragment, String title, String msg, String positiveText) {
-        ConfirmDialogFragment confirmDialogFragment = ConfirmDialogFragment.newInstance(title, msg, positiveText);
-        confirmDialogFragment.setTargetFragment(fragment, RC_CONFIRM_DIALOG_ID);
+    public static void showConfirmDialog(FragmentManager fragmentManager,
+                                         String title,
+                                         String msg,
+                                         String positiveText,
+                                         ConfirmDialogFragment.ConfirmDialogFragmentListener cdfListener) {
+        ConfirmDialogFragment confirmDialogFragment = ConfirmDialogFragment.newInstance(title, msg, positiveText, cdfListener);
         confirmDialogFragment.show(fragmentManager, CONFIRM_DIALOG_TAG);
     }
 
     public static void showAlertDialog(FragmentManager fragmentManager, String title, String msg) {
         AlertDialogFragment alertDialogFragment = AlertDialogFragment.newInstance(title, msg);
         alertDialogFragment.show(fragmentManager, ALERT_DIALOG_TAG);
+    }
+
+    public static void showDatePickerDialog(FragmentManager fragmentManager, Calendar calendar, DatePickerDialog.OnDateSetListener listener){
+        DatePickerDialogFragment datePickerDialogFragment  = DatePickerDialogFragment.newInstance(calendar, listener);
+        datePickerDialogFragment.show(fragmentManager, DATE_PICKER_DIALOG_TAG);
     }
 
     public static void showToastMessage(Context context, String message) {

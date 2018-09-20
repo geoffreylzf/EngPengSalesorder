@@ -62,7 +62,7 @@ public class TempSoHeadFragment extends Fragment {
     private View rootView;
     private TextView tvNote;
 
-    private Calendar calendar;
+    private Calendar calendarDocumentDate, calendarDeliveryDate;
     private SimpleDateFormat sdfSave, sdfDisplay;
 
     private static final int RC_SELECT_CUSTOMER = 9001;
@@ -97,12 +97,13 @@ public class TempSoHeadFragment extends Fragment {
         tvNote = rootView.findViewById(R.id.temp_so_head_tv_note);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
-        calendar = Calendar.getInstance();
+        calendarDocumentDate = Calendar.getInstance();
+        calendarDeliveryDate = Calendar.getInstance();
         sdfDisplay = new SimpleDateFormat(DATE_DISPLAY_FORMAT, Locale.US);
         sdfSave = new SimpleDateFormat(DATE_SAVE_FORMAT, Locale.US);
 
-        etDocumentDate.setText(sdfDisplay.format(calendar.getTime()));
-        documentDate = sdfSave.format(calendar.getTime());
+        etDocumentDate.setText(sdfDisplay.format(calendarDocumentDate.getTime()));
+        documentDate = sdfSave.format(calendarDocumentDate.getTime());
 
         setupBundle();
         setupSpinner();
@@ -187,37 +188,33 @@ public class TempSoHeadFragment extends Fragment {
         etDocumentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.set(Calendar.MONTH, monthOfYear);
-                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                etDocumentDate.setText(sdfDisplay.format(calendar.getTime()));
-                                documentDate = sdfSave.format(calendar.getTime());
-                            }
-                        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                dpd.show();
+                UiUtils.showDatePickerDialog(getFragmentManager(), calendarDocumentDate, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        calendarDocumentDate.set(Calendar.YEAR, year);
+                        calendarDocumentDate.set(Calendar.MONTH, monthOfYear);
+                        calendarDocumentDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        etDocumentDate.setText(sdfDisplay.format(calendarDocumentDate.getTime()));
+                        documentDate = sdfSave.format(calendarDocumentDate.getTime());
+                    }
+                });
             }
         });
 
         etDeliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dpd = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.set(Calendar.MONTH, monthOfYear);
-                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                etDeliveryDate.setText(sdfDisplay.format(calendar.getTime()));
-                                deliveryDate = sdfSave.format(calendar.getTime());
-                                clearTempSoDetailEntry();
-                            }
-                        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                dpd.show();
+                UiUtils.showDatePickerDialog(getFragmentManager(), calendarDocumentDate, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        calendarDeliveryDate.set(Calendar.YEAR, year);
+                        calendarDeliveryDate.set(Calendar.MONTH, monthOfYear);
+                        calendarDeliveryDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        etDeliveryDate.setText(sdfDisplay.format(calendarDeliveryDate.getTime()));
+                        deliveryDate = sdfSave.format(calendarDeliveryDate.getTime());
+                        clearTempSoDetailEntry();
+                    }
+                });
             }
         });
 

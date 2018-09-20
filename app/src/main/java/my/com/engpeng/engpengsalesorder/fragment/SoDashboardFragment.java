@@ -192,6 +192,11 @@ public class SoDashboardFragment extends Fragment {
             public void onSoActionBtnClicked(long salesorderId) {
                 openEditOrView(salesorderId);
             }
+
+            @Override
+            public void onSoDeleteBtnClicked(long salesorderId) {
+                //TODO delete this SO and refresh RV
+            }
         });
         rvSo.setAdapter(soAdapter);
 

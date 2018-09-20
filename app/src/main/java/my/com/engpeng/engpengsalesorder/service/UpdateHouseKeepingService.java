@@ -133,7 +133,7 @@ public class UpdateHouseKeepingService extends Service implements
 
     private void startNotificationProgress(String table) {
 
-        String content_text = "Downloading " + StringUtils.getTableDisplayName(table) + " from server...";
+        String content_text = "Reading " + StringUtils.getTableDisplayName(table) + " data from server...";
         notificationBuilder.setContentText(content_text)
                 .setProgress(PROGRESS_MAX, PROGRESS_MIN, false);
         notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_ID, notificationBuilder.build());

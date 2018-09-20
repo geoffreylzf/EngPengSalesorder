@@ -48,7 +48,7 @@ import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
-public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFragment.ConfirmDialogFragmentListener {
+public class TempSoConfirmFragment extends Fragment {
 
     public static final String tag = "TEMP_SO_CONFIRM_FRAGMENT";
 
@@ -273,15 +273,27 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
     private void initSaveSO() {
         if (tempSalesorderDetailEntries.size() != 0) {
             if (status.equals(SO_STATUS_DRAFT)) {
-                UiUtils.showConfirmDialog(getFragmentManager(), this,
+                UiUtils.showConfirmDialog(getFragmentManager(),
                         getString(R.string.dialog_title_so_draft),
                         getString(R.string.dialog_msg_so_draft),
-                        getString(R.string.dialog_btn_positive_so_draft));
+                        getString(R.string.dialog_btn_positive_so_draft),
+                        new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                saveSo(null);
+                            }
+                        });
             } else if (status.equals(SO_STATUS_CONFIRM)) {
-                UiUtils.showConfirmDialog(getFragmentManager(), this,
+                UiUtils.showConfirmDialog(getFragmentManager(),
                         getString(R.string.dialog_title_so_confirm),
                         getString(R.string.dialog_msg_so_confirm),
-                        getString(R.string.dialog_btn_positive_so_confirm));
+                        getString(R.string.dialog_btn_positive_so_confirm),
+                        new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                saveSo(runningNo);
+                            }
+                        });
             }
         } else {
             UiUtils.showAlertDialog(getFragmentManager(),
@@ -309,17 +321,4 @@ public class TempSoConfirmFragment extends Fragment implements ConfirmDialogFrag
             }
         });
     }
-
-    @Override
-    public void onPositiveButtonClicked() {
-        if (status.equals(SO_STATUS_DRAFT)) {
-            saveSo(null);
-        } else if (status.equals(SO_STATUS_CONFIRM)) {
-            saveSo(runningNo);
-        } else {
-            UiUtils.showAlertDialog(getFragmentManager(), "Error", getString(R.string.msg_unexpected_error));
-        }
-    }
-
-
 }

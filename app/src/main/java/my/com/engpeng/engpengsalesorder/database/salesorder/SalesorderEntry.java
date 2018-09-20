@@ -43,7 +43,7 @@ public class SalesorderEntry {
     @ColumnInfo(name = "create_datetime")
     public String createDatetime;
     @ColumnInfo(name = "modify_datetime")
-    private String modifyDatetime;
+    public String modifyDatetime;
 
     public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
                            String documentDate, String deliveryDate,

@@ -3,6 +3,7 @@ package my.com.engpeng.engpengsalesorder.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.chip.Chip;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,8 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
 
     public interface SoDashboardSoAdapterListener {
         void onSoActionBtnClicked(long salesorderId);
+
+        void onSoDeleteBtnClicked(long salesorderId);
     }
 
     public SoDashboardSoAdapter(Context context, SoDashboardSoAdapterListener sdsaListener) {
@@ -58,7 +61,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
         //TODO clear create and modify date
         soViewHolder.tvTitle.setText(title + " (" + item.getCreateDatetime() + ")");
         soViewHolder.tvCustomer.setText(item.getCustomerCompanyName());
-        soViewHolder.tvAddress.setText(item.getCustomerAddressName()+ " (" + item.getModifyDatetime() + ")");
+        soViewHolder.tvAddress.setText(item.getCustomerAddressName() + " (" + item.getModifyDatetime() + ")");
         soViewHolder.cpDeliveryDate.setText(item.getDeliveryDate());
         soViewHolder.cpCount.setText(String.valueOf(item.getCount()));
 
@@ -69,14 +72,17 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
         }
 
         if (item.getStatus().equals(SO_STATUS_DRAFT)) {
+            soViewHolder.cv.setBackground(context.getDrawable(R.color.colorLime50));
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_drafts_24px);
             soViewHolder.btnAction.setText(context.getString(R.string.edit));
             soViewHolder.btnDelete.setVisibility(View.VISIBLE);
         } else if (item.getStatus().equals(SO_STATUS_CONFIRM)) {
+            soViewHolder.cv.setBackground(context.getDrawable(R.color.colorBackground));
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_done_all_24px);
             soViewHolder.btnAction.setText(context.getString(R.string.view));
             soViewHolder.btnDelete.setVisibility(View.GONE);
         } else {
+            soViewHolder.cv.setBackground(context.getDrawable(R.color.colorRed800));
             soViewHolder.ivIcon.setImageResource(R.drawable.ic_baseline_error_24px);
             soViewHolder.btnDelete.setVisibility(View.GONE);
         }
@@ -85,6 +91,13 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             @Override
             public void onClick(View view) {
                 sdsaListener.onSoActionBtnClicked(item.getId());
+            }
+        });
+
+        soViewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sdsaListener.onSoDeleteBtnClicked(item.getId());
             }
         });
     }
@@ -107,9 +120,11 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
         Chip cpDeliveryDate, cpCount;
         ImageView ivIcon, ivUpload;
         Button btnAction, btnDelete;
+        CardView cv;
 
         public SoViewHolder(View view) {
             super(view);
+            cv = view.findViewById(R.id.li_cv);
             ivIcon = view.findViewById(R.id.li_iv_icon);
             tvTitle = view.findViewById(R.id.li_tv_running_no);
             tvCustomer = view.findViewById(R.id.li_tv_customer);

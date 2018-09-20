@@ -62,6 +62,7 @@ public class Global {
     //DIALOG TAG
     public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
     public static final String CONFIRM_DIALOG_TAG = "CONFIRM_DIALOG_TAG";
+    public static final String DATE_PICKER_DIALOG_TAG = "DATE_PICKER_DIALOG_TAG";
 
     //Salesorder Status
     public static final String SO_STATUS_DRAFT = "DRAFT";

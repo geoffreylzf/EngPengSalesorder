@@ -30,7 +30,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
     public interface SoDashboardSoAdapterListener {
         void onSoActionBtnClicked(long salesorderId);
 
-        void onSoDeleteBtnClicked(long salesorderId);
+        void onSoDeleteBtnClicked(long salesorderId, int deletePosition);
     }
 
     public SoDashboardSoAdapter(Context context, SoDashboardSoAdapterListener sdsaListener) {
@@ -47,7 +47,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SoViewHolder soViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final SoViewHolder soViewHolder, int i) {
         final SoDisplay item = soDisplayList.get(i);
         String title = item.getRunningNo();
         if (item.getRunningNo() == null) {
@@ -97,7 +97,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
         soViewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sdsaListener.onSoDeleteBtnClicked(item.getId());
+                sdsaListener.onSoDeleteBtnClicked(item.getId(), soViewHolder.getAdapterPosition());
             }
         });
     }
@@ -113,6 +113,12 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
     public void setList(List<SoDisplay> soDisplayList) {
         this.soDisplayList = soDisplayList;
         notifyDataSetChanged();
+    }
+
+    public void setListAfterDelete(List<SoDisplay> soDisplayList, int position) {
+        this.soDisplayList = soDisplayList;
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(0, soDisplayList.size());
     }
 
     class SoViewHolder extends RecyclerView.ViewHolder {

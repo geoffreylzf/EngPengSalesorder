@@ -162,12 +162,11 @@ public class TempSoCartFragment extends Fragment {
         cc.observe(this, new Observer<List<TempSalesorderDetailDisplay>>() {
             @Override
             public void onChanged(@Nullable List<TempSalesorderDetailDisplay> details) {
+                rv.reset(); //reset swiped item
                 if (isDeleting) {
-                    rv.reset();
                     adapter.setListAfterDelete(details, deletePosition);
                     isDeleting = false;
                 } else {
-                    rv.reset();
                     adapter.setList(details);
                 }
             }
@@ -237,8 +236,6 @@ public class TempSoCartFragment extends Fragment {
                     }
                 }
             });
-
-
 
             return true;
         }

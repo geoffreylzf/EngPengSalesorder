@@ -46,4 +46,7 @@ public interface SalesorderDao {
             " FROM salesorder" +
             " WHERE running_no LIKE :prefix")
     LiveData<String> getLastRunningNoByPrefix(String prefix);
+
+    @Query("DELETE FROM salesorder WHERE id = :id")
+    void deleteById(Long id);
 }

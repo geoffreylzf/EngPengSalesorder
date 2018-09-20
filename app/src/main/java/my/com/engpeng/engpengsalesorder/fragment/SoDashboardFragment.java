@@ -43,6 +43,7 @@ import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDeta
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
+import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
@@ -70,6 +71,10 @@ public class SoDashboardFragment extends Fragment {
 
     private String currentFilterDateType;
     private String currentFilterDateTypeValue;
+
+    //for delete item
+    private boolean isDeleting = false;
+    private int deletePosition;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -194,8 +199,9 @@ public class SoDashboardFragment extends Fragment {
             }
 
             @Override
-            public void onSoDeleteBtnClicked(long salesorderId) {
-                //TODO delete this SO and refresh RV
+            public void onSoDeleteBtnClicked(long salesorderId, int deletePosition) {
+                SoDashboardFragment.this.deletePosition = deletePosition;
+                deleteSalesorder(salesorderId);
             }
         });
         rvSo.setAdapter(soAdapter);
@@ -236,11 +242,15 @@ public class SoDashboardFragment extends Fragment {
         ld.observe(this, new Observer<List<SoDisplay>>() {
             @Override
             public void onChanged(@Nullable List<SoDisplay> soDisplays) {
-                ld.removeObserver(this);
-                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_from_bottom);
-                rvSo.setLayoutAnimation(controller);
-                soAdapter.setList(soDisplays);
-                rvSo.scheduleLayoutAnimation();
+                if (isDeleting) {
+                    rvSo.setLayoutAnimation(null);
+                    soAdapter.setListAfterDelete(soDisplays, deletePosition);
+                    isDeleting = false;
+                } else {
+                    LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
+                    rvSo.setLayoutAnimation(controller);
+                    soAdapter.setList(soDisplays);
+                }
             }
         });
     }
@@ -316,5 +326,25 @@ public class SoDashboardFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void deleteSalesorder(final Long salesorderId) {
+        UiUtils.showConfirmDialog(getFragmentManager(),
+                getString(R.string.dialog_title_so_draft),
+                getString(R.string.dialog_msg_so_draft),
+                getString(R.string.dialog_btn_positive_so_draft),
+                new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                    @Override
+                    public void onPositiveButtonClicked() {
+                        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                isDeleting = true;
+                                mDb.salesorderDetailDao().deleteAllBySalesorderId(salesorderId);
+                                mDb.salesorderDao().deleteById(salesorderId);
+                            }
+                        });
+                    }
+                });
     }
 }

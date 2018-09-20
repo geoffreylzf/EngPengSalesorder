@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 
 public class AlertDialogFragment extends DialogFragment {
 
+    public static final String tag = "ALERT_DIALOG_FRAGMENT";
     private static final String B_KEY_TITLE = "B_KEY_TITLE";
     private static final String B_KEY_MESSAGE = "B_KEY_MESSAGE";
 

@@ -9,6 +9,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 public class ConfirmDialogFragment extends DialogFragment{
+
+    public static final String tag = "CONFIRM_DIALOG_FRAGMENT";
+
     private static final String B_KEY_TITLE = "B_KEY_TITLE";
     private static final String B_KEY_MESSAGE = "B_KEY_MESSAGE";
     private static final String B_KEY_POSITIVE_TEXT = "B_KEY_POSITIVE_TEXT";

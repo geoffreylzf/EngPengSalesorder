@@ -20,13 +20,24 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 
 public class Global {
 
+    //TODO clear preset value
     public static String sUsername = "geoffrey.lee";
     public static String sPassword = "12345";
+    public static long sCompanyId;
+    public static String sCompanyCode;
+    public static String sCompanyName;
+    public static String sCompanyShortName;
 
     public static final int GET_HOUSE_KEEPING_LOADER_ID = 1001;
     public static final int RECEIVE_HOUSE_KEEPING_LOADER_ID = 1002;
 
     public static final int RC_CONFIRM_DIALOG_ID = 8001;
+
+    //Preferences param keys
+    public static final String PREF_KEY = "PREF_KEY";
+    public static final String P_KEY_USERNAME = "P_KEY_USERNAME";
+    public static final String P_KEY_PASSWORD = "P_KEY_PASSWORD";
+    public static final String P_KEY_COMPANY_ID = "P_KEY_COMPANY_ID";
 
     public static final String ACTION_REFRESH = "refresh";
     public static final String ACTION_UPDATE = "update";
@@ -58,11 +69,6 @@ public class Global {
     public static final String DATETIME_SAVE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String YEARMONTH_SAVE_FORMAT = "yyyy-MM";
     public static final String YEAR_SAVE_FORMAT = "yyyy";
-
-    //DIALOG TAG
-    public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
-    public static final String CONFIRM_DIALOG_TAG = "CONFIRM_DIALOG_TAG";
-    public static final String DATE_PICKER_DIALOG_TAG = "DATE_PICKER_DIALOG_TAG";
 
     //Salesorder Status
     public static final String SO_STATUS_DRAFT = "DRAFT";

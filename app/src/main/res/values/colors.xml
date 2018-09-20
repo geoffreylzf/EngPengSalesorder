@@ -10,7 +10,8 @@
     <color name="colorAccent">#004D40</color>
     <color name="colorControlActivated">#2E7D32</color>
 
-    <color name="colorTranslucent">#80FFFFFF</color>
+    <color name="colorTranslucent50">#80FFFFFF</color>
+    <color name="colorTranslucent10">#1AFFFFFF</color>
     <color name="colorTransparent">@android:color/transparent</color>
     <color name="colorBackground">@android:color/background_light</color>
 

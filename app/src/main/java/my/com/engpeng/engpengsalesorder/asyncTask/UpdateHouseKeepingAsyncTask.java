@@ -92,9 +92,9 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
         try {
             String json = NetworkUtils.sendPostToHttpUrl(url, username, password, data);
             if (json != null && !json.equals("")) {
-                if (JsonUtils.getAuthentication(context, json)) {
-                    String table_info_type = JsonUtils.getType(json);
-                    String action = JsonUtils.getAction(json);
+                if (JsonUtils.getAuthentication(json).isSuccess()) {
+                    String table_info_type = JsonUtils.getString(json, JsonUtils.TYPE);
+                    String action = JsonUtils.getString(json, JsonUtils.ACTION);
 
                     if (table_info_type.equals(CustomerCompanyEntry.TABLE_NAME)) {
                         if (action.equals(ACTION_REFRESH)) {

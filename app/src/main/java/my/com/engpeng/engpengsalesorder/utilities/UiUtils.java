@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.app.FragmentManager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +26,7 @@ public class UiUtils {
         Dialog progressDialog = new Dialog(context, android.R.style.Theme_Black);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_loading, null);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawableResource(R.color.colorTranslucent50);
+        progressDialog.getWindow().setBackgroundDrawableResource(R.color.colorTranslucent10);
         progressDialog.setContentView(view);
         progressDialog.setCancelable(false);
         return progressDialog;
@@ -63,5 +65,15 @@ public class UiUtils {
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    public static int getPrimaryDarkColorId(Context context) {
+        TypedValue typedValue = new TypedValue();
+
+        TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[] { R.attr.colorPrimaryDark });
+        int color = a.getColor(0, 0);
+        a.recycle();
+
+        return color;
     }
 }

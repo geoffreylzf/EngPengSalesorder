@@ -14,7 +14,6 @@ public class AppLoader implements LoaderManager.LoaderCallbacks<String> {
 
     public interface AppLoaderListener {
         Loader<String> getAsyncTaskLoader(Bundle args);
-
         void afterLoaderDone(String data);
     }
 

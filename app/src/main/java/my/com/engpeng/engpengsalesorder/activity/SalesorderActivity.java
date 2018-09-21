@@ -49,7 +49,6 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
         if (addToBackStack) {
             transaction.addToBackStack(null);
         }
-
         transaction.commit();
     }
 

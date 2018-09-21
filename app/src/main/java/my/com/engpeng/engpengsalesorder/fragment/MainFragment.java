@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.HouseKeepingActivity;
+import my.com.engpeng.engpengsalesorder.activity.MainActivity;
 import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 
@@ -84,7 +85,8 @@ public class MainFragment extends Fragment {
                 } else if (id == R.id.main_drawer_start_upload) {
                     //TODO open upload
                 } else if (id == R.id.main_drawer_start_house_log) {
-                    //TODO perform logout function
+                    //TODO logout confirm
+                    ((MainActivity) getActivity()).performLogout();
                 }
 
                 dl.closeDrawer(GravityCompat.START);

@@ -1,5 +1,7 @@
 package my.com.engpeng.engpengsalesorder.fragment;
 
+import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,8 +24,15 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import my.com.engpeng.engpengsalesorder.R;
+import my.com.engpeng.engpengsalesorder.activity.MainActivity;
+import my.com.engpeng.engpengsalesorder.asyncTask.LoginRunnable;
+import my.com.engpeng.engpengsalesorder.model.Status;
+import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
+import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
+import my.com.engpeng.engpengsalesorder.viewModel.LoginViewModel;
+import my.com.engpeng.engpengsalesorder.viewModel.LoginViewModelFactory;
 
 import static my.com.engpeng.engpengsalesorder.Global.RC_GOOGLE_SIGN_IN;
 
@@ -36,8 +45,10 @@ public class LoginFragment extends Fragment {
     private Button btnLogin, btnCancel;
 
     private GoogleSignInClient googleSignInClient;
-    private String signInEmail;
-    private SignInButton sibtnGmail;
+    private String email;
+    private SignInButton sibtnEmail;
+
+    private Dialog dlProgress;
 
     @Nullable
     @Override
@@ -50,17 +61,20 @@ public class LoginFragment extends Fragment {
         etPassword = rootView.findViewById(R.id.login_et_password);
         btnLogin = rootView.findViewById(R.id.login_btn_login);
         btnCancel = rootView.findViewById(R.id.login_btn_cancel);
-        sibtnGmail = rootView.findViewById(R.id.login_btn_sign_in_gmail);
+        sibtnEmail = rootView.findViewById(R.id.login_btn_sign_in_gmail);
+
+        getActivity().getWindow().setStatusBarColor(UiUtils.getPrimaryDarkColorId(getContext()));
 
         SharedPreferencesUtils.clearUsernamePassword(getContext());
         SharedPreferencesUtils.clearCompanyId(getContext());
+
+        dlProgress = UiUtils.getProgressDialog(getContext());
 
         //TODO clear HK and History data
         //TODO setup version
 
         setupGoogleSignIn();
         setupListener();
-
 
         return rootView;
     }
@@ -72,7 +86,7 @@ public class LoginFragment extends Fragment {
 
         googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
-        sibtnGmail.setOnClickListener(new View.OnClickListener() {
+        sibtnEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
@@ -115,11 +129,11 @@ public class LoginFragment extends Fragment {
 
     private void populateUi(GoogleSignInAccount account) {
         if (account != null) {
-            signInEmail = account.getEmail();
-            setGoogleSignInButtonText(sibtnGmail, account.getEmail() + " (Sign out)");
+            email = account.getEmail();
+            setGoogleSignInButtonText(sibtnEmail, account.getEmail() + " (Sign out)");
         } else {
-            signInEmail = null;
-            setGoogleSignInButtonText(sibtnGmail, "Sign in");
+            email = null;
+            setGoogleSignInButtonText(sibtnEmail, "Sign in");
         }
     }
 
@@ -164,9 +178,51 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        if (signInEmail == null || signInEmail.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             UiUtils.showToastMessage(getContext(), "Please sign in google account before login");
             return;
         }
+
+        final String username = etUsername.getText().toString();
+        final String password = etPassword.getText().toString();
+        String data = NetworkUtils.buildParam(NetworkUtils.PARAM_EMAIL, email);
+
+        LoginRunnable loginRunnable = new LoginRunnable(getActivity(), username, password, data, false, new LoginRunnable.LoginRunnableListener() {
+            @Override
+            public void onStart() {
+                dlProgress.show();
+            }
+
+            @Override
+            public void onResult(String json) {
+                dlProgress.hide();
+                if (json != null && !json.equals("")) {
+                    Status status = JsonUtils.getAuthentication(json);
+                    if (status.isSuccess()) {
+                        Status loginStatus = JsonUtils.getLoginAuthentication(json);
+                        if (loginStatus.isSuccess()) {
+                            SharedPreferencesUtils.saveUsernamePassword(getContext(), username, password);
+                            ((MainActivity) getActivity()).performSuccessLogin();
+                        } else {
+                            UiUtils.showToastMessage(getContext(), loginStatus.getMessage());
+                        }
+                    } else {
+                        UiUtils.showToastMessage(getContext(), status.getMessage());
+                    }
+                } else {
+                    UiUtils.showToastMessage(getContext(), getString(R.string.msg_login_fail));
+                }
+            }
+        });
+
+        LoginViewModelFactory factory = new LoginViewModelFactory(loginRunnable);
+        LoginViewModel loginViewModel = ViewModelProviders.of(this, factory).get(LoginViewModel.class);
+        loginViewModel.execute();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        dlProgress.dismiss();
     }
 }

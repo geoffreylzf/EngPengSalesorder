@@ -20,19 +20,14 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 
 public class Global {
 
-    //TODO clear preset value
-    public static String sUsername = "geoffrey.lee";
-    public static String sPassword = "12345";
+    public static String sUsername;
+    public static String sPassword;
     public static long sCompanyId;
     public static String sCompanyCode;
     public static String sCompanyName;
     public static String sCompanyShortName;
 
-    public static final int GET_HOUSE_KEEPING_LOADER_ID = 1001;
-    public static final int RECEIVE_HOUSE_KEEPING_LOADER_ID = 1002;
-
-    public static final int RC_CONFIRM_DIALOG_ID = 8001;
-    public static final int RC_GOOGLE_SIGN_IN = 8002;
+    public static final int RC_GOOGLE_SIGN_IN = 8001;
 
     //Preferences param keys
     public static final String PREF_KEY = "PREF_KEY";

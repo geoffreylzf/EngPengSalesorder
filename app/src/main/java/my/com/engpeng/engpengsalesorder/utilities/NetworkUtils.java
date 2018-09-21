@@ -21,6 +21,7 @@ public class NetworkUtils {
 
     public final static String PARAM_TYPE = "type";
     public final static String PARAM_LAST_SYNC_DATE = "last_sync_date";
+    public final static String PARAM_EMAIL = "email";
 
     final static String DEPLOYMENT_URL = "http://epgroup.dlinkddns.com:5030/eperp/";
     final static String ENGPENG_BASE_URL = DEPLOYMENT_URL;
@@ -28,6 +29,7 @@ public class NetworkUtils {
     final static String PARAM_MODULE = "r";
 
     final public static String MODULE_GET_HOUSE_KEEPING = "MobileSalesorder/GetHouseKeeping";
+    final public static String MODULE_AUTH_LOGIN = "MobileAuth/Login";
 
     final public static String ENCODE = "UTF-8";
 

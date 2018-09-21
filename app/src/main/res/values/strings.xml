@@ -14,11 +14,14 @@
     <string name="company">Company</string>
     <string name="local_purchase_order">Local Purchase Order</string>
     <string name="remark">Remark</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="database">Database</string>
     <string name="house_keeping">House Keeping</string>
     <string name="history">History</string>
     <string name="session">Session</string>
     <string name="logout">Logout</string>
+    <string name="login">Login</string>
     <string name="upload">Upload</string>
     <string name="delivery_date">Delivery Date</string>
     <string name="document_date">Document Date</string>

@@ -32,6 +32,7 @@ public class Global {
     public static final int RECEIVE_HOUSE_KEEPING_LOADER_ID = 1002;
 
     public static final int RC_CONFIRM_DIALOG_ID = 8001;
+    public static final int RC_GOOGLE_SIGN_IN = 8002;
 
     //Preferences param keys
     public static final String PREF_KEY = "PREF_KEY";

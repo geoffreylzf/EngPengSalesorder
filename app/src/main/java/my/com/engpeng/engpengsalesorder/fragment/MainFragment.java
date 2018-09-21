@@ -47,6 +47,7 @@ public class MainFragment extends Fragment {
         btnSo = rootView.findViewById(R.id.main_btn_so);
         nvStart = rootView.findViewById(R.id.main_start_nv);
 
+        getActivity().getWindow().setStatusBarColor(getActivity().getColor(R.color.colorTransparent));
         getActivity().setTitle("Salesorder");
 
         setupDrawerLayout();

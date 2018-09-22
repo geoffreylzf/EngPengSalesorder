@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="73dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/li_iv_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_baseline_business_24px" />
+
+    <TextView
+        android:id="@+id/li_tv_company_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/colorListItemSecondaryText"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/li_tv_company_name"
+        app:layout_constraintStart_toEndOf="@id/li_iv_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tool:text="Code" />
+
+    <TextView
+        android:id="@+id/li_tv_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/colorListItemPrimaryText"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/li_v_divider"
+        app:layout_constraintStart_toEndOf="@id/li_iv_icon"
+        app:layout_constraintTop_toBottomOf="@id/li_tv_company_code"
+        tool:text="Company Name" />
+
+    <View
+        android:id="@+id/li_v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

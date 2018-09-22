@@ -58,6 +58,11 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
         navigateTo(fragment, tag, false);
     }
 
+    @Override
+    public void navigateDefault() {
+        //do nothing
+    }
+
     public void setAppBarLayoutElevation(int dps) {
         if (dps == 0) {
             abl.setTargetElevation(0);

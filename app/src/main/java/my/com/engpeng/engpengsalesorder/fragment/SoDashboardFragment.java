@@ -330,9 +330,9 @@ public class SoDashboardFragment extends Fragment {
 
     private void deleteSalesorder(final Long salesorderId) {
         UiUtils.showConfirmDialog(getFragmentManager(),
-                getString(R.string.dialog_title_so_draft),
-                getString(R.string.dialog_msg_so_draft),
-                getString(R.string.dialog_btn_positive_so_draft),
+                getString(R.string.dialog_title_delete_draft),
+                getString(R.string.dialog_msg_delete_draft),
+                getString(R.string.dialog_btn_positive_delete_draft),
                 new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
                     @Override
                     public void onPositiveButtonClicked() {

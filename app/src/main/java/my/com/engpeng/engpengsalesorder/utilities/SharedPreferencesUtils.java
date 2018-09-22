@@ -11,6 +11,11 @@ import static my.com.engpeng.engpengsalesorder.Global.P_KEY_PASSWORD;
 import static my.com.engpeng.engpengsalesorder.Global.P_KEY_USERNAME;
 
 public class SharedPreferencesUtils {
+
+    public static SharedPreferences getSharedPreferences(Context context){
+        return context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+    }
+
     public static void saveCompanyId(Context context, long company_id) {
         SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

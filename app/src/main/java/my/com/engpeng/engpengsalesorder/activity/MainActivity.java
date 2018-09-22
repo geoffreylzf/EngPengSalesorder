@@ -2,16 +2,11 @@ package my.com.engpeng.engpengsalesorder.activity;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
@@ -19,6 +14,7 @@ import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.LoginFragment;
 import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
 import my.com.engpeng.engpengsalesorder.model.User;
 import my.com.engpeng.engpengsalesorder.utilities.ScheduleUtils;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
@@ -28,15 +24,12 @@ import static my.com.engpeng.engpengsalesorder.Global.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppDatabase mDb;
     private Bundle savedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mDb = AppDatabase.getInstance(getApplicationContext());
 
         this.savedInstanceState = savedInstanceState;
         setupGlobalVariables();
@@ -51,41 +44,9 @@ public class MainActivity extends AppCompatActivity {
             sUsername = user.getUsername();
             sPassword = user.getPassword();
 
-            sCompanyId = SharedPreferencesUtils.getCompanyId(this);
-            if (sCompanyId != 0) {
-                retrieveCompany(sCompanyId);
-            } else {
-                clearGlobalCompany();
-            }
-
             ScheduleUtils.scheduleAutoUpdate(this);
             openMainFragment();
         }
-    }
-
-    private void retrieveCompany(long companyId) {
-        final LiveData<BranchEntry> ld = mDb.branchDao().loadLiveBranchById(companyId);
-        ld.observe(this, new Observer<BranchEntry>() {
-            @Override
-            public void onChanged(@Nullable BranchEntry branchEntry) {
-                ld.removeObserver(this);
-                if (branchEntry != null) {
-                    sCompanyId = branchEntry.getId();
-                    sCompanyCode = branchEntry.getBranchCode();
-                    sCompanyName = branchEntry.getBranchName();
-                    sCompanyShortName = branchEntry.getBranchShortName();
-                } else {
-                    clearGlobalCompany();
-                }
-            }
-        });
-    }
-
-    private void clearGlobalCompany() {
-        sCompanyId = 0;
-        sCompanyCode = "Non";
-        sCompanyName = "No Company Selected";
-        sCompanyShortName = "Non";
     }
 
     private void openMainFragment() {
@@ -113,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setupGlobalVariables();
     }
 
-    public void performLogout(){
+    public void performLogout() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.remove(getSupportFragmentManager().findFragmentByTag(MainFragment.tag));
         fragmentTransaction.commit();
@@ -128,7 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             } else if (fragment instanceof MainFragment) {
                 if (!((MainFragment) fragment).closeDrawerLayout()) {
-                    exitConfirmation();
+                    Fragment fmChild = fragment.getChildFragmentManager().findFragmentById(R.id.f_main_fl);
+                    if (fmChild instanceof MainDashboardFragment) {
+                        exitConfirmation();
+                    }else{
+                        fmChild.getFragmentManager().popBackStack();
+                    }
                 }
             } else {
                 exitConfirmation();

@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,18 +34,10 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activity.CustomerSelectionActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.AddressSelectionActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.ItemSelectionActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activity.SalesorderActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.CustomerSelectionActivity" />
+        <activity android:name=".activity.AddressSelectionActivity" />
+        <activity android:name=".activity.ItemSelectionActivity" />
+        <activity android:name=".activity.SalesorderActivity" />
     </application>
 
 </manifest>

@@ -45,6 +45,7 @@
     <string name="save_as_draft">Save as Draft</string>
     <string name="confirm">Confirm</string>
     <string name="status">Status</string>
+    <string name="error">Error</string>
     <string name="salesorder">Salesorder</string>
 
     <string name="short_document_date">Doc Date</string>
@@ -72,15 +73,16 @@
     <string name="dialog_msg_so_draft">Upload is not allowed in draft.</string>
     <string name="dialog_btn_positive_so_draft">Save as draft</string>
 
-    <string name="dialog_title_delete_so">Are you sure to delete selected draft?</string>
-    <string name="dialog_msg_delete_so">Data is retrievable after delete.</string>
-    <string name="dialog_btn_positive_delete_so">Delete</string>
+    <string name="dialog_title_delete_draft">Are you sure to delete selected draft?</string>
+    <string name="dialog_msg_delete_draft">Data is retrievable after delete.</string>
+    <string name="dialog_btn_positive_delete_draft">Delete</string>
 
     <string name="dialog_title_exit_app">Are you sure to exit?</string>
     <string name="dialog_msg_exit_app">Unsaved data will loss.</string>
     <string name="dialog_btn_positive_exit_app">Exit</string>
 
     <string name="dialog_error_msg_so_no_item">No item to proceed, please add at least 1 item.</string>
+    <string name="dialog_error_msg_no_company_selected">No company selected.</string>
 
     <string name="note_alert_clear_detail">
         *Please note that changing customer company and delivery date will clear all pre selected items.

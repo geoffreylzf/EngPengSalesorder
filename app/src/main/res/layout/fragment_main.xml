@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/main_abl"
+            android:id="@+id/f_main_abl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -24,7 +24,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/main_tb"
+                android:id="@+id/f_main_tb"
                 style="@style/ToolbarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,21 +38,20 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.button.MaterialButton
-            android:id="@+id/main_btn_so"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/salesorder"
+        <FrameLayout
+            android:id="@+id/f_main_fl"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/main_abl" />
+            app:layout_constraintTop_toBottomOf="@id/f_main_abl" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.NavigationView
         style="@style/Widget.MaterialComponents.NavigationView"
-        android:id="@+id/main_start_nv"
+        android:id="@+id/f_main_start_nv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

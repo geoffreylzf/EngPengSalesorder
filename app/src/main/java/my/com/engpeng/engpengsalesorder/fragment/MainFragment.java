@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,27 +17,27 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.HouseKeepingActivity;
 import my.com.engpeng.engpengsalesorder.activity.MainActivity;
-import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
-import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
+import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
+import my.com.engpeng.engpengsalesorder.fragment.main.MainCompanyFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements NavigationHost {
 
     public static final String tag = "MAIN_FRAGMENT";
 
     private Toolbar tb;
     private DrawerLayout dl;
-    private Button btnSo;
     private NavigationView nvStart;
 
     private TextView navStartTvUsername;
+    private Bundle savedInstanceState;
 
 
     @Nullable
@@ -43,16 +45,16 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        tb = rootView.findViewById(R.id.main_tb);
+        tb = rootView.findViewById(R.id.f_main_tb);
         dl = rootView.findViewById(R.id.main_dl);
-        btnSo = rootView.findViewById(R.id.main_btn_so);
-        nvStart = rootView.findViewById(R.id.main_start_nv);
+        nvStart = rootView.findViewById(R.id.f_main_start_nv);
 
         getActivity().getWindow().setStatusBarColor(getActivity().getColor(R.color.colorTransparent));
-        getActivity().setTitle("Salesorder");
+
+        this.savedInstanceState = savedInstanceState;
 
         setupDrawerLayout();
-        setupListener();
+        setupDashboard();
 
         return rootView;
     }
@@ -77,7 +79,7 @@ public class MainFragment extends Fragment {
                 int id = menuItem.getItemId();
 
                 if (id == R.id.main_drawer_start_company) {
-                    //TODO open company
+                    navigateTo(new MainCompanyFragment(), MainCompanyFragment.tag, true);
                 } else if (id == R.id.main_drawer_start_house_keeping) {
                     startActivity(new Intent(getActivity(), HouseKeepingActivity.class));
                 } else if (id == R.id.main_drawer_start_history) {
@@ -95,16 +97,42 @@ public class MainFragment extends Fragment {
         });
     }
 
-    private void setupListener() {
-        btnSo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SalesorderActivity.class));
-            }
-        });
+    private void setupDashboard() {
+        if (savedInstanceState == null) {
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.f_main_fl, new MainDashboardFragment(), MainDashboardFragment.tag)
+                    .commit();
+        }
     }
 
-    public boolean closeDrawerLayout(){
+    @Override
+    public void navigateTo(Fragment fragment, String tag, boolean addToBackStack) {
+        //TODO perform exist checking
+        FragmentTransaction transaction =
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.f_main_fl, fragment, tag);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(null);
+        }
+        transaction.commit();
+    }
+
+    @Override
+    public void clearAllNavigateTo(Fragment fragment, String tag) {
+        getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        navigateTo(fragment, tag, false);
+    }
+
+    @Override
+    public void navigateDefault() {
+        getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        setupDashboard();
+    }
+
+    public boolean closeDrawerLayout() {
         if (dl.isDrawerOpen(GravityCompat.START)) {
             dl.closeDrawer(GravityCompat.START);
             return true;

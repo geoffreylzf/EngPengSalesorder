@@ -50,6 +50,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SET
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
+import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
 
 public class SoDashboardFragment extends Fragment {
 
@@ -225,7 +226,7 @@ public class SoDashboardFragment extends Fragment {
         final LiveData<List<SoGroupByDateDisplay>> ld
                 = mDb.salesorderDao().
                 loadAllSoGroupViaQuery(
-                        SalesorderEntry.constructSoGroupQuery(dateType, date, currentFilterStatus)
+                        SalesorderEntry.constructSoGroupQuery(dateType, sCompanyId, date, currentFilterStatus)
                 );
         ld.observe(this, new Observer<List<SoGroupByDateDisplay>>() {
             @Override
@@ -238,7 +239,11 @@ public class SoDashboardFragment extends Fragment {
 
     private void retrieveSoList() {
         cpDocumentDate.setText(getString(R.string.short_document_date) + ": " + currentFilterDocDate);
-        final LiveData<List<SoDisplay>> ld = mDb.salesorderDao().loadAllSoDisplayViaQuery(SalesorderEntry.constructSoDisplayQuery(currentFilterDocDate, currentFilterStatus));
+        final LiveData<List<SoDisplay>> ld
+                = mDb.salesorderDao()
+                .loadAllSoDisplayViaQuery(
+                        SalesorderEntry.constructSoDisplayQuery(currentFilterDocDate, sCompanyId, currentFilterStatus)
+                );
         ld.observe(this, new Observer<List<SoDisplay>>() {
             @Override
             public void onChanged(@Nullable List<SoDisplay> soDisplays) {

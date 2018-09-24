@@ -22,6 +22,7 @@ public class Global {
 
     public static String sUsername;
     public static String sPassword;
+    public static String sUniqueId;
     public static long sCompanyId;
     public static String sCompanyCode;
     public static String sCompanyName;
@@ -34,6 +35,7 @@ public class Global {
     public static final String P_KEY_USERNAME = "P_KEY_USERNAME";
     public static final String P_KEY_PASSWORD = "P_KEY_PASSWORD";
     public static final String P_KEY_COMPANY_ID = "P_KEY_COMPANY_ID";
+    public static final String P_KEY_UNIQUE_ID = "P_KEY_UNIQUE_ID";
 
     public static final String ACTION_REFRESH = "refresh";
     public static final String ACTION_UPDATE = "update";

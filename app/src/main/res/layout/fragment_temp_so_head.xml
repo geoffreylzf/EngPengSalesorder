@@ -1,182 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="8dp">
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_company"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical">
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_customer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.75"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/LabelTextViewStyle"
-                    android:text="@string/company" />
-
-                <Spinner
-                    android:id="@+id/temp_so_head_sn_company"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorTextFieldBackground" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/colorDivider" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/temp_so_head_et_customer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_search_grey_24px"
-                    android:focusable="false"
-                    android:hint="@string/customer_company"
-                    android:inputType="text" />
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/temp_so_head_et_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_search_grey_24px"
-                    android:focusable="false"
-                    android:hint="@string/customer_address"
-                    android:inputType="text"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/temp_so_head_et_document_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_date_range_grey_24px"
-                    android:focusable="false"
-                    android:hint="@string/document_date"
-                    android:inputType="date" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/temp_so_head_et_delivery_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@drawable/ic_baseline_date_range_grey_24px"
-                    android:focusable="false"
-                    android:hint="@string/delivery_date"
-                    android:inputType="date" />
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/temp_so_head_et_lpo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/local_purchase_order"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/temp_so_head_et_remark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/remark"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.button.MaterialButton
-            android:id="@+id/temp_so_head_btn_start"
-            style="@style/Widget.MaterialComponents.Button.Icon"
+        <EditText
+            android:id="@+id/temp_so_head_et_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/start"
-            app:icon="@drawable/ic_baseline_shopping_cart_white_24px"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"/>
+            android:focusable="false"
+            android:inputType="text"
+            android:hint="@string/company" />
 
-        <TextView
-            android:id="@+id/temp_so_head_tv_note"
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_customer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_company">
+
+        <EditText
+            android:id="@+id/temp_so_head_et_customer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorRed800"
-            android:layout_margin="8dp"
-            android:visibility="gone"
-            android:text="@string/note_alert_clear_detail"/>
-    </LinearLayout>
+            android:drawableEnd="@drawable/ic_baseline_search_grey_24px"
+            android:focusable="false"
+            android:hint="@string/customer_company"
+            android:inputType="text" />
 
-</ScrollView>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_address"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_document_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_customer">
+
+        <EditText
+            android:id="@+id/temp_so_head_et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_search_grey_24px"
+            android:focusable="false"
+            android:hint="@string/customer_address"
+            android:inputType="text" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_document_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@id/temp_so_head_til_delivery_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_lpo"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_address">
+
+        <EditText
+            android:id="@+id/temp_so_head_et_document_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_date_range_grey_24px"
+            android:focusable="false"
+            android:hint="@string/document_date"
+            android:inputType="date" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_delivery_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/temp_so_head_til_document_date"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_address">
+
+        <EditText
+            android:id="@+id/temp_so_head_et_delivery_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_baseline_date_range_grey_24px"
+            android:focusable="false"
+            android:hint="@string/delivery_date"
+            android:inputType="date" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_lpo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_remark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_document_date">
+
+        <EditText
+            android:id="@+id/temp_so_head_et_lpo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/local_purchase_order"
+            android:inputType="text" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/temp_so_head_til_remark"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_btn_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_lpo">
+
+        <EditText
+            android:id="@+id/temp_so_head_et_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/remark"
+            android:inputType="text" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/temp_so_head_btn_start"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:icon="@drawable/ic_baseline_shopping_cart_white_24px"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_tv_note"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_remark" />
+
+    <TextView
+        android:id="@+id/temp_so_head_tv_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/note_alert_clear_detail"
+        android:textColor="@color/colorRed800"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_btn_start" />
+
+</android.support.constraint.ConstraintLayout>

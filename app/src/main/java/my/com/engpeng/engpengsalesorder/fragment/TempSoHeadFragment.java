@@ -51,13 +51,13 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
+import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
 
 public class TempSoHeadFragment extends Fragment {
 
     public static final String tag = "TEMP_SO_HEAD_FRAGMENT";
 
-    private Spinner snCompany;
-    private EditText etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
+    private EditText etCompany, etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
     private Button btnStart;
     private View rootView;
     private TextView tvNote;
@@ -86,7 +86,7 @@ public class TempSoHeadFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_temp_so_head, container, false);
 
-        snCompany = rootView.findViewById(R.id.temp_so_head_sn_company);
+        etCompany =rootView.findViewById(R.id.temp_so_head_et_company);
         etCustomer = rootView.findViewById(R.id.temp_so_head_et_customer);
         etAddress = rootView.findViewById(R.id.temp_so_head_et_address);
         etDocumentDate = rootView.findViewById(R.id.temp_so_head_et_document_date);
@@ -106,7 +106,6 @@ public class TempSoHeadFragment extends Fragment {
         documentDate = sdfSave.format(calendarDocumentDate.getTime());
 
         setupBundle();
-        setupSpinner();
         setupAnimation();
         setupListener();
 
@@ -120,6 +119,7 @@ public class TempSoHeadFragment extends Fragment {
             salesorderEntry = Parcels.unwrap(bundle.getParcelable(I_KEY_SALESORDER_ENTRY));
             if (salesorderEntry == null) {
                 getActivity().setTitle("New Salesorder");
+                displayCompany(sCompanyId);
             } else {
                 getActivity().setTitle("Draft Salesorder");
                 populateUi();
@@ -141,6 +141,9 @@ public class TempSoHeadFragment extends Fragment {
 
     private void populateUi() {
         tvNote.setVisibility(View.VISIBLE);
+
+        displayCompany(salesorderEntry.getCompanyId());
+
         customerCompanyId = salesorderEntry.getCustomerCompanyId();
         retrieveCustomer(false);
 
@@ -161,13 +164,24 @@ public class TempSoHeadFragment extends Fragment {
         etRemark.setText(salesorderEntry.getRemark());
     }
 
+    private void displayCompany(long companyId){
+        final LiveData<BranchEntry> ld = mDb.branchDao().loadLiveBranchById(companyId);
+        ld.observe(this, new Observer<BranchEntry>() {
+            @Override
+            public void onChanged(@Nullable BranchEntry branchEntry) {
+                ld.removeObserver(this);
+                etCompany.setText(branchEntry.getBranchName());
+            }
+        });
+    }
+
     private void setupListener() {
 
         etCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CustomerSelectionActivity.class);
-                intent.putExtra(I_KEY_COMPANY_ID, getCompanyIdFromSpinner());
+                intent.putExtra(I_KEY_COMPANY_ID, sCompanyId);
                 startActivityForResult(intent, RC_SELECT_CUSTOMER);
             }
         });
@@ -242,7 +256,7 @@ public class TempSoHeadFragment extends Fragment {
                 } else {
                     salesorderEntry = TempSoHeadFragment.this.salesorderEntry;
                 }
-                salesorderEntry.setCompanyId(getCompanyIdFromSpinner());
+                salesorderEntry.setCompanyId(sCompanyId);
                 salesorderEntry.setCustomerCompanyId(customerCompanyId);
                 salesorderEntry.setCustomerAddressId(customerAddressId);
                 salesorderEntry.setDocumentDate(documentDate);
@@ -258,36 +272,6 @@ public class TempSoHeadFragment extends Fragment {
                 ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);
             }
         });
-    }
-
-    private void setupSpinner() {
-
-        final LiveData<List<BranchEntry>> cc = mDb.branchDao().loadLiveAllCompany();
-        cc.observe(this, new Observer<List<BranchEntry>>() {
-            @Override
-            public void onChanged(@Nullable List<BranchEntry> branchEntryList) {
-                cc.removeObserver(this);
-                map = new HashMap<>();
-                for (BranchEntry branchEntry : branchEntryList) {
-                    map.put(branchEntry.getBranchName(), branchEntry.getId());
-                }
-                List<String> labels = new ArrayList<>(map.keySet());
-
-                ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(),
-                        R.layout.spinner_item, labels);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                snCompany.setAdapter(dataAdapter);
-            }
-        });
-
-    }
-
-    private Long getCompanyIdFromSpinner() {
-        if (snCompany.getSelectedItem() == null) {
-            return 0L;
-        }
-        return map.get(snCompany.getSelectedItem().toString());
     }
 
     @Override

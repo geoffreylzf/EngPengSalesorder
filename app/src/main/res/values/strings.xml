@@ -85,6 +85,6 @@
     <string name="dialog_error_msg_no_company_selected">No company selected.</string>
 
     <string name="note_alert_clear_detail">
-        *Please note that changing customer company and delivery date will clear all pre selected items.
+        * Please note that changing customer company and delivery date will clear all pre-selected items.
     </string>
 </resources>

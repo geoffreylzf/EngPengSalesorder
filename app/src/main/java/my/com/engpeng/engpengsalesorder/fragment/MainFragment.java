@@ -26,6 +26,7 @@ import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainCompanyFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
 
+import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class MainFragment extends Fragment implements NavigationHost {
@@ -36,7 +37,7 @@ public class MainFragment extends Fragment implements NavigationHost {
     private DrawerLayout dl;
     private NavigationView nvStart;
 
-    private TextView navStartTvUsername;
+    private TextView navStartTvUsername, navStartTvUniqueId;
     private Bundle savedInstanceState;
 
 
@@ -71,7 +72,10 @@ public class MainFragment extends Fragment implements NavigationHost {
 
         View headerView = nvStart.getHeaderView(0);
         navStartTvUsername = headerView.findViewById(R.id.header_main_drawer_start_tv_username);
+        navStartTvUniqueId = headerView.findViewById(R.id.header_main_drawer_start_tv_unique_id);
+
         navStartTvUsername.setText(sUsername);
+        navStartTvUniqueId.setText(sUniqueId);
 
         nvStart.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

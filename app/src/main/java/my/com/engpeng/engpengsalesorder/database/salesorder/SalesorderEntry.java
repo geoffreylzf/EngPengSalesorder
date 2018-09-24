@@ -112,7 +112,7 @@ public class SalesorderEntry {
         this.modifyDatetime = modifyDatetime;
     }
 
-    public static SimpleSQLiteQuery constructSoGroupQuery(String dateType, String dateFilter, String status) {
+    public static SimpleSQLiteQuery constructSoGroupQuery(String dateType, long companyId, String dateFilter, String status) {
         String sql;
         Object[] o;
 
@@ -120,13 +120,13 @@ public class SalesorderEntry {
 
             sql = "SELECT 'YEAR' AS dateType, strftime('%Y', document_date) AS documentDate, COUNT(*) AS count" +
                     " FROM salesorder" +
-                    " WHERE 1 = 1";
+                    " WHERE company_id = ?";
 
             if ((status.equals(Global.SO_STATUS_ALL) || status.equals(""))) {
-                o = new Object[]{};
+                o = new Object[]{companyId};
             } else {
                 sql += " AND salesorder.status = ?";
-                o = new Object[]{status};
+                o = new Object[]{companyId, status};
             }
 
             sql += " GROUP BY strftime('%Y', document_date)" +
@@ -138,13 +138,14 @@ public class SalesorderEntry {
 
             sql = "SELECT 'MONTH' AS dateType, strftime('%Y-%m', document_date) AS documentDate, COUNT(*) AS count" +
                     " FROM salesorder" +
-                    " WHERE strftime('%Y', document_date) = ?";
+                    " WHERE company_id = ?" +
+                    " AND strftime('%Y', document_date) = ?";
 
             if ((status.equals(Global.SO_STATUS_ALL) || status.equals(""))) {
-                o = new Object[]{dateFilter};
+                o = new Object[]{companyId, dateFilter};
             } else {
                 sql += " AND salesorder.status = ?";
-                o = new Object[]{dateFilter, status};
+                o = new Object[]{companyId, dateFilter, status};
             }
 
             sql += " GROUP BY strftime('%Y-%m', document_date)" +
@@ -156,13 +157,14 @@ public class SalesorderEntry {
 
             sql = "SELECT 'DAY' AS dateType, document_date AS documentDate, COUNT(*) AS count" +
                     " FROM salesorder" +
-                    " WHERE strftime('%Y-%m', document_date) = ?";
+                    " WHERE company_id = ?" +
+                    " AND strftime('%Y-%m', document_date) = ?";
 
             if ((status.equals(Global.SO_STATUS_ALL) || status.equals(""))) {
-                o = new Object[]{dateFilter};
+                o = new Object[]{companyId, dateFilter};
             } else {
                 sql += " AND salesorder.status = ?";
-                o = new Object[]{dateFilter, status};
+                o = new Object[]{companyId, dateFilter, status};
             }
 
             sql += " GROUP BY document_date" +
@@ -173,7 +175,7 @@ public class SalesorderEntry {
         return null;
     }
 
-    public static SimpleSQLiteQuery constructSoDisplayQuery(String document, String status) {
+    public static SimpleSQLiteQuery constructSoDisplayQuery(String documentDate, long companyId, String status) {
         String sql;
         Object[] o;
 
@@ -187,13 +189,14 @@ public class SalesorderEntry {
                 " LEFT JOIN person_customer_company pcc ON salesorder.customer_company_id = pcc.id" +
                 " LEFT JOIN person_customer_company_address pcca ON salesorder.customer_address_id = pcca.id" +
                 " LEFT JOIN salesorder_detail ON salesorder.id = salesorder_detail.salesorder_id" +
-                " WHERE salesorder.document_date = ?";
+                " WHERE salesorder.company_id = ?" +
+                " AND salesorder.document_date = ?";
 
         if (status.equals(Global.SO_STATUS_ALL) || status.equals("")) {
-            o = new Object[]{document};
+            o = new Object[]{companyId, documentDate};
         } else {
             sql += " AND salesorder.status = ?";
-            o = new Object[]{document, status};
+            o = new Object[]{companyId, documentDate, status};
         }
 
         sql += " GROUP BY salesorder.id" +

@@ -66,6 +66,7 @@ public class LoginFragment extends Fragment {
         getActivity().getWindow().setStatusBarColor(UiUtils.getPrimaryDarkColorId(getContext()));
 
         SharedPreferencesUtils.clearUsernamePassword(getContext());
+        SharedPreferencesUtils.clearUniqueId(getContext());
         SharedPreferencesUtils.clearCompanyId(getContext());
 
         dlProgress = UiUtils.getProgressDialog(getContext());
@@ -202,6 +203,7 @@ public class LoginFragment extends Fragment {
                         Status loginStatus = JsonUtils.getLoginAuthentication(json);
                         if (loginStatus.isSuccess()) {
                             SharedPreferencesUtils.saveUsernamePassword(getContext(), username, password);
+                            SharedPreferencesUtils.generateSaveUniqueId(getContext());
                             ((MainActivity) getActivity()).performSuccessLogin();
                         } else {
                             UiUtils.showToastMessage(getContext(), loginStatus.getMessage());

@@ -39,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
         User user = SharedPreferencesUtils.getUsernamePassword(this);
         if (user == null) {
-            openLoginFragment();
+            openLoginFragment(false);
         } else {
             sUsername = user.getUsername();
             sPassword = user.getPassword();
-
+            sUniqueId = SharedPreferencesUtils.getUniqueId(this);
             ScheduleUtils.scheduleAutoUpdate(this);
             openMainFragment();
         }
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void openLoginFragment() {
-        if (savedInstanceState == null) {
+    private void openLoginFragment(boolean isLogout) {
+        if (isLogout || savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.main_fl, new LoginFragment(), LoginFragment.tag)
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.remove(getSupportFragmentManager().findFragmentByTag(MainFragment.tag));
         fragmentTransaction.commit();
-        openLoginFragment();
+        openLoginFragment(true);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     Fragment fmChild = fragment.getChildFragmentManager().findFragmentById(R.id.f_main_fl);
                     if (fmChild instanceof MainDashboardFragment) {
                         exitConfirmation();
-                    }else{
+                    } else {
                         fmChild.getFragmentManager().popBackStack();
                     }
                 }

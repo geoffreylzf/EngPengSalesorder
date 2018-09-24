@@ -3,11 +3,14 @@ package my.com.engpeng.engpengsalesorder.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.UUID;
+
 import my.com.engpeng.engpengsalesorder.model.User;
 
 import static my.com.engpeng.engpengsalesorder.Global.PREF_KEY;
 import static my.com.engpeng.engpengsalesorder.Global.P_KEY_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.P_KEY_PASSWORD;
+import static my.com.engpeng.engpengsalesorder.Global.P_KEY_UNIQUE_ID;
 import static my.com.engpeng.engpengsalesorder.Global.P_KEY_USERNAME;
 
 public class SharedPreferencesUtils {
@@ -64,5 +67,27 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
+    public static void generateSaveUniqueId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        String uniqueID = UUID.randomUUID().toString();
+        editor.putString(P_KEY_UNIQUE_ID, uniqueID);
+        editor.apply();
+    }
 
+    public static String getUniqueId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        if (prefs.contains(P_KEY_UNIQUE_ID)) {
+            return prefs.getString(P_KEY_UNIQUE_ID, null);
+        } else {
+            return null;
+        }
+    }
+
+    public static void clearUniqueId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(P_KEY_UNIQUE_ID);
+        editor.apply();
+    }
 }

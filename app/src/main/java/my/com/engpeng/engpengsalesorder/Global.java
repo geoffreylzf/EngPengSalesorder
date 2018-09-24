@@ -55,6 +55,7 @@ public class Global {
     public static final String I_KEY_REMARK = "I_KEY_REMARK";
 
     public static final String I_KEY_SALESORDER_ENTRY = "I_KEY_SALESORDER_ENTRY";
+    public static final String I_KEY_TRANSITION_NAME = "I_KEY_TRANSITION_NAME";
 
     public static final String I_KEY_PRICE_GROUP_ID = "I_KEY_PRICE_GROUP_ID";
     public static final String I_KEY_PRICE_BY_WEIGHT = "I_KEY_DELIVERY_DATE";

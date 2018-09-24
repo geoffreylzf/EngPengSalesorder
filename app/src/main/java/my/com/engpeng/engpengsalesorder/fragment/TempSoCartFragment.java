@@ -111,7 +111,7 @@ public class TempSoCartFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
             tempSoCartFragment.setArguments(bundle);
-            ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);
+            ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true, null, null);
         }
     }
 
@@ -227,7 +227,7 @@ public class TempSoCartFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
                         tempSoConfirmFragment.setArguments(bundle);
-                        ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true);
+                        ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true, null, null);
 
                     }else{
                         UiUtils.showAlertDialog(getFragmentManager(),

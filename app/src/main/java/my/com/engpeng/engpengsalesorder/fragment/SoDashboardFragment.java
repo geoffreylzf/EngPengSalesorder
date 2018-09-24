@@ -10,8 +10,11 @@ import android.support.design.chip.Chip;
 import android.support.design.chip.ChipGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +51,7 @@ import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TRANSITION_NAME;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
 import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
@@ -130,7 +134,7 @@ public class SoDashboardFragment extends Fragment {
                 bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, Parcels.wrap(revealAnimationSetting));
                 tempSoHeadFragment.setArguments(bundle);
 
-                ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true);
+                ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true, null, null);
 
             }
         });
@@ -313,11 +317,19 @@ public class SoDashboardFragment extends Fragment {
 
                         if (status.equals(SO_STATUS_CONFIRM)) {
 
+
                             TempSoConfirmFragment tempSoConfirmFragment = new TempSoConfirmFragment();
                             Bundle bundle = new Bundle();
                             bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
                             tempSoConfirmFragment.setArguments(bundle);
-                            ((NavigationHost) getActivity()).navigateTo(tempSoConfirmFragment, TempSoConfirmFragment.tag, true);
+
+                            ((NavigationHost) getActivity()).navigateTo(
+                                    tempSoConfirmFragment,
+                                    TempSoConfirmFragment.tag,
+                                    true,
+                                    null,
+                                    null
+                            );
 
                         } else if (status.equals(SO_STATUS_DRAFT)) {
 
@@ -325,7 +337,7 @@ public class SoDashboardFragment extends Fragment {
                             Bundle bundle = new Bundle();
                             bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
                             tempSoHeadFragment.setArguments(bundle);
-                            ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true);
+                            ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true, null, null);
                         }
                     }
                 });

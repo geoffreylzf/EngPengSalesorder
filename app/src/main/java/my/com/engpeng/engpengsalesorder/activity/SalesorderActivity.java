@@ -7,12 +7,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.animation.FabOpenAnimation;
 import my.com.engpeng.engpengsalesorder.fragment.SoDashboardFragment;
-import my.com.engpeng.engpengsalesorder.fragment.TempSoHeadFragment;
+import my.com.engpeng.engpengsalesorder.fragment.TempSoCartFragment;
+import my.com.engpeng.engpengsalesorder.fragment.TempSoConfirmFragment;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 public class SalesorderActivity extends AppCompatActivity implements NavigationHost {
 
@@ -32,19 +35,32 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    //.add(R.id.temp_salesorder_fl, new TempSoHeadFragment())
                     .add(R.id.salesorder_fl, new SoDashboardFragment(), SoDashboardFragment.tag)
                     .commit();
         }
     }
 
     @Override
-    public void navigateTo(Fragment fragment, String tag, boolean addToBackStack) {
+    public void navigateTo(Fragment fragment, String tag, boolean addToBackStack, View sharedView, String transitionName) {
         setAppBarLayoutElevation(4);
         FragmentTransaction transaction =
                 getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.salesorder_fl, fragment, tag);
+                        .beginTransaction();
+
+        if (sharedView != null && transitionName != null) {
+            transaction.addSharedElement(sharedView, transitionName);
+        }
+
+        if (fragment instanceof TempSoCartFragment || fragment instanceof TempSoConfirmFragment) {
+            transaction.setCustomAnimations(
+                    R.animator.fragment_slide_in_left,
+                    R.animator.fragment_slide_out_right,
+                    R.animator.fragment_slide_in_left_pop,
+                    R.animator.fragment_slide_out_right_pop
+            );
+        }
+
+        transaction.replace(R.id.salesorder_fl, fragment, tag);
 
         if (addToBackStack) {
             transaction.addToBackStack(null);
@@ -55,7 +71,7 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
     @Override
     public void clearAllNavigateTo(Fragment fragment, String tag) {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        navigateTo(fragment, tag, false);
+        navigateTo(fragment, tag, false, null, null);
     }
 
     @Override

@@ -83,7 +83,7 @@ public class MainFragment extends Fragment implements NavigationHost {
                 int id = menuItem.getItemId();
 
                 if (id == R.id.main_drawer_start_company) {
-                    navigateTo(new MainCompanyFragment(), MainCompanyFragment.tag, true);
+                    navigateTo(new MainCompanyFragment(), MainCompanyFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_house_keeping) {
                     startActivity(new Intent(getActivity(), HouseKeepingActivity.class));
                 } else if (id == R.id.main_drawer_start_history) {
@@ -111,12 +111,16 @@ public class MainFragment extends Fragment implements NavigationHost {
     }
 
     @Override
-    public void navigateTo(Fragment fragment, String tag, boolean addToBackStack) {
+    public void navigateTo(Fragment fragment, String tag, boolean addToBackStack, View sharedView, String transitionName) {
         //TODO perform exist checking
         FragmentTransaction transaction =
                 getChildFragmentManager()
                         .beginTransaction()
                         .replace(R.id.f_main_fl, fragment, tag);
+
+        if (sharedView != null && transitionName != null) {
+            transaction.addSharedElement(sharedView, transitionName);
+        }
 
         if (addToBackStack) {
             transaction.addToBackStack(null);
@@ -127,7 +131,7 @@ public class MainFragment extends Fragment implements NavigationHost {
     @Override
     public void clearAllNavigateTo(Fragment fragment, String tag) {
         getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        navigateTo(fragment, tag, false);
+        navigateTo(fragment, tag, false, null, null);
     }
 
     @Override

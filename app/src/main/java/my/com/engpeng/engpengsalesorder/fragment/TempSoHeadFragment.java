@@ -269,7 +269,7 @@ public class TempSoHeadFragment extends Fragment {
                 bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
                 tempSoCartFragment.setArguments(bundle);
 
-                ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true);
+                ((NavigationHost) getActivity()).navigateTo(tempSoCartFragment, TempSoCartFragment.tag, true, null, null);
             }
         });
     }

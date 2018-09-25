@@ -11,7 +11,7 @@ import java.util.List;
 
 @Dao
 public interface CustomerCompanyAddressDao {
-    @Query("SELECT * FROM " + CustomerCompanyAddressEntry.TABLE_NAME + " ORDER BY id")
+    @Query("SELECT * FROM person_customer_company_address ORDER BY id")
     LiveData<List<CustomerCompanyAddressEntry>> loadAllCustmerCompanyAddresses();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -20,17 +20,18 @@ public interface CustomerCompanyAddressDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateCustomerCompanyAddress(CustomerCompanyAddressEntry customerCompanyAddressEntry);
 
-    @Query("DELETE FROM " + CustomerCompanyAddressEntry.TABLE_NAME)
+    @Query("DELETE FROM person_customer_company_address")
     void deleteAll();
 
-    @Query("SELECT COUNT(*) FROM " + CustomerCompanyAddressEntry.TABLE_NAME)
+    @Query("SELECT COUNT(*) FROM person_customer_company_address")
     LiveData<Integer> getLiveCount();
 
     @Query("SELECT * " +
-            "FROM " + CustomerCompanyAddressEntry.TABLE_NAME + " " +
-            "WHERE person_customer_company_id = :personCustomerCompanyId " +
-            "AND person_customer_address_code||person_customer_address_name LIKE :filter "+
-            "ORDER BY id ")
+            " FROM person_customer_company_address" +
+            " WHERE person_customer_company_id = :personCustomerCompanyId " +
+            " AND person_customer_address_code||person_customer_address_name LIKE :filter " +
+            " AND is_delete = 0" +
+            " ORDER BY id ")
     LiveData<List<CustomerCompanyAddressEntry>> loadAllCustmerCompanyAddressesByPersonCustomerCompanyIdFilter(Long personCustomerCompanyId, String filter);
 
     @Query("SELECT * FROM " + CustomerCompanyAddressEntry.TABLE_NAME + " WHERE id = :id")

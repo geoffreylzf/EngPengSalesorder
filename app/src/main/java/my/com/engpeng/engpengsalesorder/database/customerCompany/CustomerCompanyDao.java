@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface CustomerCompanyDao {
-    @Query("SELECT * FROM " + CustomerCompanyEntry.TABLE_NAME + " ORDER BY id")
+    @Query("SELECT * FROM person_customer_company ORDER BY id")
     LiveData<List<CustomerCompanyEntry>> loadLiveAllCustomerCompanies();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,17 +24,18 @@ public interface CustomerCompanyDao {
     @Query("DELETE FROM " + CustomerCompanyEntry.TABLE_NAME)
     void deleteAll();
 
-    @Query("SELECT COUNT(*) FROM " + CustomerCompanyEntry.TABLE_NAME)
+    @Query("SELECT COUNT(*) FROM person_customer_company")
     LiveData<Integer> getLiveCount();
 
     @Query("SELECT * " +
-            "FROM " + CustomerCompanyEntry.TABLE_NAME + " " +
-            "WHERE person_customer_company_code||person_customer_company_name LIKE :filter " +
-            "AND company_id = :companyId " +
-            "ORDER BY id " +
-            "LIMIT 100")
+            " FROM person_customer_company" +
+            " WHERE person_customer_company_code||person_customer_company_name LIKE :filter" +
+            " AND is_delete = 0" +
+            " AND company_id = :companyId" +
+            " ORDER BY id" +
+            " LIMIT 100")
     LiveData<List<CustomerCompanyEntry>> loadLiveAllCustomerCompaniesByCompanyIdFilter(Long companyId, String filter);
 
-    @Query("SELECT * FROM " + CustomerCompanyEntry.TABLE_NAME + " WHERE id = :id")
+    @Query("SELECT * FROM person_customer_company WHERE id = :id")
     LiveData<CustomerCompanyEntry> loadLiveCustomerCompanyById(Long id);
 }

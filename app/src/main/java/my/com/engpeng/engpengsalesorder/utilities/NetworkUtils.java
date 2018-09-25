@@ -20,6 +20,8 @@ public class NetworkUtils {
 
 
     public final static String PARAM_TYPE = "type";
+    public final static String PARAM_ACTION = "action";
+    public final static String PARAM_UNIQUE_ID = "unique_id";
     public final static String PARAM_LAST_SYNC_DATE = "last_sync_date";
     public final static String PARAM_EMAIL = "email";
 

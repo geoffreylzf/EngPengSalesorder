@@ -13,7 +13,7 @@ import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 
 @Dao
 public interface ItemPackingDao {
-    @Query("SELECT * FROM " + ItemPackingEntry.TABLE_NAME + " ORDER BY id")
+    @Query("SELECT * FROM item_packing ORDER BY id")
     LiveData<List<ItemPackingEntry>> loadAllItemPackings();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -22,10 +22,10 @@ public interface ItemPackingDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateItemPacking(ItemPackingEntry itemPackingEntry);
 
-    @Query("DELETE FROM " + ItemPackingEntry.TABLE_NAME)
+    @Query("DELETE FROM item_packing")
     void deleteAll();
 
-    @Query("SELECT COUNT(*) FROM " + ItemPackingEntry.TABLE_NAME)
+    @Query("SELECT COUNT(*) FROM item_packing")
     LiveData<Integer> getLiveCount();
 
     @Query("SELECT item_packing.*," +
@@ -62,6 +62,7 @@ public interface ItemPackingDao {
             "        ORDER BY starting_date DESC, end_date DESC, create_date DESC) B " +
             "        ON id = B.item_packing_id " +
             " WHERE sku_code||sku_name LIKE :filter" +
+            " AND is_delete = 0" +
             " AND id NOT IN (SELECT item_packing_id FROM temp_salesorder_detail)" +
             " ORDER BY item_packing.id" +
             " LIMIT 100")

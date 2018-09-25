@@ -12,7 +12,7 @@ import java.util.List;
 
 @Dao
 public interface PriceSettingDao {
-    @Query("SELECT * FROM " + PriceSettingEntry.TABLE_NAME + " ORDER BY id")
+    @Query("SELECT * FROM price_setting ORDER BY id")
     LiveData<List<PriceSettingEntry>> loadAllPriceSettings();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -24,12 +24,12 @@ public interface PriceSettingDao {
     @Delete
     void deletePriceSetting(PriceSettingEntry priceSettingEntry);
 
-    @Query("DELETE FROM " + PriceSettingEntry.TABLE_NAME)
+    @Query("DELETE FROM price_setting")
     void deleteAll();
 
-    @Query("SELECT * FROM " + PriceSettingEntry.TABLE_NAME + " WHERE id = :id")
+    @Query("SELECT * FROM price_setting WHERE id = :id")
     PriceSettingEntry loadPriceSettingById(Long id);
 
-    @Query("SELECT COUNT(*) FROM " + PriceSettingEntry.TABLE_NAME)
+    @Query("SELECT COUNT(*) FROM price_setting")
     LiveData<Integer> getLiveCount();
 }

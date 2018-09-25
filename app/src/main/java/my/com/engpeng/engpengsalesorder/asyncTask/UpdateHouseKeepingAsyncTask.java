@@ -24,6 +24,7 @@ import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_UPDATE;
 import static my.com.engpeng.engpengsalesorder.Global.sPassword;
+import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String> {
@@ -64,6 +65,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
     protected String doInBackground(String... strings) {
         String username = sUsername;
         String password = sPassword;
+        String uniqueId = sUniqueId;
         String data = "";
 
         String type = null;
@@ -77,13 +79,9 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
             return null;
         }
 
+        data += NetworkUtils.buildParam(NetworkUtils.PARAM_UNIQUE_ID, uniqueId);
         data += NetworkUtils.buildParam(NetworkUtils.PARAM_TYPE, type);
-        if (action.equals(ACTION_UPDATE)) {
-            TableInfoEntry ti = mDb.tableInfoDao().loadTableInfoByType(type);
-            if (ti.getLastSyncDate() != null || !ti.getLastSyncDate().equals("")) {
-                data += NetworkUtils.buildParam(NetworkUtils.PARAM_LAST_SYNC_DATE, ti.getLastSyncDate());
-            }
-        }
+        data += NetworkUtils.buildParam(NetworkUtils.PARAM_ACTION, action);
 
         uhkatListener.initialProgress(type);
 

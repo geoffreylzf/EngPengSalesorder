@@ -59,45 +59,46 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.CoordinatorLayout
-
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/so_dashboard_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_fragment_so_dashboard_front">
 
-        <LinearLayout
+        <android.support.design.chip.ChipGroup
+            android:id="@+id/so_dashboard_cg_filter"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:layout_margin="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
-            <android.support.design.chip.ChipGroup
-                android:id="@+id/so_dashboard_cg_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:layout_margin="16dp">
+            <android.support.design.chip.Chip
+                android:id="@+id/so_dashboard_cp_document_date"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <android.support.design.chip.Chip
-                    android:id="@+id/so_dashboard_cp_document_date"
-                    style="@style/Widget.MaterialComponents.Chip.Action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+            <android.support.design.chip.Chip
+                android:id="@+id/so_dashboard_cp_status"
+                style="@style/Widget.MaterialComponents.Chip.Action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
-                <android.support.design.chip.Chip
-                    android:id="@+id/so_dashboard_cp_status"
-                    style="@style/Widget.MaterialComponents.Chip.Action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+        </android.support.design.chip.ChipGroup>
 
-            </android.support.design.chip.ChipGroup>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/so_dashboard_rv_so"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/so_dashboard_rv_so"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/so_dashboard_cg_filter" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/so_dashboard_fab_add"
@@ -108,9 +109,9 @@
             android:focusable="true"
             android:src="@drawable/ic_baseline_edit_white_24px"
             app:fabSize="normal"
-            app:layout_anchor="@id/so_dashboard_rv_so"
-            app:layout_anchorGravity="bottom|right|end" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

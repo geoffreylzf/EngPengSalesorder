@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.View;
 
 import my.com.engpeng.engpengsalesorder.R;
+import my.com.engpeng.engpengsalesorder.animation.FabOpenAnimation;
 import my.com.engpeng.engpengsalesorder.fragment.SoDashboardFragment;
 import my.com.engpeng.engpengsalesorder.fragment.TempSoCartFragment;
 import my.com.engpeng.engpengsalesorder.fragment.TempSoConfirmFragment;
+import my.com.engpeng.engpengsalesorder.fragment.TempSoHeadFragment;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 public class SalesorderActivity extends AppCompatActivity implements NavigationHost {
@@ -87,5 +89,24 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
             int pixels = (int) (dps * scale + 0.5f);
             abl.setElevation(pixels);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        final Fragment showFragment = getSupportFragmentManager().findFragmentById(R.id.salesorder_fl);
+        if(showFragment instanceof TempSoHeadFragment){
+            ((FabOpenAnimation.Dismissible) showFragment).dismiss(new FabOpenAnimation.Dismissible.OnDismissedListener() {
+                @Override
+                public void onDismissed() {
+                    getSupportFragmentManager().beginTransaction().remove(showFragment).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                    getSupportFragmentManager().popBackStack();
+                }
+            });
+        }else{
+            super.onBackPressed();
+        }
+
+
     }
 }

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -53,7 +55,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SET
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
 
-public class TempSoHeadFragment extends Fragment {
+public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dismissible {
 
     public static final String tag = "TEMP_SO_HEAD_FRAGMENT";
 
@@ -61,6 +63,7 @@ public class TempSoHeadFragment extends Fragment {
     private Button btnStart;
     private View rootView;
     private TextView tvNote;
+    private ImageView ivFabIcon;
 
     private Calendar calendarDocumentDate, calendarDeliveryDate;
     private SimpleDateFormat sdfSave, sdfDisplay;
@@ -69,7 +72,6 @@ public class TempSoHeadFragment extends Fragment {
     private static final int RC_SELECT_ADDRESS = 9002;
 
     private AppDatabase mDb;
-    private Map<String, Long> map;
 
     private Long customerCompanyId, customerAddressId;
     private String documentDate, deliveryDate;
@@ -86,7 +88,7 @@ public class TempSoHeadFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_temp_so_head, container, false);
 
-        etCompany =rootView.findViewById(R.id.temp_so_head_et_company);
+        etCompany = rootView.findViewById(R.id.temp_so_head_et_company);
         etCustomer = rootView.findViewById(R.id.temp_so_head_et_customer);
         etAddress = rootView.findViewById(R.id.temp_so_head_et_address);
         etDocumentDate = rootView.findViewById(R.id.temp_so_head_et_document_date);
@@ -95,6 +97,7 @@ public class TempSoHeadFragment extends Fragment {
         etRemark = rootView.findViewById(R.id.temp_so_head_et_remark);
         btnStart = rootView.findViewById(R.id.temp_so_head_btn_start);
         tvNote = rootView.findViewById(R.id.temp_so_head_tv_note);
+        ivFabIcon = rootView.findViewById(R.id.temp_so_head_iv_fab_icon);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         calendarDocumentDate = Calendar.getInstance();
@@ -133,9 +136,34 @@ public class TempSoHeadFragment extends Fragment {
                     getContext(),
                     rootView,
                     revealAnimationSetting,
-                    ContextCompat.getColor(getContext(), R.color.colorPrimary),
-                    ContextCompat.getColor(getContext(), R.color.colorBackground));
+                    ContextCompat.getColor(getContext(), R.color.colorPrimaryDark),
+                    ContextCompat.getColor(getContext(), R.color.colorBackground),
+                    new FabOpenAnimation.AnimationFinishedListener() {
+                        @Override
+                        public void onAnimationFinished() {
+                            ivFabIcon.setVisibility(View.GONE);
+                        }
+                    });
             isStartingAnimationDone = true;
+        }
+    }
+
+    @Override
+    public void dismiss(final OnDismissedListener listener) {
+        if (revealAnimationSetting != null) {
+            ivFabIcon.setVisibility(View.VISIBLE);
+            FabOpenAnimation.startCircularExitAnimation(
+                    getContext(), rootView, revealAnimationSetting,
+                    ContextCompat.getColor(getContext(), R.color.colorBackground),
+                    ContextCompat.getColor(getContext(), R.color.colorPrimaryDark),
+                    new FabOpenAnimation.AnimationFinishedListener() {
+                        @Override
+                        public void onAnimationFinished() {
+                            listener.onDismissed();
+                        }
+                    });
+        } else {
+            listener.onDismissed();
         }
     }
 
@@ -164,7 +192,7 @@ public class TempSoHeadFragment extends Fragment {
         etRemark.setText(salesorderEntry.getRemark());
     }
 
-    private void displayCompany(long companyId){
+    private void displayCompany(long companyId) {
         final LiveData<BranchEntry> ld = mDb.branchDao().loadLiveBranchById(companyId);
         ld.observe(this, new Observer<BranchEntry>() {
             @Override

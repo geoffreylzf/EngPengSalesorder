@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface SalesorderDao {
     @Query("SELECT * FROM salesorder")
-    LiveData<List<SalesorderEntry>> loadLiveAllSalesorders();
+    List<SalesorderEntry> loadLAllSalesorders();
 
     @Query("SELECT * FROM salesorder WHERE id = :id")
     LiveData<SalesorderEntry> loadLiveSalesorder(Long id);

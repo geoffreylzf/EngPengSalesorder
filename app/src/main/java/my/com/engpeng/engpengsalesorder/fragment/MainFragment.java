@@ -25,6 +25,7 @@ import my.com.engpeng.engpengsalesorder.activity.MainActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainCompanyFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.MainUploadFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
@@ -55,7 +56,7 @@ public class MainFragment extends Fragment implements NavigationHost {
         this.savedInstanceState = savedInstanceState;
 
         setupDrawerLayout();
-        setupDashboard();
+        setupMainDashboard();
 
         return rootView;
     }
@@ -89,7 +90,7 @@ public class MainFragment extends Fragment implements NavigationHost {
                 } else if (id == R.id.main_drawer_start_history) {
                     //TODO open history
                 } else if (id == R.id.main_drawer_start_upload) {
-                    //TODO open upload
+                    navigateTo(new MainUploadFragment(), MainUploadFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_house_log) {
                     //TODO logout confirm
                     ((MainActivity) getActivity()).performLogout();
@@ -101,7 +102,7 @@ public class MainFragment extends Fragment implements NavigationHost {
         });
     }
 
-    private void setupDashboard() {
+    private void setupMainDashboard() {
         if (savedInstanceState == null) {
             getChildFragmentManager()
                     .beginTransaction()
@@ -112,32 +113,35 @@ public class MainFragment extends Fragment implements NavigationHost {
 
     @Override
     public void navigateTo(Fragment fragment, String tag, boolean addToBackStack, View sharedView, String transitionName) {
-        //TODO perform exist checking
-        FragmentTransaction transaction =
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.f_main_fl, fragment, tag);
+        Fragment currentFragment = getChildFragmentManager().findFragmentById(R.id.f_main_fl);
 
-        if (sharedView != null && transitionName != null) {
-            transaction.addSharedElement(sharedView, transitionName);
+        if (currentFragment.getClass() != fragment.getClass()) {
+            String backStateName = fragment.getClass().getName();
+
+            FragmentManager fm = getChildFragmentManager();
+            boolean fragmentPopped = fm.popBackStackImmediate(backStateName, 0);
+
+            if (!fragmentPopped) {
+                FragmentTransaction transaction =
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.f_main_fl, fragment, tag);
+
+                if (sharedView != null && transitionName != null) {
+                    transaction.addSharedElement(sharedView, transitionName);
+                }
+
+                if (addToBackStack) {
+                    transaction.addToBackStack(backStateName);
+                }
+                transaction.commit();
+            }
         }
-
-        if (addToBackStack) {
-            transaction.addToBackStack(null);
-        }
-        transaction.commit();
-    }
-
-    @Override
-    public void clearAllNavigateTo(Fragment fragment, String tag) {
-        getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        navigateTo(fragment, tag, false, null, null);
     }
 
     @Override
     public void navigateDefault() {
         getChildFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        setupDashboard();
     }
 
     public boolean closeDrawerLayout() {

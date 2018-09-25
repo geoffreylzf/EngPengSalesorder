@@ -265,7 +265,7 @@ public class TempSoConfirmFragment extends Fragment {
                     mDb.salesorderDetailDao().insertSalesorderDetail(salesorderDetailEntry);
                 }
 
-                ((NavigationHost) getActivity()).clearAllNavigateTo(new SoDashboardFragment(), SoDashboardFragment.tag);
+                ((NavigationHost) getActivity()).navigateDefault();
             }
         });
     }

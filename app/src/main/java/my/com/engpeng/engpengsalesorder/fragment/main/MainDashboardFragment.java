@@ -52,6 +52,7 @@ public class MainDashboardFragment extends Fragment {
 
         activity = getActivity();
         mDb = AppDatabase.getInstance(activity.getApplicationContext());
+        getActivity().setTitle(getString(R.string.app_name));
 
 
         setupSharedPreferences();

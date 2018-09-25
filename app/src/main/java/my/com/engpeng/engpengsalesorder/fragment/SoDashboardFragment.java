@@ -69,6 +69,7 @@ public class SoDashboardFragment extends Fragment {
     private AppDatabase mDb;
     private SoDashboardDateAdapter dateAdapter;
     private SoDashboardSoAdapter soAdapter;
+    private Bundle savedInstanceState;
 
     private boolean backdropShow = false;
     private String currentFilterStatus;
@@ -102,6 +103,7 @@ public class SoDashboardFragment extends Fragment {
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         getActivity().setTitle("Salesorder Dashboard");
+        this.savedInstanceState = savedInstanceState;
         ((SalesorderActivity) getActivity()).setAppBarLayoutElevation(0);
 
         setupRecycleView();

@@ -23,6 +23,7 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
 
     private Toolbar tb;
     private AppBarLayout abl;
+    private Bundle savedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,13 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
 
         tb = findViewById(R.id.salesorder_selection_tb);
         abl = findViewById(R.id.salesorder_selection_abl);
+        this.savedInstanceState = savedInstanceState;
 
         setSupportActionBar(tb);
+        setupSoDashBoard();
+    }
 
+    private void setupSoDashBoard(){
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -71,14 +76,8 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
     }
 
     @Override
-    public void clearAllNavigateTo(Fragment fragment, String tag) {
-        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        navigateTo(fragment, tag, false, null, null);
-    }
-
-    @Override
     public void navigateDefault() {
-        //do nothing
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     public void setAppBarLayoutElevation(int dps) {

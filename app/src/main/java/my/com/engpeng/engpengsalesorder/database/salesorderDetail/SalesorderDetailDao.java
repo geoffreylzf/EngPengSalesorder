@@ -18,4 +18,7 @@ public interface SalesorderDetailDao {
 
     @Query("DELETE FROM salesorder_detail WHERE salesorder_id = :salesorderId")
     void deleteAllBySalesorderId(Long salesorderId);
+
+    @Query("DELETE FROM salesorder_detail")
+    void deleteAll();
 }

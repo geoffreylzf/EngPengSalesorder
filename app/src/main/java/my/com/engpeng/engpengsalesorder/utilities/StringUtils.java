@@ -1,5 +1,9 @@
 package my.com.engpeng.engpengsalesorder.utilities;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -22,6 +26,16 @@ import static my.com.engpeng.engpengsalesorder.Global.YEARMONTH_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.YEAR_SAVE_FORMAT;
 
 public class StringUtils {
+
+    public static String getAppVersion(Context context){
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static String getDisplayRunningNo(String runningNo) {
         String[] arr = runningNo.split("-");

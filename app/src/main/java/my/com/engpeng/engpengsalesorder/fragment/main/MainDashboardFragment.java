@@ -23,6 +23,7 @@ import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.PREF_KEY;
@@ -36,7 +37,7 @@ public class MainDashboardFragment extends Fragment {
 
     public static final String tag = "MAIN_DASHBOARD_FRAGMENT";
     private Button btnSo;
-    private TextView tvCompany;
+    private TextView tvCompany, tvVersion;
 
     private AppDatabase mDb;
     private FragmentActivity activity;
@@ -48,6 +49,9 @@ public class MainDashboardFragment extends Fragment {
 
         btnSo = rootView.findViewById(R.id.m_dashboard_btn_so);
         tvCompany = rootView.findViewById(R.id.m_dashboard_tv_company);
+        tvVersion = rootView.findViewById(R.id.m_dashboard_tv_version);
+
+        setupVersion();
         setupListener();
 
         activity = getActivity();
@@ -63,6 +67,10 @@ public class MainDashboardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    private void setupVersion(){
+        tvVersion.setText(getString(R.string.version).concat(StringUtils.getAppVersion(getContext())));
     }
 
     public void setupListener() {

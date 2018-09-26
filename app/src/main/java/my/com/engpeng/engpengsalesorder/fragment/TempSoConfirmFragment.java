@@ -304,7 +304,7 @@ public class TempSoConfirmFragment extends Fragment {
     }
 
     private void constructRunningNo() {
-        final String prefix = sUsername + "-" + sCompanyCode + "-" + StringUtils.getSoYearMonthFormat(salesorderEntry.getDocumentDate()) + "-" + Global.RUNNING_CODE_SALESORDER;
+        final String prefix = sUsername + "-" + sCompanyCode + "-" + Global.RUNNING_CODE_SALESORDER + "-" + StringUtils.getSoYearMonthFormat(salesorderEntry.getDocumentDate());
         final String defaultRunningNo = prefix + "-1";
 
         final LiveData<String> ld = mDb.salesorderDao().getLastRunningNoByPrefix(prefix + "%");

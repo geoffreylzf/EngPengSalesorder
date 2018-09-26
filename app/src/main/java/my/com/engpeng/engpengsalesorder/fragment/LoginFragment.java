@@ -26,10 +26,13 @@ import com.google.android.gms.tasks.Task;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.MainActivity;
 import my.com.engpeng.engpengsalesorder.asyncTask.LoginRunnable;
+import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.model.Status;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 import my.com.engpeng.engpengsalesorder.viewModel.LoginViewModel;
 import my.com.engpeng.engpengsalesorder.viewModel.LoginViewModelFactory;
@@ -43,12 +46,14 @@ public class LoginFragment extends Fragment {
     private TextInputLayout tilUsername, tilPassword;
     private EditText etUsername, etPassword;
     private Button btnLogin, btnCancel;
+    private TextView tvVersion;
 
     private GoogleSignInClient googleSignInClient;
     private String email;
     private SignInButton sibtnEmail;
 
     private Dialog dlProgress;
+    private AppDatabase mDb;
 
     @Nullable
     @Override
@@ -62,8 +67,10 @@ public class LoginFragment extends Fragment {
         btnLogin = rootView.findViewById(R.id.login_btn_login);
         btnCancel = rootView.findViewById(R.id.login_btn_cancel);
         sibtnEmail = rootView.findViewById(R.id.login_btn_sign_in_gmail);
+        tvVersion =  rootView.findViewById(R.id.login_tv_version);
 
         getActivity().getWindow().setStatusBarColor(UiUtils.getPrimaryDarkColorId(getContext()));
+        mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
 
         SharedPreferencesUtils.clearUsernamePassword(getContext());
         SharedPreferencesUtils.clearUniqueId(getContext());
@@ -71,13 +78,33 @@ public class LoginFragment extends Fragment {
 
         dlProgress = UiUtils.getProgressDialog(getContext());
 
-        //TODO clear HK and History data
-        //TODO setup version
+        nukeAllData();
+        setupVersion();
 
         setupGoogleSignIn();
         setupListener();
 
         return rootView;
+    }
+
+    private void setupVersion(){
+        tvVersion.setText(getString(R.string.version).concat(StringUtils.getAppVersion(getContext())));
+    }
+
+    private void nukeAllData(){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.salesorderDao().deleteAll();
+                mDb.salesorderDetailDao().deleteAll();
+                mDb.tableInfoDao().deleteAll();
+                mDb.branchDao().deleteAll();
+                mDb.customerCompanyDao().deleteAll();
+                mDb.customerCompanyAddressDao().deleteAll();
+                mDb.itemPackingDao().deleteAll();
+                mDb.priceSettingDao().deleteAll();
+            }
+        });
     }
 
     private void setupGoogleSignIn() {

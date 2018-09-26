@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/m_dashboard_tv_company"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBlueGrey700"
         android:padding="16dp"
@@ -28,5 +28,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/m_dashboard_tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@id/m_dashboard_tv_company"
+        app:layout_constraintTop_toTopOf="@id/m_dashboard_tv_company"
+        app:layout_constraintBottom_toBottomOf="@id/m_dashboard_tv_company"/>
 
 </android.support.constraint.ConstraintLayout>

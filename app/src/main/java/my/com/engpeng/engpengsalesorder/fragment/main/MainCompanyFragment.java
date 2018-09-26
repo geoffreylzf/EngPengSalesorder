@@ -62,7 +62,6 @@ public class MainCompanyFragment extends Fragment {
         ld.observe(this, new Observer<List<BranchEntry>>() {
             @Override
             public void onChanged(@Nullable List<BranchEntry> branchEntryList) {
-                ld.removeObserver(this);
                 LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_from_right);
                 rv.setLayoutAnimation(controller);
                 adapter.setList(branchEntryList);

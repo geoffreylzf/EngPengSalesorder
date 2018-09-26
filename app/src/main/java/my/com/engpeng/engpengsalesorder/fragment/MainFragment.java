@@ -27,6 +27,7 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainCompanyFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.MainHouseKeepingFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainUploadFragment;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
@@ -91,7 +92,7 @@ public class MainFragment extends Fragment implements NavigationHost {
                 if (id == R.id.main_drawer_start_company) {
                     navigateTo(new MainCompanyFragment(), MainCompanyFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_house_keeping) {
-                    startActivity(new Intent(getActivity(), HouseKeepingActivity.class));
+                    navigateTo(new MainHouseKeepingFragment(), MainHouseKeepingFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_history) {
                     //TODO open history
                 } else if (id == R.id.main_drawer_start_upload) {
@@ -115,16 +116,16 @@ public class MainFragment extends Fragment implements NavigationHost {
         }
     }
 
-    private void onPerformLogout(){
+    private void onPerformLogout() {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 int unuploadCount = mDb.salesorderDao().getCountByStatusUpload(SO_STATUS_CONFIRM, 0);
                 if (unuploadCount != 0) {
                     UiUtils.showAlertDialog(getFragmentManager(), getString(R.string.error), getString(R.string.dialog_error_msg_got_un_upload));
-                }else{
+                } else {
                     int draftCount = mDb.salesorderDao().getCountByStatusUpload(SO_STATUS_DRAFT, 0);
-                    if(draftCount != 0){
+                    if (draftCount != 0) {
                         UiUtils.showConfirmDialog(getFragmentManager(),
                                 getString(R.string.dialog_title_logout_with_draft),
                                 getString(R.string.dialog_msg_logout_with_draft),
@@ -135,7 +136,7 @@ public class MainFragment extends Fragment implements NavigationHost {
                                         ((MainActivity) getActivity()).performLogout();
                                     }
                                 });
-                    }else{
+                    } else {
                         UiUtils.showConfirmDialog(getFragmentManager(),
                                 getString(R.string.dialog_title_logout),
                                 getString(R.string.dialog_msg_logout),

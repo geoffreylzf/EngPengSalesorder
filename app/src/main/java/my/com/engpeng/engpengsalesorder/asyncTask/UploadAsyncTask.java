@@ -56,7 +56,7 @@ public class UploadAsyncTask extends AsyncTask<Void, Void, String> {
         }
         Gson gson = new Gson();
         String salesorders = gson.toJson(salesorderEntryList);
-        data += NetworkUtils.buildParam(NetworkUtils.PARAM_SALESORDERS, salesorders);
+        data += NetworkUtils.buildParam(SalesorderEntry.TABLE_NAME, salesorders);
 
         URL url = NetworkUtils.buildUrl(NetworkUtils.MODULE_UPLOAD, isLocal);
         try {

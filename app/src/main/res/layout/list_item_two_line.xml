@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="73dp"
+    android:background="?attr/selectableItemBackground">
 
-    <LinearLayout style="@style/ListItemLinearLayoutStyle">
+    <TextView
+        android:id="@+id/li_tv_primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/colorListItemPrimaryText"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/li_tv_secondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Customer Name" />
 
-        <TextView
-            android:id="@+id/li_tv_primary"
-            style="@style/ListItemPrimaryTextViewStyle"
-            tools:text="Customer Name" />
-
-        <TextView
-            android:id="@+id/li_tv_secondary"
-            style="@style/ListItemSecondaryTextViewStyle"
-            tools:text="Customer Code" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/li_tv_secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/colorListItemSecondaryText"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/li_v_divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/li_tv_primary"
+        tools:text="Customer Code" />
 
     <View
+        android:id="@+id/li_v_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorDivider"/>
+        android:background="@color/colorDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -128,6 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/local_purchase_order"
+            android:maxLength="100"
             android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
@@ -147,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/remark"
+            android:maxLength="100"
             android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>

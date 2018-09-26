@@ -25,7 +25,7 @@ public class StringUtils {
 
     public static String getDisplayRunningNo(String runningNo) {
         String[] arr = runningNo.split("-");
-        return arr[1] + "-" + arr[2] + "-" + arr[3];
+        return arr[1] + "-" + arr[2] + "-" + arr[3] + "-" + arr[4];
     }
 
     public static String getCurrentDateTime() {

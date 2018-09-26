@@ -77,9 +77,19 @@
     <string name="dialog_title_exit_app">Are you sure to exit?</string>
     <string name="dialog_msg_exit_app">Unsaved data will loss.</string>
     <string name="dialog_btn_positive_exit_app">Exit</string>
+
+    <string name="dialog_title_logout_with_draft">Are you sure to logout with un-confirm draft?</string>
+    <string name="dialog_msg_logout_with_draft">Un-confirm draft will loss.</string>
+    <string name="dialog_btn_positive_logout_with_draft">Logout</string>
+
+    <string name="dialog_title_logout">Are you sure to logout?</string>
+    <string name="dialog_msg_logout">Internet connection is required to login.</string>
+    <string name="dialog_btn_positive_logout">Logout</string>
+
     <string name="dialog_error_msg_so_no_item">No item to proceed, please add at least 1 item.</string>
     <string name="dialog_error_msg_no_company_selected">No company selected.</string>
     <string name="dialog_error_msg_no_data_upload">No data to upload.</string>
+    <string name="dialog_error_msg_got_un_upload">Got un-upload data, please upload before logout.</string>
 
     <string name="note_alert_clear_detail">
         * Please note that changing customer company and delivery date will clear all pre-selected items.

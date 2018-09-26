@@ -23,10 +23,15 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.HouseKeepingActivity;
 import my.com.engpeng.engpengsalesorder.activity.MainActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
+import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainCompanyFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainUploadFragment;
+import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
+import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
+import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
 import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
@@ -37,10 +42,10 @@ public class MainFragment extends Fragment implements NavigationHost {
     private Toolbar tb;
     private DrawerLayout dl;
     private NavigationView nvStart;
-
     private TextView navStartTvUsername, navStartTvUniqueId;
-    private Bundle savedInstanceState;
 
+    private Bundle savedInstanceState;
+    private AppDatabase mDb;
 
     @Nullable
     @Override
@@ -52,7 +57,7 @@ public class MainFragment extends Fragment implements NavigationHost {
         nvStart = rootView.findViewById(R.id.f_main_start_nv);
 
         getActivity().getWindow().setStatusBarColor(getActivity().getColor(R.color.colorTransparent));
-
+        mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         this.savedInstanceState = savedInstanceState;
 
         setupDrawerLayout();
@@ -92,8 +97,7 @@ public class MainFragment extends Fragment implements NavigationHost {
                 } else if (id == R.id.main_drawer_start_upload) {
                     navigateTo(new MainUploadFragment(), MainUploadFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_house_log) {
-                    //TODO logout confirm
-                    ((MainActivity) getActivity()).performLogout();
+                    onPerformLogout();
                 }
 
                 dl.closeDrawer(GravityCompat.START);
@@ -109,6 +113,44 @@ public class MainFragment extends Fragment implements NavigationHost {
                     .add(R.id.f_main_fl, new MainDashboardFragment(), MainDashboardFragment.tag)
                     .commit();
         }
+    }
+
+    private void onPerformLogout(){
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                int unuploadCount = mDb.salesorderDao().getCountByStatusUpload(SO_STATUS_CONFIRM, 0);
+                if (unuploadCount != 0) {
+                    UiUtils.showAlertDialog(getFragmentManager(), getString(R.string.error), getString(R.string.dialog_error_msg_got_un_upload));
+                }else{
+                    int draftCount = mDb.salesorderDao().getCountByStatusUpload(SO_STATUS_DRAFT, 0);
+                    if(draftCount != 0){
+                        UiUtils.showConfirmDialog(getFragmentManager(),
+                                getString(R.string.dialog_title_logout_with_draft),
+                                getString(R.string.dialog_msg_logout_with_draft),
+                                getString(R.string.dialog_btn_positive_logout_with_draft),
+                                new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        ((MainActivity) getActivity()).performLogout();
+                                    }
+                                });
+                    }else{
+                        UiUtils.showConfirmDialog(getFragmentManager(),
+                                getString(R.string.dialog_title_logout),
+                                getString(R.string.dialog_msg_logout),
+                                getString(R.string.dialog_btn_positive_logout),
+                                new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                                    @Override
+                                    public void onPositiveButtonClicked() {
+                                        ((MainActivity) getActivity()).performLogout();
+                                    }
+                                });
+                    }
+                }
+            }
+        });
+
     }
 
     @Override

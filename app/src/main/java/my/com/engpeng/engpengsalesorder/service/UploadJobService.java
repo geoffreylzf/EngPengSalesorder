@@ -63,7 +63,7 @@ public class UploadJobService extends JobService implements UploadAsyncTask.Uplo
 
     private void setupNotificationBuilder() {
         notificationBuilder = new NotificationCompat.Builder(this, UPLOAD_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.stat_sys_download)
+                .setSmallIcon(android.R.drawable.stat_sys_upload)
                 .setContentTitle("Auto Upload")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setOngoing(true);
@@ -88,7 +88,7 @@ public class UploadJobService extends JobService implements UploadAsyncTask.Uplo
     @Override
     public void completeProgress() {
         notificationBuilder
-                .setSmallIcon(android.R.drawable.stat_sys_download_done)
+                .setSmallIcon(android.R.drawable.stat_sys_upload_done)
                 .setContentText("Upload complete")
                 .setOngoing(false)
                 .setProgress(0, 0, false);

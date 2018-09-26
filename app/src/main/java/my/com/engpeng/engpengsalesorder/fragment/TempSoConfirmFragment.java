@@ -46,6 +46,7 @@ import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
+import static my.com.engpeng.engpengsalesorder.Global.sCompanyCode;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class TempSoConfirmFragment extends Fragment {
@@ -303,7 +304,7 @@ public class TempSoConfirmFragment extends Fragment {
     }
 
     private void constructRunningNo() {
-        final String prefix = sUsername + "-" + StringUtils.getSoYearMonthFormat(salesorderEntry.getDocumentDate()) + "-" + Global.RUNNING_CODE_SALESORDER;
+        final String prefix = sUsername + "-" + sCompanyCode + "-" + StringUtils.getSoYearMonthFormat(salesorderEntry.getDocumentDate()) + "-" + Global.RUNNING_CODE_SALESORDER;
         final String defaultRunningNo = prefix + "-1";
 
         final LiveData<String> ld = mDb.salesorderDao().getLastRunningNoByPrefix(prefix + "%");
@@ -315,7 +316,7 @@ public class TempSoConfirmFragment extends Fragment {
                     runningNo = defaultRunningNo;
                 } else {
                     String[] arr = lastRunningNo.split("-");
-                    int newNo = Integer.parseInt(arr[3]) + 1;
+                    int newNo = Integer.parseInt(arr[4]) + 1;
                     runningNo = prefix + "-" + newNo;
                 }
             }

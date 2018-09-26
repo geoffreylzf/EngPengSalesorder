@@ -12,8 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.HouseKeepingActivity" />
+        <activity android:name=".activity.CustomerSelectionActivity" />
+        <activity android:name=".activity.AddressSelectionActivity" />
+        <activity android:name=".activity.ItemSelectionActivity" />
+        <activity android:name=".activity.SalesorderActivity" />
 
         <service
             android:name=".service.UpdateHouseKeepingService"
@@ -34,10 +37,19 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.CustomerSelectionActivity" />
-        <activity android:name=".activity.AddressSelectionActivity" />
-        <activity android:name=".activity.ItemSelectionActivity" />
-        <activity android:name=".activity.SalesorderActivity" />
+        <service
+            android:name=".service.UploadService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".service.UploadJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
+
     </application>
 
 </manifest>

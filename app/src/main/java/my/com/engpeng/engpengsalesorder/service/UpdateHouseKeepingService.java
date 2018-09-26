@@ -5,20 +5,13 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.asyncTask.UpdateHouseKeepingAsyncTask;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
@@ -28,24 +21,18 @@ import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.Customer
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
-import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
-import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_GET_ALL_TABLE;
-import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
-import static my.com.engpeng.engpengsalesorder.Global.ACTION_UPDATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_ACTION;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LOCAL;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TABLE;
-import static my.com.engpeng.engpengsalesorder.Global.sPassword;
-import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class UpdateHouseKeepingService extends Service implements
         UpdateHouseKeepingAsyncTask.UpdateHouseKeepingAsyncTaskListener {
 
     private static final String UPDATE_HOUSE_KEEPING_NOTIFICATION_CHANNEL_ID = "UPDATE_HOUSE_KEEPING";
-    private static final int UPDATE_HOUSE_KEEPING_NOTIFICATION_ID = 1000;
+    private static final int UPDATE_HOUSE_KEEPING_NOTIFICATION_ID = 1001;
 
     private static final int PROGRESS_MAX = 100;
     private static final int PROGRESS_MIN = 0;
@@ -54,7 +41,7 @@ public class UpdateHouseKeepingService extends Service implements
     private NotificationManager notificationManager;
     private int progressCurrent = 0;
     boolean isLocal;
-    AppDatabase db;
+    private AppDatabase mDb;
 
     public UpdateHouseKeepingService() {
     }
@@ -62,7 +49,7 @@ public class UpdateHouseKeepingService extends Service implements
     @Override
     public void onCreate() {
         super.onCreate();
-        db = AppDatabase.getInstance(getApplicationContext());
+        mDb = AppDatabase.getInstance(getApplicationContext());
         setupNotificationBuilder();
         setupNotificationManager();
     }
@@ -110,7 +97,7 @@ public class UpdateHouseKeepingService extends Service implements
             tableInfoList.add(new TableInfoEntry(table, false));
         }
 
-        UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, db, tableInfoList, action, isLocal, this);
+        UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, isLocal, this);
         updateHouseKeepingAsyncTask.execute();
 
         return START_STICKY;

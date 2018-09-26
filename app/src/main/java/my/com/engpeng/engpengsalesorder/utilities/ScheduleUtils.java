@@ -14,6 +14,7 @@ import com.firebase.jobdispatcher.Trigger;
 import java.util.concurrent.TimeUnit;
 
 import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingJobService;
+import my.com.engpeng.engpengsalesorder.service.UploadJobService;
 
 public class ScheduleUtils {
     private static final int REMINDER_INTERVAL_HOURS = 3;
@@ -22,10 +23,10 @@ public class ScheduleUtils {
     private static final int SYNC_FLEXTIME_SECONDS = (int) (TimeUnit.HOURS.toSeconds(SYNC_FLEXTIME_HOURS));
     private static final String AUTO_UPDATE_HOUSE_KEEPING_JOB_TAG = "AUTO_UPDATE_HOUSE_KEEPING_JOB_TAG";
 
-    private static boolean sInitialized;
+    private static boolean isUpdateInitialized;
 
     synchronized public static void scheduleAutoUpdate(@NonNull final Context context) {
-        if (sInitialized) return;
+        if (isUpdateInitialized) return;
 
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
@@ -41,6 +42,29 @@ public class ScheduleUtils {
                 .build();
 
         dispatcher.schedule(autoUpdateHouseKeepingJob);
-        sInitialized = true;
+        isUpdateInitialized = true;
+    }
+
+    private static final String AUTO_UPLOAD_JOB_TAG = "AUTO_UPLOAD_JOB_TAG";
+    private static boolean isUploadInitialized;
+
+    synchronized public static void scheduleAutoUpload(@NonNull final Context context) {
+        if (isUploadInitialized) return;
+
+        Driver driver = new GooglePlayDriver(context);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
+
+        Job autoUpdateHouseKeepingJob = dispatcher.newJobBuilder()
+                .setService(UploadJobService.class)
+                .setTag(AUTO_UPLOAD_JOB_TAG)
+                .setConstraints(Constraint.ON_ANY_NETWORK)
+                .setLifetime(Lifetime.FOREVER)
+                .setRecurring(true)
+                .setTrigger(Trigger.executionWindow(REMINDER_INTERVAL_SECONDS, REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
+                .setReplaceCurrent(true)
+                .build();
+
+        dispatcher.schedule(autoUpdateHouseKeepingJob);
+        isUploadInitialized = true;
     }
 }

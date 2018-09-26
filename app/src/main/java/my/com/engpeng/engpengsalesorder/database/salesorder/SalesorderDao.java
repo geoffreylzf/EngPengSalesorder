@@ -13,10 +13,13 @@ import java.util.List;
 @Dao
 public interface SalesorderDao {
     @Query("SELECT * FROM salesorder")
-    List<SalesorderEntry> loadLAllSalesorders();
+    List<SalesorderEntry> loadAllSalesorders();
 
     @Query("SELECT * FROM salesorder WHERE id = :id")
     LiveData<SalesorderEntry> loadLiveSalesorder(Long id);
+
+    @Query("SELECT * FROM salesorder WHERE id = :id")
+    SalesorderEntry loadSalesorder(Long id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertSalesorder(SalesorderEntry salesorderEntry);
@@ -49,4 +52,10 @@ public interface SalesorderDao {
 
     @Query("DELETE FROM salesorder WHERE id = :id")
     void deleteById(Long id);
+
+    @Query("SELECT * FROM salesorder WHERE status = :status AND is_upload = :upload")
+    List<SalesorderEntry> loadAllSalesorderByStatusUpload(String status, int upload);
+
+    @Query("SELECT COUNT(*) FROM salesorder WHERE status = :status AND is_upload = :upload")
+    int getCountByStatusUpload(String status, int upload);
 }

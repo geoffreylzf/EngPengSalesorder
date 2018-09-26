@@ -7,8 +7,12 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import org.parceler.Parcel;
+import org.parceler.Transient;
+
+import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.Global;
+import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_YEAR;
@@ -44,6 +48,10 @@ public class SalesorderEntry {
     public String createDatetime;
     @ColumnInfo(name = "modify_datetime")
     public String modifyDatetime;
+
+    @Ignore
+    @Transient
+    public List<SalesorderDetailEntry> salesorderDetails;
 
     public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
                            String documentDate, String deliveryDate,
@@ -307,5 +315,13 @@ public class SalesorderEntry {
 
     public void setModifyDatetime(String modifyDatetime) {
         this.modifyDatetime = modifyDatetime;
+    }
+
+    public List<SalesorderDetailEntry> getSalesorderDetails() {
+        return salesorderDetails;
+    }
+
+    public void setSalesorderDetails(List<SalesorderDetailEntry> salesorderDetails) {
+        this.salesorderDetails = salesorderDetails;
     }
 }

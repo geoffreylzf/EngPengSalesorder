@@ -8,378 +8,349 @@
     android:padding="32dp"
     tools:context=".activity.HouseKeepingActivity">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/house_keeping_cl_branch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_cust"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_bias="0.35">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/house_keeping_tv_branch_count"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:text="@string/branch"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_branch_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-            <LinearLayout
-                android:id="@+id/house_keeping_ll_branch"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/house_keeping_btn_branch_refresh"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_branch_count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/branch"
-                        android:textAlignment="textStart" />
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_branch_progress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/default_progress"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/house_keeping_pb_branch_progress"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="100" />
-
-                <TextView
-                    android:id="@+id/house_keeping_tv_branch_last_sync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/last_synchronize"
-                    android:textAlignment="textStart" />
-
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/house_keeping_btn_branch_refresh"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_baseline_refresh_24px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/house_keeping_ll_branch"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_branch_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_branch_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_branch_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_branch_count" />
 
-            <LinearLayout
-                android:id="@+id/house_keeping_ll_cust"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/house_keeping_btn_cust_refresh"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_cust_count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/customer_company"
-                        android:textAlignment="textStart" />
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_cust_progress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/default_progress"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/house_keeping_pb_cust_progress"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="100" />
-
-                <TextView
-                    android:id="@+id/house_keeping_tv_cust_last_sync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/last_synchronize"
-                    android:textAlignment="textStart" />
-
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/house_keeping_btn_cust_refresh"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_baseline_refresh_24px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/house_keeping_ll_cust"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/house_keeping_tv_branch_last_sync"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_branch_progress" />
 
-            <LinearLayout
-                android:id="@+id/house_keeping_ll_comp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/house_keeping_btn_addr_refresh"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_addr_count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/customer_company"
-                        android:textAlignment="textStart" />
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_addr_progress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/default_progress"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/house_keeping_pb_addr_progress"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="100" />
-
-                <TextView
-                    android:id="@+id/house_keeping_tv_addr_last_sync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/last_synchronize"
-                    android:textAlignment="textStart" />
-
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/house_keeping_btn_addr_refresh"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_baseline_refresh_24px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/house_keeping_ll_comp"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/house_keeping_tv_branch_progress"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_branch_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_branch_refresh" />
 
-            <LinearLayout
-                android:id="@+id/house_keeping_ll_ip"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/house_keeping_btn_ip_refresh"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/house_keeping_btn_branch_refresh"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_branch_progress"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+    </android.support.constraint.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/house_keeping_tv_ip_count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/item_packing"
-                        android:textAlignment="textStart" />
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/house_keeping_cl_cust"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_addr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_branch">
 
-                    <TextView
-                        android:id="@+id/house_keeping_tv_ip_progress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/default_progress"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-
-                <ProgressBar
-                    android:id="@+id/house_keeping_pb_ip_progress"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="100" />
-
-                <TextView
-                    android:id="@+id/house_keeping_tv_ip_last_sync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/last_synchronize"
-                    android:textAlignment="textStart" />
-
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/house_keeping_btn_ip_refresh"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_baseline_refresh_24px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/house_keeping_ll_ip"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/house_keeping_tv_cust_count"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:text="@string/customer_company"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_cust_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-            <LinearLayout
-                android:id="@+id/house_keeping_ll_ps"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/house_keeping_btn_ps_refresh"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_ps_count"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/price_setting"
-                        android:textAlignment="textStart" />
-
-                    <TextView
-                        android:id="@+id/house_keeping_tv_ps_progress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/default_progress"
-                        android:textAlignment="textEnd" />
-
-                </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/house_keeping_pb_ps_progress"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:max="100" />
-
-                <TextView
-                    android:id="@+id/house_keeping_tv_ps_last_sync"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/last_synchronize"
-                    android:textAlignment="textStart" />
-
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/house_keeping_btn_ps_refresh"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_baseline_refresh_24px"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/house_keeping_ll_ps"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-        <CheckBox
-            android:id="@+id/house_keeping_cb_local"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_cust_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/local2" />
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_cust_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_cust_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_cust_count" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/house_keeping_tv_cust_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_cust_progress" />
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/house_keeping_btn_resync_all"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/re_sync_all"
-                app:icon="@drawable/ic_baseline_refresh_24px"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                android:layout_marginEnd="4dp"/>
+        <TextView
+            android:id="@+id/house_keeping_tv_cust_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_cust_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_cust_refresh" />
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/house_keeping_btn_update_all"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/update_all"
-                android:layout_marginStart="4dp"
-                app:icon="@drawable/ic_baseline_update_24px"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp"/>
+        <ImageButton
+            android:id="@+id/house_keeping_btn_cust_refresh"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_cust_progress"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    </LinearLayout>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/house_keeping_cl_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_ip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_cust">
+
+        <TextView
+            android:id="@+id/house_keeping_tv_addr_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/customer_company_address"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_addr_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_addr_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_addr_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_addr_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_addr_count" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_addr_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_addr_progress" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_addr_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_addr_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_addr_refresh" />
+
+        <ImageButton
+            android:id="@+id/house_keeping_btn_addr_refresh"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_addr_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/house_keeping_cl_ip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_ps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_addr">
+
+        <TextView
+            android:id="@+id/house_keeping_tv_ip_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_packing"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_ip_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_ip_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_ip_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_ip_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_ip_count" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_ip_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_ip_progress" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_ip_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_ip_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_ip_refresh" />
+
+        <ImageButton
+            android:id="@+id/house_keeping_btn_ip_refresh"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_ip_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/house_keeping_cl_ps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cb_local"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_ip">
+
+        <TextView
+            android:id="@+id/house_keeping_tv_ps_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price_setting"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_ps_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_ps_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_ps_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_ps_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_ps_count" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_ps_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_ps_progress" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_ps_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_ps_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_ps_refresh" />
+
+        <ImageButton
+            android:id="@+id/house_keeping_btn_ps_refresh"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_ps_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <CheckBox
+        android:id="@+id/house_keeping_cb_local"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/local2"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_btn_resync_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_ps" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/house_keeping_btn_resync_all"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_weight="1"
+        android:text="@string/re_sync_all"
+        app:icon="@drawable/ic_baseline_refresh_24px"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cb_local"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_update_all"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/house_keeping_btn_update_all"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_weight="1"
+        android:text="@string/update_all"
+        app:icon="@drawable/ic_baseline_update_24px"
+        app:iconGravity="textStart"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cb_local"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/house_keeping_btn_resync_all"
+        app:iconPadding="8dp" />
 
 </android.support.constraint.ConstraintLayout>

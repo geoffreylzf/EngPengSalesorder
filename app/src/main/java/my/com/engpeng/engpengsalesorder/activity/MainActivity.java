@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             sPassword = user.getPassword();
             sUniqueId = SharedPreferencesUtils.getUniqueId(this);
             ScheduleUtils.scheduleAutoUpdate(this);
+            ScheduleUtils.scheduleAutoUpload(this);
             openMainFragment();
         }
     }

@@ -8,6 +8,7 @@
     <string name="price_setting">Price Setting</string>
     <string name="customer">Customer</string>
     <string name="customer_company">Customer Company</string>
+    <string name="customer_company_address">Customer Company Address</string>
     <string name="branch">Branch</string>
     <string name="customer_address">Customer Address</string>
     <string name="item_packing">Item Packing</string>
@@ -78,6 +79,7 @@
     <string name="dialog_btn_positive_exit_app">Exit</string>
     <string name="dialog_error_msg_so_no_item">No item to proceed, please add at least 1 item.</string>
     <string name="dialog_error_msg_no_company_selected">No company selected.</string>
+    <string name="dialog_error_msg_no_data_upload">No data to upload.</string>
 
     <string name="note_alert_clear_detail">
         * Please note that changing customer company and delivery date will clear all pre-selected items.

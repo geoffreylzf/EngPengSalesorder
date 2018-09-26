@@ -14,7 +14,6 @@ import com.firebase.jobdispatcher.JobService;
 import java.util.ArrayList;
 import java.util.List;
 
-import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.asyncTask.UpdateHouseKeepingAsyncTask;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
@@ -23,17 +22,18 @@ import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.Customer
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_UPDATE;
 
 public class UpdateHouseKeepingJobService extends JobService implements
-        UpdateHouseKeepingAsyncTask.UpdateHouseKeepingAsyncTaskListener{
+        UpdateHouseKeepingAsyncTask.UpdateHouseKeepingAsyncTaskListener {
 
     private UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask;
 
     private static final String UPDATE_HOUSE_KEEPING_NOTIFICATION_CHANNEL_ID = "UPDATE_HOUSE_KEEPING_SCHEDULE";
-    private static final int UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID = 10000;
+    private static final int UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID = 10001;
 
     private static final int PROGRESS_MAX = 100;
     private static final int PROGRESS_MIN = 0;
@@ -41,31 +41,34 @@ public class UpdateHouseKeepingJobService extends JobService implements
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManager notificationManager;
     private int progressCurrent = 0;
-    AppDatabase db;
+    private AppDatabase mDb;
 
     private JobParameters job;
 
     @Override
     public boolean onStartJob(JobParameters job) {
         this.job = job;
-        Log.e("UpdateHouseKeepingAsyncTask", "onStartJob");
 
-        db = AppDatabase.getInstance(getApplicationContext());
+        mDb = AppDatabase.getInstance(getApplicationContext());
         setupNotificationBuilder();
         setupNotificationManager();
 
-        startForeground(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
+        if (SharedPreferencesUtils.getUsernamePassword(this) != null) {
+            startForeground(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
 
-        List<TableInfoEntry> tableInfoList = new ArrayList<>();
-        tableInfoList.add(new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, false));
-        tableInfoList.add(new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, false));
-        tableInfoList.add(new TableInfoEntry(ItemPackingEntry.TABLE_NAME, false));
-        tableInfoList.add(new TableInfoEntry(PriceSettingEntry.TABLE_NAME, false));
+            List<TableInfoEntry> tableInfoList = new ArrayList<>();
+            tableInfoList.add(new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(ItemPackingEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(PriceSettingEntry.TABLE_NAME, false));
 
-        String action = ACTION_UPDATE;
+            String action = ACTION_UPDATE;
 
-        updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, db, tableInfoList, action, false, this);
-        updateHouseKeepingAsyncTask.execute();
+            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, false, this);
+            updateHouseKeepingAsyncTask.execute();
+        } else {
+            stopSelf();
+        }
 
         return true;
     }

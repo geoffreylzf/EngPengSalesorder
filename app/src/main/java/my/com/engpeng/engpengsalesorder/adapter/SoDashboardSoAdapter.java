@@ -58,17 +58,16 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             title = StringUtils.getDisplayRunningNo(title);
         }
 
-        //TODO clear create and modify date
-        soViewHolder.tvTitle.setText(title + " (" + item.getCreateDatetime() + ")");
+        soViewHolder.tvTitle.setText(title);
         soViewHolder.tvCustomer.setText(item.getCustomerCompanyName());
-        soViewHolder.tvAddress.setText(item.getCustomerAddressName() + " (" + item.getModifyDatetime() + ")");
+        soViewHolder.tvAddress.setText(item.getCustomerAddressName());
         soViewHolder.cpDeliveryDate.setText(item.getDeliveryDate());
         soViewHolder.cpCount.setText(String.valueOf(item.getCount()));
 
         if (item.getIsUpload() == 1) {
             soViewHolder.ivUpload.setVisibility(View.VISIBLE);
         } else {
-            //TODO soViewHolder.ivUpload.setVisibility(View.GONE);
+            soViewHolder.ivUpload.setVisibility(View.GONE);
         }
 
         if (item.getStatus().equals(SO_STATUS_DRAFT)) {

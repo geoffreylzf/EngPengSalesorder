@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.activity.HouseKeepingActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
@@ -37,7 +36,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_ACTION;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LOCAL;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TABLE;
 
-public class MainHouseKeepingFragment extends Fragment {
+public class HouseKeepingFragment extends Fragment {
     public static final String tag = "MAIN_HOUSE_KEEPING_FRAGMENT";
 
     private ImageButton ibBranchRefresh;

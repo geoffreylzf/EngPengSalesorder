@@ -31,6 +31,7 @@ public class UploadAsyncTask extends AsyncTask<Void, Void, String> {
     private UploadAsyncTaskListener uatListener;
 
     public interface UploadAsyncTaskListener {
+        void initialProgress();
         void completeProgress();
     }
 
@@ -57,6 +58,8 @@ public class UploadAsyncTask extends AsyncTask<Void, Void, String> {
         Gson gson = new Gson();
         String salesorders = gson.toJson(salesorderEntryList);
         data += NetworkUtils.buildParam(SalesorderEntry.TABLE_NAME, salesorders);
+
+        uatListener.initialProgress();
 
         URL url = NetworkUtils.buildUrl(NetworkUtils.MODULE_UPLOAD, isLocal);
         try {

@@ -28,8 +28,6 @@ public interface TableInfoDao {
     @Query("SELECT * FROM table_info WHERE type = :type")
     LiveData<TableInfoEntry> loadLiveTableInfoByType(String type);
 
-    @Query("SELECT * FROM table_info WHERE type = :type")
-    TableInfoEntry loadTableInfoByType(String type);
 
     @Query("DELETE FROM table_info")
     void deleteAll();

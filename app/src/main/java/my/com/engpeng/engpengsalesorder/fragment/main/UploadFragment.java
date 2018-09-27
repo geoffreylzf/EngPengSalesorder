@@ -27,7 +27,7 @@ import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LOCAL;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 
-public class MainUploadFragment extends Fragment {
+public class UploadFragment extends Fragment {
 
     public static final String tag = "MAIN_UPLOAD_FRAGMENT";
 

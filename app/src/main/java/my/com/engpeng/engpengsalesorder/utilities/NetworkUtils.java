@@ -31,7 +31,7 @@ public class NetworkUtils {
 
     final public static String MODULE_GET_HOUSE_KEEPING = "MobileSalesorder/GetHouseKeeping";
     final public static String MODULE_UPLOAD = "MobileSalesorder/Upload";
-    final public static String MODULE_DOWNLOAD_HISTORY = "MobileSalesorder/DownloadHistory";
+    final public static String MODULE_GET_HISTORY = "MobileSalesorder/GetHistory";
     final public static String MODULE_AUTH_LOGIN = "MobileAuth/Login";
 
     final public static String ENCODE = "UTF-8";

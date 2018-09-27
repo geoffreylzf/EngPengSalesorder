@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.json.JSONObject;
+
 @Entity(tableName = SalesorderDetailEntry.TABLE_NAME)
 public class SalesorderDetailEntry {
     @Ignore
@@ -59,6 +61,23 @@ public class SalesorderDetailEntry {
         this.factor = factor;
         this.price = price;
         this.totalPrice = totalPrice;
+    }
+
+    @Ignore
+    public SalesorderDetailEntry(JSONObject jsonObject) {
+        try {
+            setItemPackingId(jsonObject.isNull("ip_i") ? 0 : jsonObject.getLong("ip_i"));
+            setPriceSettingId(jsonObject.isNull("ps_i") ? 0 : jsonObject.getLong("ps_i"));
+            setPriceMethod(jsonObject.isNull("pm") ? null : jsonObject.getString("pm"));
+            setQty(jsonObject.isNull("q") ? 0 : jsonObject.getDouble("q"));
+            setWeight(jsonObject.isNull("w") ? 0 : jsonObject.getDouble("w"));
+            setFactor(jsonObject.isNull("f") ? 0 : jsonObject.getDouble("f"));
+            setPrice(jsonObject.isNull("p") ? 0 : jsonObject.getDouble("p"));
+            setTotalPrice(jsonObject.isNull("tp") ? 0 : jsonObject.getDouble("tp"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public long getId() {

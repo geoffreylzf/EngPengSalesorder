@@ -24,7 +24,7 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 
-public class MainCompanyFragment extends Fragment {
+public class CompanyFragment extends Fragment {
 
     public static final String tag = "MAIN_COMPANY_FRAGMENT";
 

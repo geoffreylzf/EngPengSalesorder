@@ -6,6 +6,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.json.JSONObject;
 import org.parceler.Parcel;
 import org.parceler.Transient;
 
@@ -16,6 +17,7 @@ import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDeta
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_YEAR;
+import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 
 @Parcel
 @Entity(tableName = SalesorderEntry.TABLE_NAME)
@@ -118,6 +120,25 @@ public class SalesorderEntry {
         this.runningNo = runningNo;
         this.isUpload = isUpload;
         this.modifyDatetime = modifyDatetime;
+    }
+
+    @Ignore
+    public SalesorderEntry(JSONObject jsonObject) {
+        try {
+            setCompanyId(jsonObject.isNull("c_i") ? 0 : jsonObject.getLong("c_i"));
+            setCustomerCompanyId(jsonObject.isNull("pcc_id") ? 0 : jsonObject.getLong("pcc_id"));
+            setCustomerAddressId(jsonObject.isNull("pcca_id") ? 0 : jsonObject.getLong("pcca_id"));
+            setDocumentDate(jsonObject.isNull("doc_d") ? null : jsonObject.getString("doc_d"));
+            setDeliveryDate(jsonObject.isNull("del_d") ? null : jsonObject.getString("del_d"));
+            setLpo(jsonObject.isNull("lpo") ? null : jsonObject.getString("lpo"));
+            setRemark(jsonObject.isNull("r") ? null : jsonObject.getString("r"));
+            setRunningNo(jsonObject.isNull("rn") ? null : jsonObject.getString("rn"));
+            setCreateDatetime(jsonObject.isNull("c_dt") ? null : jsonObject.getString("c_dt"));
+            setModifyDatetime(jsonObject.isNull("m_dt") ? null : jsonObject.getString("m_dt"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static SimpleSQLiteQuery constructSoGroupQuery(String dateType, long companyId, String dateFilter, String status) {

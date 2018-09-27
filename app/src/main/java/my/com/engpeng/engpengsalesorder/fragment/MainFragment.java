@@ -1,6 +1,5 @@
 package my.com.engpeng.engpengsalesorder.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,15 +19,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.activity.HouseKeepingActivity;
 import my.com.engpeng.engpengsalesorder.activity.MainActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
-import my.com.engpeng.engpengsalesorder.fragment.main.MainCompanyFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.CompanyFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.HistoryFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
-import my.com.engpeng.engpengsalesorder.fragment.main.MainHouseKeepingFragment;
-import my.com.engpeng.engpengsalesorder.fragment.main.MainUploadFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.HouseKeepingFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.UploadFragment;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
@@ -90,13 +89,13 @@ public class MainFragment extends Fragment implements NavigationHost {
                 int id = menuItem.getItemId();
 
                 if (id == R.id.main_drawer_start_company) {
-                    navigateTo(new MainCompanyFragment(), MainCompanyFragment.tag, true, null, null);
+                    navigateTo(new CompanyFragment(), CompanyFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_house_keeping) {
-                    navigateTo(new MainHouseKeepingFragment(), MainHouseKeepingFragment.tag, true, null, null);
+                    navigateTo(new HouseKeepingFragment(), HouseKeepingFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_history) {
-                    //TODO open history
+                    navigateTo(new HistoryFragment(), HistoryFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_upload) {
-                    navigateTo(new MainUploadFragment(), MainUploadFragment.tag, true, null, null);
+                    navigateTo(new UploadFragment(), UploadFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_house_log) {
                     onPerformLogout();
                 }

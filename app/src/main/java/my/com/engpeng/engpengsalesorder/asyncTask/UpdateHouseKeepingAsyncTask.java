@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.net.URL;
 import java.util.List;
 
-import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
@@ -22,14 +21,13 @@ import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
-import static my.com.engpeng.engpengsalesorder.Global.ACTION_UPDATE;
 import static my.com.engpeng.engpengsalesorder.Global.sPassword;
 import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String> {
 
-    private String last_sync_date;
+    private String lastSyncDate;
 
     private List<TableInfoEntry> tableInfoList;
     private Context context;
@@ -85,7 +83,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
         uhkatListener.initialProgress(type);
 
-        last_sync_date = StringUtils.getCurrentDateTime();
+        lastSyncDate = StringUtils.getCurrentDateTime();
         URL url = NetworkUtils.buildUrl(NetworkUtils.MODULE_GET_HOUSE_KEEPING, isLocal);
         try {
             String json = NetworkUtils.sendPostToHttpUrl(url, username, password, data);
@@ -144,7 +142,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 mDb.priceSettingDao().insertPriceSetting(priceSetting);
 
-                TableInfoEntry tableInfo = new TableInfoEntry(PriceSettingEntry.TABLE_NAME, last_sync_date, (i + 1), jsonArray.length());
+                TableInfoEntry tableInfo = new TableInfoEntry(PriceSettingEntry.TABLE_NAME, lastSyncDate, (i + 1), jsonArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
 
                 double row = i + 1;
@@ -170,7 +168,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 mDb.itemPackingDao().insertItemPacking(itemPacking);
 
-                TableInfoEntry tableInfo = new TableInfoEntry(ItemPackingEntry.TABLE_NAME, last_sync_date, (i + 1), jsonArray.length());
+                TableInfoEntry tableInfo = new TableInfoEntry(ItemPackingEntry.TABLE_NAME, lastSyncDate, (i + 1), jsonArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
 
                 double row = i + 1;
@@ -197,7 +195,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 mDb.customerCompanyDao().insertCustomerCompany(customerCompanyEntry);
 
-                TableInfoEntry tableInfo = new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, last_sync_date, (i + 1), jsonArray.length());
+                TableInfoEntry tableInfo = new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, lastSyncDate, (i + 1), jsonArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
 
                 double row = i + 1;
@@ -224,7 +222,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 mDb.customerCompanyAddressDao().insertCustomerCompanyAddress(customerCompanyAddressEntry);
 
-                TableInfoEntry tableInfo = new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, last_sync_date, (i + 1), jsonArray.length());
+                TableInfoEntry tableInfo = new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, lastSyncDate, (i + 1), jsonArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
 
                 double row = i + 1;
@@ -251,7 +249,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 mDb.branchDao().insertBranch(branchEntry);
 
-                TableInfoEntry tableInfo = new TableInfoEntry(BranchEntry.TABLE_NAME, last_sync_date, (i + 1), jsonArray.length());
+                TableInfoEntry tableInfo = new TableInfoEntry(BranchEntry.TABLE_NAME, lastSyncDate, (i + 1), jsonArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
 
                 double row = i + 1;

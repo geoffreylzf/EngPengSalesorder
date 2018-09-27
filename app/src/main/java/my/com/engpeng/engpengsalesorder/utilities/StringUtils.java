@@ -18,6 +18,7 @@ import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompany
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
+import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATETIME_SAVE_FORMAT;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_SAVE_FORMAT;
@@ -99,8 +100,10 @@ public class StringUtils {
             return CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME;
         } else if (table_name.equals(BranchEntry.TABLE_NAME)) {
             return BranchEntry.TABLE_DISPLAY_NAME;
+        }else if (table_name.equals(SalesorderEntry.TABLE_NAME)) {
+            return SalesorderEntry.TABLE_DISPLAY_NAME;
         }
-        return null;
+        return table_name;
     }
 
     public static String getDisplaySoStatus(String status) {

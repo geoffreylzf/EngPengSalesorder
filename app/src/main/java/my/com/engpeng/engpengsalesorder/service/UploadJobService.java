@@ -86,6 +86,14 @@ public class UploadJobService extends JobService implements UploadAsyncTask.Uplo
     }
 
     @Override
+    public void initialProgress() {
+        String content_text = "Prepare upload to server...";
+        notificationBuilder.setContentText(content_text)
+                .setProgress(0, 0, true);
+        notificationManager.notify(UPLOAD_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
+    }
+
+    @Override
     public void completeProgress() {
         notificationBuilder
                 .setSmallIcon(android.R.drawable.stat_sys_upload_done)

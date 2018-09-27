@@ -19,7 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HouseKeepingActivity" />
         <activity android:name=".activity.CustomerSelectionActivity" />
         <activity android:name=".activity.AddressSelectionActivity" />
         <activity android:name=".activity.ItemSelectionActivity" />
@@ -36,7 +35,6 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.UploadService"
             android:enabled="true"
@@ -48,8 +46,10 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-
-
+        <service
+            android:name=".service.DownloadHistoryService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>

@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="@string/download"
+        android:text="@string/retrieve"
         app:icon="@drawable/ic_baseline_history_24px"
         app:iconGravity="textStart"
         app:iconPadding="16dp"

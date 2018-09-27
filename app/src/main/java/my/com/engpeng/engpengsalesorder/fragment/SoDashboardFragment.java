@@ -43,6 +43,7 @@ import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoDisplay;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoGroupByDateDisplay;
 import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
+import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
@@ -124,20 +125,33 @@ public class SoDashboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                RevealAnimationSetting revealAnimationSetting
-                        = new RevealAnimationSetting(
-                        (int) (fabAdd.getX() + fabAdd.getWidth() / 2),
-                        (int) (fabAdd.getY() + fabAdd.getHeight() / 2),
-                        rootView.getWidth(),
-                        rootView.getHeight());
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        TableInfoEntry tableInfoEntry = mDb.tableInfoDao().loadTableInfoByType(SalesorderEntry.TABLE_NAME);
+                        if (tableInfoEntry != null &&
+                                tableInfoEntry.getLastSyncDate() != null &&
+                                tableInfoEntry.getInsert() == tableInfoEntry.getTotal()) {
 
-                TempSoHeadFragment tempSoHeadFragment = new TempSoHeadFragment();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, Parcels.wrap(revealAnimationSetting));
-                tempSoHeadFragment.setArguments(bundle);
+                            RevealAnimationSetting revealAnimationSetting
+                                    = new RevealAnimationSetting(
+                                    (int) (fabAdd.getX() + fabAdd.getWidth() / 2),
+                                    (int) (fabAdd.getY() + fabAdd.getHeight() / 2),
+                                    rootView.getWidth(),
+                                    rootView.getHeight());
 
-                ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true, null, null);
+                            TempSoHeadFragment tempSoHeadFragment = new TempSoHeadFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, Parcels.wrap(revealAnimationSetting));
+                            tempSoHeadFragment.setArguments(bundle);
 
+                            ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true, null, null);
+
+                        } else {
+                            UiUtils.showAlertDialog(getFragmentManager(), getString(R.string.error), getString(R.string.dialog_error_msg_perform_retrieve_history_first));
+                        }
+                    }
+                });
             }
         });
 

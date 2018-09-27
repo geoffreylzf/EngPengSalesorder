@@ -50,6 +50,7 @@
     <string name="version">Version</string>
     <string name="salesorder">Salesorder</string>
     <string name="download">Download</string>
+    <string name="retrieve">Retrieve</string>
     <string name="short_document_date">Doc Date</string>
 
     <string name="default_progress">0/0 (0.00%)</string>
@@ -95,6 +96,7 @@
     <string name="dialog_error_msg_no_data_upload">No data to upload.</string>
     <string name="dialog_error_msg_unable_retrieve_history_due_to_un_upload_data">Unable to retrieve history data due to remaining un-upload data.</string>
     <string name="dialog_error_msg_got_un_upload">Got un-upload data, please upload before logout.</string>
+    <string name="dialog_error_msg_perform_retrieve_history_first">Please perform retrieve history before create new salesorder.</string>
 
     <string name="note_alert_clear_detail">
         * Please note that changing customer company and delivery date will clear all pre-selected items.

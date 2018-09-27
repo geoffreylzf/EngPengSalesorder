@@ -48,6 +48,7 @@ import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
+import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
@@ -70,9 +71,9 @@ public class SoDashboardFragment extends Fragment {
     private Bundle savedInstanceState;
 
     private boolean backdropShow = false;
+    private boolean soListAnimShow = true;
     private String currentFilterStatus;
     private String currentFilterDocDate;
-
     private String currentFilterDateType;
     private String currentFilterDateTypeValue;
 
@@ -107,12 +108,21 @@ public class SoDashboardFragment extends Fragment {
         setupRecycleView();
         setupListener();
 
-        setupStatusFilter(Global.SO_STATUS_ALL);
+        if (currentFilterStatus == null) {
+            currentFilterStatus = Global.SO_STATUS_ALL;
+        }
+        if (currentFilterDateType == null || currentFilterDateTypeValue == null) {
+            currentFilterDateType = DATE_TYPE_MONTH;
+            currentFilterDateTypeValue = StringUtils.getCurrentYearMonth();
+        }
+        if (currentFilterDocDate == null) {
+            currentFilterDocDate = StringUtils.getCurrentDate();
+        }
 
-        retrieveDateList("MONTH", StringUtils.getCurrentYearMonth());
-
-        currentFilterDocDate = StringUtils.getCurrentDate();
-        retrieveSoList();
+        setupStatusFilter(currentFilterStatus);
+        retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
+        retrieveSoList(soListAnimShow);
+        soListAnimShow = false;
 
         return rootView;
     }
@@ -172,15 +182,15 @@ public class SoDashboardFragment extends Fragment {
                 if (currentFilterStatus.equals(Global.SO_STATUS_ALL)) {
                     setupStatusFilter(Global.SO_STATUS_DRAFT);
                     retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
-                    retrieveSoList();
+                    retrieveSoList(true);
                 } else if (currentFilterStatus.equals(Global.SO_STATUS_DRAFT)) {
                     setupStatusFilter(Global.SO_STATUS_CONFIRM);
                     retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
-                    retrieveSoList();
+                    retrieveSoList(true);
                 } else if (currentFilterStatus.equals(Global.SO_STATUS_CONFIRM)) {
                     setupStatusFilter(Global.SO_STATUS_ALL);
                     retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
-                    retrieveSoList();
+                    retrieveSoList(true);
                 }
             }
         });
@@ -208,7 +218,7 @@ public class SoDashboardFragment extends Fragment {
                 if (dateType.equals(DATE_TYPE_DAY)) {
                     triggerBackdrop();
                     currentFilterDocDate = date;
-                    retrieveSoList();
+                    retrieveSoList(true);
                 } else {
                     retrieveDateList(dateType, date);
                 }
@@ -261,7 +271,7 @@ public class SoDashboardFragment extends Fragment {
         });
     }
 
-    private void retrieveSoList() {
+    private void retrieveSoList(final boolean isShowAnim) {
         cpDocumentDate.setText(getString(R.string.short_document_date) + ": " + currentFilterDocDate);
         final LiveData<List<SoDisplay>> ld
                 = mDb.salesorderDao()
@@ -276,8 +286,12 @@ public class SoDashboardFragment extends Fragment {
                     soAdapter.setListAfterDelete(soDisplays, deletePosition);
                     isDeleting = false;
                 } else {
-                    LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
-                    rvSo.setLayoutAnimation(controller);
+                    if(isShowAnim){
+                        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
+                        rvSo.setLayoutAnimation(controller);
+                    }else{
+                        rvSo.setLayoutAnimation(null);
+                    }
                     soAdapter.setList(soDisplays);
                 }
             }

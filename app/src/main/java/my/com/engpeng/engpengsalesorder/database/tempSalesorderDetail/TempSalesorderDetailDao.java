@@ -34,9 +34,6 @@ public interface TempSalesorderDetailDao {
             " ORDER BY id DESC")
     LiveData<List<TempSalesorderDetailDisplay>> loadAllTempSalesorderDetailsWithItemPacking();
 
-    @Query("SELECT COUNT(*) FROM temp_salesorder_detail")
-    LiveData<Integer> getLiveCount();
-
     @Query("SELECT SUM(total_price) FROM temp_salesorder_detail")
     LiveData<Double> getLiveSumTotalPrice();
 }

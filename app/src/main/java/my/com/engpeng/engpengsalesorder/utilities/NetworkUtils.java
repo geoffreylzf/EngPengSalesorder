@@ -29,9 +29,9 @@ public class NetworkUtils {
     final static String LOCAL_URL = "http://192.168.8.1:8833/eperp/";
     final static String PARAM_MODULE = "r";
 
-    final public static String MODULE_GET_HOUSE_KEEPING = "MobileSalesorder/GetHouseKeeping";
-    final public static String MODULE_UPLOAD = "MobileSalesorder/Upload";
-    final public static String MODULE_GET_HISTORY = "MobileSalesorder/GetHistory";
+    final public static String MODULE_GET_HOUSE_KEEPING = "ApiMobileSalesorder/GetHouseKeeping";
+    final public static String MODULE_UPLOAD = "ApiMobileSalesorder/Upload";
+    final public static String MODULE_GET_HISTORY = "ApiMobileSalesorder/GetHistory";
     final public static String MODULE_AUTH_LOGIN = "MobileAuth/Login";
 
     final public static String ENCODE = "UTF-8";

@@ -22,6 +22,8 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
+import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
@@ -69,7 +71,7 @@ public class MainDashboardFragment extends Fragment {
         super.onResume();
     }
 
-    private void setupVersion(){
+    private void setupVersion() {
         tvVersion.setText(getString(R.string.version).concat(StringUtils.getAppVersion(getContext())));
     }
 
@@ -80,7 +82,16 @@ public class MainDashboardFragment extends Fragment {
                 if (sCompanyId != 0) {
                     startActivity(new Intent(activity, SalesorderActivity.class));
                 } else {
-                    UiUtils.showAlertDialog(getFragmentManager(), getString(R.string.error), getString(R.string.dialog_error_msg_no_company_selected));
+                    UiUtils.showConfirmDialog(getFragmentManager(),
+                            getString(R.string.dialog_title_select_company),
+                            getString(R.string.dialog_msg_select_company),
+                            getString(R.string.dialog_btn_positive_select_company),
+                            new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                                @Override
+                                public void onPositiveButtonClicked() {
+                                    ((MainFragment) getParentFragment()).navigateTo(new CompanyFragment(), CompanyFragment.tag, true, null, null);
+                                }
+                            });
                 }
             }
         });

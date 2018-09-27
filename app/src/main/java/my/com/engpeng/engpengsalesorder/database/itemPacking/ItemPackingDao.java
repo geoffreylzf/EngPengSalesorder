@@ -42,6 +42,7 @@ public interface ItemPackingDao {
             "        WHERE is_delete = 0 " +
             "            AND IFNULL(person_customer_company_id, 0) = 0 " +
             "            AND starting_date <= :deliveryDate " +
+            "            AND doc_type_id = 44" +
             "            AND (end_date >= :deliveryDate " +
             "                OR IFNULL(end_date,'') = '') " +
             "            AND price_group_id = (SELECT price_group_id FROM person_customer_company WHERE id = :customerCompanyId) "+

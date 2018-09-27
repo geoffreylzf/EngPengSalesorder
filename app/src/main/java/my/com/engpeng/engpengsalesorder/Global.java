@@ -78,6 +78,8 @@ public class Global {
     public static final String DATE_TYPE_MONTH = "MONTH";
     public static final String DATE_TYPE_DAY = "DAY";
 
+    public static final String LOG_TASK_UPLOAD = "LOG_TASK_UPLOAD";
+
     public static final String RUNNING_CODE_SALESORDER = "S";
     public static final String SALESORDER_YEARMONTH_FORMAT = "yyyyMM";
 

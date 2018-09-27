@@ -44,6 +44,9 @@ public interface SalesorderDao {
     @Query("SELECT COUNT(*) FROM salesorder WHERE status = :status AND is_upload = :upload")
     int getCountByStatusUpload(String status, int upload);
 
+    @Query("SELECT COUNT(*) FROM salesorder WHERE status = :status AND is_upload = :upload")
+    LiveData<Integer> getLiveCountByStatusUpload(String status, int upload);
+
     @Query("DELETE FROM salesorder")
     void deleteAll();
 }

@@ -12,12 +12,15 @@ import java.net.URL;
 import java.util.List;
 
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
+import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
+import static my.com.engpeng.engpengsalesorder.Global.LOG_TASK_UPLOAD;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.sPassword;
 import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
@@ -78,7 +81,7 @@ public class UploadAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String json) {
         try {
-            JSONArray jsonArray = JsonUtils.getJsonArray(json, IMPORTED_MOBILE_IDS);
+            final JSONArray jsonArray = JsonUtils.getJsonArray(json, IMPORTED_MOBILE_IDS);
             if (jsonArray != null) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     final long id = jsonArray.getLong(i);
@@ -91,6 +94,15 @@ public class UploadAsyncTask extends AsyncTask<Void, Void, String> {
                         }
                     });
                 }
+
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String remark = String.valueOf(jsonArray.length()+ " salesorder(s) uploaded");
+                        LogEntry logEntry = new LogEntry(LOG_TASK_UPLOAD, StringUtils.getCurrentDateTime(), remark);
+                        mDb.logDao().insertLog(logEntry);
+                    }
+                });
             }
         } catch (JSONException e) {
             e.printStackTrace();

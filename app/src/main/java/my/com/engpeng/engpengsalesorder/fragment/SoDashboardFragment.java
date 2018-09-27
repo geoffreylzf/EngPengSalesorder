@@ -10,11 +10,8 @@ import android.support.design.chip.Chip;
 import android.support.design.chip.ChipGroup;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +36,7 @@ import my.com.engpeng.engpengsalesorder.adapter.SoDashboardSoAdapter;
 import my.com.engpeng.engpengsalesorder.animation.BackdropMenuAnimation;
 import my.com.engpeng.engpengsalesorder.animation.RevealAnimationSetting;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoDisplay;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SoGroupByDateDisplay;
@@ -52,7 +50,6 @@ import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_DAY;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REVEAL_ANIMATION_SETTINGS;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TRANSITION_NAME;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_DRAFT;
 import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
@@ -128,25 +125,32 @@ public class SoDashboardFragment extends Fragment {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        TableInfoEntry tableInfoEntry = mDb.tableInfoDao().loadTableInfoByType(SalesorderEntry.TABLE_NAME);
-                        if (tableInfoEntry != null &&
-                                tableInfoEntry.getLastSyncDate() != null &&
-                                tableInfoEntry.getInsert() == tableInfoEntry.getTotal()) {
+                        TableInfoEntry soInfo = mDb.tableInfoDao().loadTableInfoByType(SalesorderEntry.TABLE_NAME);
+                        if (soInfo != null &&
+                                soInfo.getLastSyncDate() != null &&
+                                soInfo.getInsert() == soInfo.getTotal()) {
 
-                            RevealAnimationSetting revealAnimationSetting
-                                    = new RevealAnimationSetting(
-                                    (int) (fabAdd.getX() + fabAdd.getWidth() / 2),
-                                    (int) (fabAdd.getY() + fabAdd.getHeight() / 2),
-                                    rootView.getWidth(),
-                                    rootView.getHeight());
+                            TableInfoEntry psInfo = mDb.tableInfoDao().loadTableInfoByType(PriceSettingEntry.TABLE_NAME);
 
-                            TempSoHeadFragment tempSoHeadFragment = new TempSoHeadFragment();
-                            Bundle bundle = new Bundle();
-                            bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, Parcels.wrap(revealAnimationSetting));
-                            tempSoHeadFragment.setArguments(bundle);
+                            if (psInfo != null &&
+                                    psInfo.getLastSyncDate() != null &&
+                                    psInfo.getInsert() == psInfo.getTotal()) {
+                                RevealAnimationSetting revealAnimationSetting
+                                        = new RevealAnimationSetting(
+                                        (int) (fabAdd.getX() + fabAdd.getWidth() / 2),
+                                        (int) (fabAdd.getY() + fabAdd.getHeight() / 2),
+                                        rootView.getWidth(),
+                                        rootView.getHeight());
 
-                            ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true, null, null);
+                                TempSoHeadFragment tempSoHeadFragment = new TempSoHeadFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable(I_KEY_REVEAL_ANIMATION_SETTINGS, Parcels.wrap(revealAnimationSetting));
+                                tempSoHeadFragment.setArguments(bundle);
 
+                                ((NavigationHost) getActivity()).navigateTo(tempSoHeadFragment, TempSoHeadFragment.tag, true, null, null);
+                            } else {
+                                UiUtils.showAlertDialog(getFragmentManager(), getString(R.string.error), getString(R.string.dialog_error_msg_perform_retrieve_house_keeping_first));
+                            }
                         } else {
                             UiUtils.showAlertDialog(getFragmentManager(), getString(R.string.error), getString(R.string.dialog_error_msg_perform_retrieve_history_first));
                         }

@@ -146,7 +146,12 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable BranchEntry branchEntry) {
                 cc.removeObserver(this);
-                etCompany.setText(branchEntry.getBranchName());
+                if(branchEntry != null){
+                    etCompany.setText(branchEntry.getBranchName());
+                }else{
+                    etCompany.setText(String.valueOf(salesorderEntry.getCompanyId()));
+                }
+
             }
         });
     }
@@ -157,7 +162,11 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable CustomerCompanyEntry customerCompanyEntry) {
                 cc.removeObserver(this);
-                etCustomer.setText(customerCompanyEntry.getPersonCustomerCompanyName());
+                if(customerCompanyEntry != null){
+                    etCustomer.setText(customerCompanyEntry.getPersonCustomerCompanyName());
+                }else{
+                    etCustomer.setText(String.valueOf(salesorderEntry.getCustomerCompanyId()));
+                }
             }
         });
     }
@@ -168,7 +177,11 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable CustomerCompanyAddressEntry customerCompanyAddressEntry) {
                 cca.removeObserver(this);
-                etAddress.setText(customerCompanyAddressEntry.getPersonCustomerAddressName());
+                if (customerCompanyAddressEntry != null) {
+                    etAddress.setText(customerCompanyAddressEntry.getPersonCustomerAddressName());
+                }else{
+                    etAddress.setText(String.valueOf(salesorderEntry.getCustomerAddressId()));
+                }
             }
         });
     }

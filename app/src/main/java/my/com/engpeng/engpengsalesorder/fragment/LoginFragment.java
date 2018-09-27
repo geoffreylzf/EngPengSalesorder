@@ -29,6 +29,8 @@ import my.com.engpeng.engpengsalesorder.asyncTask.LoginRunnable;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.model.Status;
+import my.com.engpeng.engpengsalesorder.service.DownloadHistoryService;
+import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingService;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
@@ -37,6 +39,11 @@ import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 import my.com.engpeng.engpengsalesorder.viewModel.LoginViewModel;
 import my.com.engpeng.engpengsalesorder.viewModel.LoginViewModelFactory;
 
+import static my.com.engpeng.engpengsalesorder.Global.ACTION_GET_ALL_TABLE;
+import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_ACTION;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LOCAL;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TABLE;
 import static my.com.engpeng.engpengsalesorder.Global.RC_GOOGLE_SIGN_IN;
 
 public class LoginFragment extends Fragment {
@@ -231,6 +238,19 @@ public class LoginFragment extends Fragment {
                         if (loginStatus.isSuccess()) {
                             SharedPreferencesUtils.saveUsernamePassword(getContext(), username, password);
                             SharedPreferencesUtils.generateSaveUniqueId(getContext());
+
+                            Intent intentHistory = new Intent(getActivity(), DownloadHistoryService.class);
+                            intentHistory.putExtra(I_KEY_LOCAL, false);
+                            getActivity().stopService(intentHistory);
+                            getActivity().startService(intentHistory);
+
+                            Intent intentHk = new Intent(getActivity(), UpdateHouseKeepingService.class);
+                            intentHk.putExtra(I_KEY_TABLE, ACTION_GET_ALL_TABLE);
+                            intentHk.putExtra(I_KEY_ACTION, ACTION_REFRESH);
+                            intentHk.putExtra(I_KEY_LOCAL, false);
+                            getActivity().stopService(intentHk);
+                            getActivity().startService(intentHk);
+
                             ((MainActivity) getActivity()).performSuccessLogin();
                         } else {
                             UiUtils.showToastMessage(getContext(), loginStatus.getMessage());

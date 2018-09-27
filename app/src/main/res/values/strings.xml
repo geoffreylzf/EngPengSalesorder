@@ -97,6 +97,7 @@
     <string name="dialog_error_msg_unable_retrieve_history_due_to_un_upload_data">Unable to retrieve history data due to remaining un-upload data.</string>
     <string name="dialog_error_msg_got_un_upload">Got un-upload data, please upload before logout.</string>
     <string name="dialog_error_msg_perform_retrieve_history_first">Please perform retrieve history before create new salesorder.</string>
+    <string name="dialog_error_msg_perform_retrieve_house_keeping_first">Please perform retrieve house keeping before create new salesorder.</string>
 
     <string name="note_alert_clear_detail">
         * Please note that changing customer company and delivery date will clear all pre-selected items.

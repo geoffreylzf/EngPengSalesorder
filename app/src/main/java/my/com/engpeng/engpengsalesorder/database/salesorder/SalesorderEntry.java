@@ -210,8 +210,8 @@ public class SalesorderEntry {
 
         sql = "SELECT salesorder.*, " +
                 " branch_name AS companyName," +
-                " pcc.person_customer_company_name AS customerCompanyName," +
-                " pcca.person_customer_address_name AS customerAddressName," +
+                " IFNULL(pcc.person_customer_company_name, 'ID: '||salesorder.customer_company_id) AS customerCompanyName," +
+                " IFNULL(pcca.person_customer_address_name, 'ID: '||salesorder.customer_address_id) AS customerAddressName," +
                 " COUNT(salesorder_detail.id) AS count" +
                 " FROM salesorder" +
                 " LEFT JOIN branch ON salesorder.company_id = branch.id" +

@@ -110,6 +110,7 @@ public class LoginFragment extends Fragment {
                 mDb.customerCompanyAddressDao().deleteAll();
                 mDb.itemPackingDao().deleteAll();
                 mDb.priceSettingDao().deleteAll();
+                mDb.logDao().deleteAll();
             }
         });
     }

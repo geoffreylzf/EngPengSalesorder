@@ -33,7 +33,7 @@ public interface SalesorderDao {
     @Query("SELECT MAX(running_no)" +
             " FROM salesorder" +
             " WHERE running_no LIKE :prefix")
-    LiveData<String> getLastRunningNoByPrefix(String prefix);
+    String getLastRunningNoByPrefix(String prefix);
 
     @Query("DELETE FROM salesorder WHERE id = :id")
     void deleteById(Long id);

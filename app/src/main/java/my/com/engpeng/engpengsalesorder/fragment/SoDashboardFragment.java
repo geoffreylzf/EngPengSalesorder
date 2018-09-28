@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -81,6 +82,10 @@ public class SoDashboardFragment extends Fragment {
     private boolean isDeleting = false;
     private int deletePosition;
 
+    //for so display
+    private LiveData<List<SoDisplay>> ldSoDisplay;
+    private Observer<List<SoDisplay>> observerSoDisplay;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +113,12 @@ public class SoDashboardFragment extends Fragment {
         setupRecycleView();
         setupListener();
 
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         if (currentFilterStatus == null) {
             currentFilterStatus = Global.SO_STATUS_ALL;
         }
@@ -123,8 +134,6 @@ public class SoDashboardFragment extends Fragment {
         retrieveDateList(currentFilterDateType, currentFilterDateTypeValue);
         retrieveSoList(soListAnimShow);
         soListAnimShow = false;
-
-        return rootView;
     }
 
     public void setupListener() {
@@ -273,29 +282,37 @@ public class SoDashboardFragment extends Fragment {
 
     private void retrieveSoList(final boolean isShowAnim) {
         cpDocumentDate.setText(getString(R.string.short_document_date) + ": " + currentFilterDocDate);
-        final LiveData<List<SoDisplay>> ld
-                = mDb.salesorderDao()
+
+        if(ldSoDisplay != null && observerSoDisplay != null){
+            ldSoDisplay.removeObserver(observerSoDisplay);
+        }
+
+        ldSoDisplay = mDb.salesorderDao()
                 .loadAllSoDisplayViaQuery(
                         SalesorderEntry.constructSoDisplayQuery(currentFilterDocDate, sCompanyId, currentFilterStatus)
                 );
-        ld.observe(this, new Observer<List<SoDisplay>>() {
+
+        observerSoDisplay = new Observer<List<SoDisplay>>() {
             @Override
             public void onChanged(@Nullable List<SoDisplay> soDisplays) {
+                Log.e("isDeleting", String.valueOf(isDeleting));
                 if (isDeleting) {
                     rvSo.setLayoutAnimation(null);
                     soAdapter.setListAfterDelete(soDisplays, deletePosition);
                     isDeleting = false;
                 } else {
-                    if(isShowAnim){
+                    if (isShowAnim) {
                         LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_fall_down);
                         rvSo.setLayoutAnimation(controller);
-                    }else{
+                    } else {
                         rvSo.setLayoutAnimation(null);
                     }
                     soAdapter.setList(soDisplays);
                 }
             }
-        });
+        };
+
+        ldSoDisplay.observe(this, observerSoDisplay);
     }
 
     @Override

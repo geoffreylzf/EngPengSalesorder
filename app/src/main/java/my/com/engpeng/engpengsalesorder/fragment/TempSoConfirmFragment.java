@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -196,10 +197,7 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<TempSalesorderDetailDisplay> details) {
                 cc.removeObserver(this);
-                LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation_from_right);
-                rv.setLayoutAnimation(controller);
                 adapter.setList(details);
-                rv.scheduleLayoutAnimation();
             }
         });
 
@@ -318,18 +316,17 @@ public class TempSoConfirmFragment extends Fragment {
 
     private void constructRunningNo() {
         final String prefix = sUsername + "-" + sCompanyCode + "-" + Global.RUNNING_CODE_SALESORDER + "-" + StringUtils.getSoYearMonthFormat(salesorderEntry.getDocumentDate());
-        final String defaultRunningNo = prefix + "-1";
+        final String defaultRunningNo = prefix + "-001";
 
-        final LiveData<String> ld = mDb.salesorderDao().getLastRunningNoByPrefix(prefix + "%");
-        ld.observe(this, new Observer<String>() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
-            public void onChanged(@Nullable String lastRunningNo) {
-                ld.removeObserver(this);
+            public void run() {
+                String lastRunningNo = mDb.salesorderDao().getLastRunningNoByPrefix(prefix + "%");
                 if (lastRunningNo == null) {
                     runningNo = defaultRunningNo;
                 } else {
                     String[] arr = lastRunningNo.split("-");
-                    int newNo = Integer.parseInt(arr[4]) + 1;
+                    String newNo = String.format(Locale.getDefault(),"%03d", Integer.parseInt(arr[4]) + 1);
                     runningNo = prefix + "-" + newNo;
                 }
             }

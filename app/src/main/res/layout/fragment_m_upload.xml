@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/m_upload_cl"
-    android:animateLayoutChanges="true"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/m_upload_rv"
@@ -14,6 +15,15 @@
         app:layout_constraintEnd_toStartOf="@id/m_upload_gl"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/li_v_divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorDivider"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/m_upload_gl"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <android.support.constraint.Guideline
         android:id="@+id/m_upload_gl"
@@ -31,19 +41,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/m_upload_gl"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.35"/>
 
     <TextView
         android:id="@+id/m_upload_tv_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/default_upload"
-        android:textSize="200sp"
         android:textAlignment="center"
+        android:textSize="200sp"
         app:layout_constraintBottom_toTopOf="@id/m_upload_btn_upload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/m_upload_gl"
         app:layout_constraintTop_toBottomOf="@id/m_upload_tv_info" />
+
+
+    <ProgressBar
+        android:id="@+id/m_upload_pb"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/m_upload_btn_upload"
+        app:layout_constraintTop_toBottomOf="@id/m_upload_tv_count"
+        android:visibility="gone"/>
 
     <android.support.design.button.MaterialButton
         android:id="@+id/m_upload_btn_upload"
@@ -58,5 +79,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/m_upload_gl"
         app:layout_constraintTop_toBottomOf="@id/m_upload_tv_count" />
+
 
 </android.support.constraint.ConstraintLayout>

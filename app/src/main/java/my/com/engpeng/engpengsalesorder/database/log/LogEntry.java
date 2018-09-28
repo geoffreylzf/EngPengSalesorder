@@ -10,7 +10,7 @@ public class LogEntry {
     @Ignore
     public final static String TABLE_NAME = "log";
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     private long id;
     private String task;

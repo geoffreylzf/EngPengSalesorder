@@ -339,6 +339,23 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                     etAddress.setText("");
                     clearTempSoDetailEntry();
                 }
+
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<CustomerCompanyAddressEntry> customerCompanyAddressEntryList = mDb.customerCompanyAddressDao().loadCustomerCompanyAddressesByPersonCustomerCompanyId(customerCompanyId);
+                        if(customerCompanyAddressEntryList.size() == 1){
+                            final CustomerCompanyAddressEntry addr = customerCompanyAddressEntryList.get(0);
+                            customerAddressId = addr.getId();
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    etAddress.setText(addr.getPersonCustomerAddressName());
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     }

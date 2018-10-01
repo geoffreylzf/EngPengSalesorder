@@ -32,8 +32,15 @@ public interface CustomerCompanyAddressDao {
             " AND person_customer_address_code||person_customer_address_name LIKE :filter " +
             " AND is_delete = 0" +
             " ORDER BY id ")
-    LiveData<List<CustomerCompanyAddressEntry>> loadAllCustmerCompanyAddressesByPersonCustomerCompanyIdFilter(Long personCustomerCompanyId, String filter);
+    LiveData<List<CustomerCompanyAddressEntry>> loadLiveCustomerCompanyAddressesByPersonCustomerCompanyIdFilter(Long personCustomerCompanyId, String filter);
 
-    @Query("SELECT * FROM " + CustomerCompanyAddressEntry.TABLE_NAME + " WHERE id = :id")
+    @Query("SELECT * FROM person_customer_company_address WHERE id = :id")
     LiveData<CustomerCompanyAddressEntry> loadLiveCustomerCompanyAddressById(Long id);
+
+    @Query("SELECT * " +
+            " FROM person_customer_company_address" +
+            " WHERE person_customer_company_id = :personCustomerCompanyId " +
+            " AND is_delete = 0" +
+            " ORDER BY id ")
+    List<CustomerCompanyAddressEntry> loadCustomerCompanyAddressesByPersonCustomerCompanyId(Long personCustomerCompanyId);
 }

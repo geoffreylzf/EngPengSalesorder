@@ -77,7 +77,7 @@ public class AddressSelectionActivity extends AppCompatActivity implements Searc
     }
 
     private void retrieveCustomerAddress(String filter) {
-        final LiveData<List<CustomerCompanyAddressEntry>> cca = mDb.customerCompanyAddressDao().loadAllCustmerCompanyAddressesByPersonCustomerCompanyIdFilter(customerCompanyId, "%" + filter + "%");
+        final LiveData<List<CustomerCompanyAddressEntry>> cca = mDb.customerCompanyAddressDao().loadLiveCustomerCompanyAddressesByPersonCustomerCompanyIdFilter(customerCompanyId, "%" + filter + "%");
         cca.observe(this, new Observer<List<CustomerCompanyAddressEntry>>() {
             @Override
             public void onChanged(@Nullable List<CustomerCompanyAddressEntry> customerCompanyEntries) {

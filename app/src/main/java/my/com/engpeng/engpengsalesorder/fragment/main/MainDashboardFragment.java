@@ -23,7 +23,7 @@ import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
-import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
 import my.com.engpeng.engpengsalesorder.model.SalesInfo;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
@@ -44,7 +44,9 @@ public class MainDashboardFragment extends Fragment {
     private Button btnSo;
     private TextView tvLogHkDatetime, tvLogHkRemark;
     private TextView tvLogUDatetime, tvLogURemark;
-    private TextView tvTmDraft, tvTmConfirm, tvTmUpload;
+
+    private TextView tvTmDraft, tvTmDraftAmt, tvTmConfirm, tvTmConfirmAmt, tvTmUpload;
+
     private TextView tvCompany, tvVersion;
 
     private AppDatabase mDb;
@@ -61,13 +63,17 @@ public class MainDashboardFragment extends Fragment {
         btnSo = rootView.findViewById(R.id.m_dashboard_btn_so);
         tvCompany = rootView.findViewById(R.id.m_dashboard_tv_company);
         tvVersion = rootView.findViewById(R.id.m_dashboard_tv_version);
+
         tvLogHkDatetime = rootView.findViewById(R.id.m_dashboard_tv_log_hk_dt);
         tvLogHkRemark = rootView.findViewById(R.id.m_dashboard_tv_log_hk_r);
         tvLogUDatetime = rootView.findViewById(R.id.m_dashboard_tv_log_u_dt);
         tvLogURemark = rootView.findViewById(R.id.m_dashboard_tv_log_u_r);
-        tvTmDraft = rootView.findViewById(R.id.m_dashboard_tv_tm_draft_count);
+
+        tvTmDraft = rootView.findViewById(R.id.m_dashboard_tv_so_tm_draft_count);
+        tvTmDraftAmt = rootView.findViewById(R.id.m_dashboard_tv_so_tm_draft_amount);
         tvTmConfirm = rootView.findViewById(R.id.m_dashboard_tv_so_tm_confirm_count);
-        tvTmUpload = rootView.findViewById(R.id.m_dashboard_tv_tm_upload);
+        tvTmConfirmAmt = rootView.findViewById(R.id.m_dashboard_tv_so_tm_confirm_amount);
+        tvTmUpload = rootView.findViewById(R.id.m_dashboard_tv_so_tm_upload);
 
         activity = getActivity();
         mDb = AppDatabase.getInstance(activity.getApplicationContext());
@@ -194,11 +200,15 @@ public class MainDashboardFragment extends Fragment {
             public void onChanged(@Nullable SalesInfo salesInfo) {
                 if(salesInfo != null){
                     tvTmDraft.setText(String.valueOf(salesInfo.getDraft()));
+                    tvTmDraftAmt.setText(StringUtils.getDisplayPrice(salesInfo.getDraftAmt()));
                     tvTmConfirm.setText(String.valueOf(salesInfo.getConfirm()));
+                    tvTmConfirmAmt.setText(StringUtils.getDisplayPrice(salesInfo.getConfirmAmt()));
                     tvTmUpload.setText(String.valueOf(salesInfo.getUnupload()));
                 }else{
                     tvTmDraft.setText("0");
+                    tvTmDraftAmt.setText(StringUtils.getDisplayPrice(0));
                     tvTmConfirm.setText("0");
+                    tvTmConfirmAmt.setText(StringUtils.getDisplayPrice(0));
                     tvTmUpload.setText("0");
                 }
             }

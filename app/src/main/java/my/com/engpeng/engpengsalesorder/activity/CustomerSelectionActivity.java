@@ -19,7 +19,7 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.CustomerSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
-import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
+import my.com.engpeng.engpengsalesorder.fragment.reuse.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
 

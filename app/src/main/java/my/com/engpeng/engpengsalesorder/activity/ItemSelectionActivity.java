@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
 
 import java.util.List;
 
@@ -23,9 +22,9 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingDisplay;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
-import my.com.engpeng.engpengsalesorder.fragment.EnterPriceFragment;
-import my.com.engpeng.engpengsalesorder.fragment.EnterQtyWgtFragment;
-import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.EnterPriceDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.EnterQtyWgtDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.reuse.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
@@ -34,8 +33,8 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
 public class ItemSelectionActivity extends AppCompatActivity
         implements SearchBarFragment.SearchBarFragmentListener,
-        EnterQtyWgtFragment.EnterQtyWgtFragmentListener,
-        EnterPriceFragment.EnterPriceFragmentListener{
+        EnterQtyWgtDialogFragment.EnterQtyWgtFragmentListener,
+        EnterPriceDialogFragment.EnterPriceFragmentListener{
 
     private Toolbar tb;
     private DrawerLayout dl;
@@ -173,13 +172,13 @@ public class ItemSelectionActivity extends AppCompatActivity
 
     private void openEnterPriceDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        EnterPriceFragment fragment = new EnterPriceFragment();
+        EnterPriceDialogFragment fragment = new EnterPriceDialogFragment();
         fragment.show(fm, "enter_price");
     }
 
     private void openEnterQtyWgtDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        EnterQtyWgtFragment fragment = new EnterQtyWgtFragment();
+        EnterQtyWgtDialogFragment fragment = new EnterQtyWgtDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
         bundle.putDouble(I_KEY_FACTOR, factor);

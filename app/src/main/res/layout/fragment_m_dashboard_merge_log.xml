@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/last_history_log"
+            android:textColor="@color/colorListItemSecondaryText"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_hk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/m_dashboard_iv_log_hk"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_baseline_view_quilt_24px"
+            app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_hk_dt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_tv_log" />
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log_hk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/house_keeping"
+            android:textColor="@color/colorListItemPrimaryText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_hk"
+            app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_hk"
+            app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_hk" />
+
+        <ImageView
+            android:id="@+id/m_dashboard_iv_log_hk_dt"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_baseline_access_time_24px"
+            app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_hk_r"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_hk" />
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log_hk_dt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorListItemPrimaryText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_hk_dt"
+            app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_hk_dt"
+            app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_hk_dt" />
+
+        <ImageView
+            android:id="@+id/m_dashboard_iv_log_hk_r"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_baseline_notes_24px"
+            app:layout_constraintBottom_toTopOf="@id/m_dashboard_v_log"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_hk_dt" />
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log_hk_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorListItemPrimaryText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_hk_r"
+            app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_hk_r"
+            app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_hk_r" />
+
+        <View
+            android:id="@+id/m_dashboard_v_log"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/colorDivider"
+            app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_u"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_hk_r" />
+
+        <ImageView
+            android:id="@+id/m_dashboard_iv_log_u"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/ic_baseline_backup_24px"
+            app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_u_dt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_v_log" />
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log_u"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/upload"
+            android:textColor="@color/colorListItemPrimaryText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_u"
+            app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_u"
+            app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_u" />
+
+        <ImageView
+            android:id="@+id/m_dashboard_iv_log_u_dt"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_baseline_access_time_24px"
+            app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_u_r"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_u" />
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log_u_dt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorListItemPrimaryText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_u_dt"
+            app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_u_dt"
+            app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_u_dt" />
+
+        <ImageView
+            android:id="@+id/m_dashboard_iv_log_u_r"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/ic_baseline_notes_24px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_u_dt" />
+
+        <TextView
+            android:id="@+id/m_dashboard_tv_log_u_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/colorListItemPrimaryText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_u_r"
+            app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_u_r"
+            app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_u_r" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</merge>

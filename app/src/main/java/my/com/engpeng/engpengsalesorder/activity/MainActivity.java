@@ -1,17 +1,12 @@
 package my.com.engpeng.engpengsalesorder.activity;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.database.AppDatabase;
-import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
-import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.LoginFragment;
 import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;

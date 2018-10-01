@@ -16,9 +16,9 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import my.com.engpeng.engpengsalesorder.R;
-import my.com.engpeng.engpengsalesorder.fragment.AlertDialogFragment;
-import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
-import my.com.engpeng.engpengsalesorder.fragment.DatePickerDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.AlertDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.DatePickerDialogFragment;
 
 public class UiUtils {
 

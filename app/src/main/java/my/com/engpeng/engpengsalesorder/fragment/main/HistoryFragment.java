@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Locale;
 
 import my.com.engpeng.engpengsalesorder.R;
@@ -22,7 +21,7 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
-import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.service.DownloadHistoryService;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 

@@ -16,7 +16,7 @@ import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.adapter.AddressSelectionAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
-import my.com.engpeng.engpengsalesorder.fragment.SearchBarFragment;
+import my.com.engpeng.engpengsalesorder.fragment.reuse.SearchBarFragment;
 
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 

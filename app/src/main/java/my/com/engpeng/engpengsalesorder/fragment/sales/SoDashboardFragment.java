@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.fragment;
+package my.com.engpeng.engpengsalesorder.fragment.sales;
 
 import android.animation.LayoutTransition;
 import android.arch.lifecycle.LiveData;
@@ -45,6 +45,7 @@ import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDeta
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
@@ -154,6 +155,7 @@ public class SoDashboardFragment extends Fragment {
                             if (psInfo != null &&
                                     psInfo.getLastSyncDate() != null &&
                                     psInfo.getInsert() == psInfo.getTotal()) {
+
                                 RevealAnimationSetting revealAnimationSetting
                                         = new RevealAnimationSetting(
                                         (int) (fabAdd.getX() + fabAdd.getWidth() / 2),

@@ -11,10 +11,10 @@ import android.view.View;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.animation.FabOpenAnimation;
-import my.com.engpeng.engpengsalesorder.fragment.SoDashboardFragment;
-import my.com.engpeng.engpengsalesorder.fragment.TempSoCartFragment;
-import my.com.engpeng.engpengsalesorder.fragment.TempSoConfirmFragment;
-import my.com.engpeng.engpengsalesorder.fragment.TempSoHeadFragment;
+import my.com.engpeng.engpengsalesorder.fragment.sales.SoDashboardFragment;
+import my.com.engpeng.engpengsalesorder.fragment.sales.TempSoCartFragment;
+import my.com.engpeng.engpengsalesorder.fragment.sales.TempSoConfirmFragment;
+import my.com.engpeng.engpengsalesorder.fragment.sales.TempSoHeadFragment;
 
 public class SalesorderActivity extends AppCompatActivity implements NavigationHost {
 

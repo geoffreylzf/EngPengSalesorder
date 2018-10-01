@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.fragment;
+package my.com.engpeng.engpengsalesorder.fragment.sales;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.ItemSelectionActivity;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
@@ -40,13 +38,8 @@ import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_COMPANY_ID;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DOCUMENT_DATE;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LPO;
-import static my.com.engpeng.engpengsalesorder.Global.I_KEY_REMARK;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
 
 public class TempSoCartFragment extends Fragment {

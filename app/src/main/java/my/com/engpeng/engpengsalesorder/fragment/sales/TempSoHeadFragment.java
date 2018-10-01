@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.fragment;
+package my.com.engpeng.engpengsalesorder.fragment.sales;
 
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.LiveData;
@@ -9,28 +9,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.AddressSelectionActivity;
@@ -231,7 +225,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
             }
         });
 
-        etDocumentDate.setOnClickListener(new View.OnClickListener() {
+        /*etDocumentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UiUtils.showDatePickerDialog(getFragmentManager(), calendarDocumentDate, new DatePickerDialog.OnDateSetListener() {
@@ -245,7 +239,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                     }
                 });
             }
-        });
+        });*/
 
         etDeliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override

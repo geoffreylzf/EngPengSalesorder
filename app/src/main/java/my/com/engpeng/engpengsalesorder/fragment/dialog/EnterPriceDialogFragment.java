@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.fragment;
+package my.com.engpeng.engpengsalesorder.fragment.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import my.com.engpeng.engpengsalesorder.R;
 
-public class EnterPriceFragment extends DialogFragment {
+public class EnterPriceDialogFragment extends DialogFragment {
 
     private EditText etValue;
     private Button btnSave, btnCancel;

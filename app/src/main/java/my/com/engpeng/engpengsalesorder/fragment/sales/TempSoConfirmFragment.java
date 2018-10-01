@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.fragment;
+package my.com.engpeng.engpengsalesorder.fragment.sales;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
@@ -8,12 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,6 +36,7 @@ import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailDisplay;
 import my.com.engpeng.engpengsalesorder.database.tempSalesorderDetail.TempSalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 

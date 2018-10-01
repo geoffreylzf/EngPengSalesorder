@@ -1,4 +1,4 @@
-package my.com.engpeng.engpengsalesorder.fragment;
+package my.com.engpeng.engpengsalesorder.fragment.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import my.com.engpeng.engpengsalesorder.R;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_FACTOR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
-public class EnterQtyWgtFragment extends DialogFragment {
+public class EnterQtyWgtDialogFragment extends DialogFragment {
 
     private EditText etValue;
     private SeekBar sbQty, sbQtyMulti;

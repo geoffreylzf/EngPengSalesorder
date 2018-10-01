@@ -8,6 +8,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlActivated">@color/colorControlActivated</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:dialogTheme">@style/AppTheme.TitleDialog</item>
         <item name="cardViewStyle">@style/CardView</item>
     </style>

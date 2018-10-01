@@ -312,7 +312,7 @@ public class SoDashboardFragment extends Fragment {
             }
         };
 
-        ldSoDisplay.observe(this, observerSoDisplay);
+        ldSoDisplay.observe(getActivity(), observerSoDisplay);
     }
 
     @Override

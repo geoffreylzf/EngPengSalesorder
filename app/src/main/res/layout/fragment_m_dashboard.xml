@@ -1,30 +1,436 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.button.MaterialButton
-        android:id="@+id/m_dashboard_btn_so"
+    <android.support.design.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@id/m_dashboard_gl"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="@string/last_history_log"
+                android:textColor="@color/colorListItemSecondaryText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_hk"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_log_hk"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_view_quilt_24px"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_hk_dt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_tv_log" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log_hk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/house_keeping"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_hk"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_hk"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_hk" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_log_hk_dt"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_access_time_24px"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_hk_r"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_hk" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log_hk_dt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="2018-09-10 22:22:22"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_hk_dt"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_hk_dt"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_hk_dt" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_log_hk_r"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_notes_24px"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_v_log"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_hk_dt" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log_hk_r"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="10 data received"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_hk_r"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_hk_r"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_hk_r" />
+
+            <View
+                android:id="@+id/m_dashboard_v_log"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_u"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_hk_r" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_log_u"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/ic_baseline_backup_24px"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_u_dt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_v_log" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log_u"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/upload"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_u"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_u"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_u" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_log_u_dt"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_access_time_24px"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_log_u_r"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_u" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log_u_dt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="2018-09-10 22:22:22"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_u_dt"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_u_dt"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_u_dt" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_log_u_r"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_notes_24px"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_log_u_dt" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_log_u_r"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="10 salesorder(s) upload"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_log_u_r"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_log_u_r"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_log_u_r" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/m_dashboard_gl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/salesorder"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.design.card.MaterialCardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintStart_toEndOf="@id/m_dashboard_gl"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp">
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_so_tm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="Salesorder This Month"
+                android:textColor="@color/colorListItemSecondaryText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_iv_so_tm_draft"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_draft"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_drafts_24px"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_so_tm_draft_count"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_tv_so_tm" />
+
+            <TextView
+                android:id="@+id/m_dashboard_iv_tv_tm_draft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/draft"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="@+id/m_dashboard_iv_so_tm_draft"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_so_tm_draft"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_draft" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_draft_count"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_assignment_24px"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_iv_so_tm_draft_amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_so_tm_draft" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_tm_draft_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="1"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_so_tm_draft_count"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_draft_count"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_so_tm_draft_count" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_draft_amount"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/ic_baseline_attach_money_24px"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_v_tm_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m_dashboard_iv_so_tm_draft_count" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_tm_draft_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="RM1900.00"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_so_tm_draft_amount"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_draft_amount"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_so_tm_draft_amount" />
+
+            <View
+                android:id="@+id/m_dashboard_v_tm_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorDivider"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_iv_so_tm_confirm"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_so_tm_draft_amount" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_confirm"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_done_all_24px"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_iv_so_tm_confirm_count"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_v_tm_1" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_so_tm_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/confirm"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/m_dashboard_iv_so_tm_confirm"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_confirm"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_so_tm_confirm" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_confirm_count"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_assignment_24px"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_iv_so_tm_confirm_amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_so_tm_confirm" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_so_tm_confirm_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="11"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/m_dashboard_iv_so_tm_confirm_count"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_confirm_count"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_so_tm_confirm_count" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_confirm_amount"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_attach_money_24px"
+                app:layout_constraintBottom_toTopOf="@id/m_dashboard_iv_so_tm_upload"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_so_tm_confirm_count" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_so_tm_confirm_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="RM101.00"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/m_dashboard_iv_so_tm_confirm_amount"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_confirm_amount"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_so_tm_confirm_amount" />
+
+            <ImageView
+                android:id="@+id/m_dashboard_iv_so_tm_upload"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/ic_baseline_cloud_upload_24px"
+                app:layout_constraintBottom_toTopOf="@+id/m_dashboard_btn_so"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_so_tm_confirm_amount" />
+
+            <TextView
+                android:id="@+id/m_dashboard_tv_tm_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Pending Upload : 3"
+                android:textColor="@color/colorListItemPrimaryText"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/m_dashboard_iv_so_tm_upload"
+                app:layout_constraintStart_toEndOf="@id/m_dashboard_iv_so_tm_upload"
+                app:layout_constraintTop_toTopOf="@id/m_dashboard_iv_so_tm_upload" />
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/m_dashboard_btn_so"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/salesorder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/m_dashboard_iv_so_tm_upload" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.card.MaterialCardView>
 
     <TextView
         android:id="@+id/m_dashboard_tv_company"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBlueGrey700"
-        android:padding="16dp"
         android:drawablePadding="8dp"
         android:drawableStart="@drawable/ic_baseline_business_white_24px"
-        android:textSize="16sp"
+        android:padding="16dp"
         android:textColor="@color/colorWhite"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,10 +440,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:textSize="16sp"
         android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/m_dashboard_tv_company"
         app:layout_constraintEnd_toEndOf="@id/m_dashboard_tv_company"
-        app:layout_constraintTop_toTopOf="@id/m_dashboard_tv_company"
-        app:layout_constraintBottom_toBottomOf="@id/m_dashboard_tv_company"/>
+        app:layout_constraintTop_toTopOf="@id/m_dashboard_tv_company" />
 
 </android.support.constraint.ConstraintLayout>

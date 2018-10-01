@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 
 import my.com.engpeng.engpengsalesorder.R;
@@ -17,7 +15,6 @@ import my.com.engpeng.engpengsalesorder.fragment.SoDashboardFragment;
 import my.com.engpeng.engpengsalesorder.fragment.TempSoCartFragment;
 import my.com.engpeng.engpengsalesorder.fragment.TempSoConfirmFragment;
 import my.com.engpeng.engpengsalesorder.fragment.TempSoHeadFragment;
-import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 public class SalesorderActivity extends AppCompatActivity implements NavigationHost {
 
@@ -30,8 +27,8 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_salesorder);
 
-        tb = findViewById(R.id.salesorder_selection_tb);
-        abl = findViewById(R.id.salesorder_selection_abl);
+        tb = findViewById(R.id.salesorder_tb);
+        abl = findViewById(R.id.salesorder_abl);
         this.savedInstanceState = savedInstanceState;
 
         setSupportActionBar(tb);

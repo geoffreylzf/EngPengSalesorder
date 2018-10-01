@@ -44,6 +44,7 @@
     <string name="total_price">Total Price</string>
     <string name="list_of_items">List of Items</string>
     <string name="save_as_draft">Save as Draft</string>
+    <string name="draft">Draft</string>
     <string name="confirm">Confirm</string>
     <string name="status">Status</string>
     <string name="error">Error</string>
@@ -52,6 +53,10 @@
     <string name="download">Download</string>
     <string name="retrieve">Retrieve</string>
     <string name="short_document_date">Doc Date</string>
+    <string name="total_draft">Total Draft</string>
+    <string name="total_confirm">Total Confirm</string>
+    <string name="pending_upload">Pending Upload</string>
+    <string name="last_history_log">Last History Log</string>
 
     <string name="default_progress">0/0 (0.00%)</string>
     <string name="default_quantity">1</string>

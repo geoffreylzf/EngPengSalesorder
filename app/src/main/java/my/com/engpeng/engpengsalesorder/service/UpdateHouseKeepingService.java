@@ -97,7 +97,7 @@ public class UpdateHouseKeepingService extends Service implements
             tableInfoList.add(new TableInfoEntry(table, false));
         }
 
-        UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, isLocal, this);
+        UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, isLocal, this, 0);
         updateHouseKeepingAsyncTask.execute();
 
         return START_STICKY;

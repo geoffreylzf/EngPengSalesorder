@@ -64,7 +64,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
 
             String action = ACTION_UPDATE;
 
-            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, false, this);
+            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, false, this, 0);
             updateHouseKeepingAsyncTask.execute();
         } else {
             stopSelf();

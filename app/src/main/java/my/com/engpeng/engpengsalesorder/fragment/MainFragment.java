@@ -56,7 +56,6 @@ public class MainFragment extends Fragment implements NavigationHost {
         dl = rootView.findViewById(R.id.main_dl);
         nvStart = rootView.findViewById(R.id.f_main_start_nv);
 
-        getActivity().getWindow().setStatusBarColor(getActivity().getColor(R.color.colorTransparent));
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         this.savedInstanceState = savedInstanceState;
 

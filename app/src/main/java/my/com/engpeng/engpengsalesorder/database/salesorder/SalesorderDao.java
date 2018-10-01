@@ -10,6 +10,8 @@ import android.arch.persistence.room.RawQuery;
 
 import java.util.List;
 
+import my.com.engpeng.engpengsalesorder.model.SalesInfo;
+
 @Dao
 public interface SalesorderDao {
     @Query("SELECT * FROM salesorder")
@@ -46,6 +48,14 @@ public interface SalesorderDao {
 
     @Query("SELECT COUNT(*) FROM salesorder WHERE status = :status AND is_upload = :upload")
     LiveData<Integer> getLiveCountByStatusUpload(String status, int upload);
+
+    @Query("SELECT SUM(CASE WHEN status = 'DRAFT' THEN 1 ELSE 0 END) AS draft," +
+            " SUM(CASE WHEN status = 'CONFIRM' AND is_upload = 1 THEN 1 ELSE 0 END) AS confirm," +
+            " SUM(CASE WHEN status = 'CONFIRM' AND is_upload = 0 THEN 1 ELSE 0 END) AS unupload" +
+            " FROM salesorder" +
+            " WHERE strftime('%Y-%m', document_date) = :month" +
+            " AND company_id = :companyId")
+    LiveData<SalesInfo> loadLiveInfoCountByMonth(String month, long companyId);
 
     @Query("DELETE FROM salesorder")
     void deleteAll();

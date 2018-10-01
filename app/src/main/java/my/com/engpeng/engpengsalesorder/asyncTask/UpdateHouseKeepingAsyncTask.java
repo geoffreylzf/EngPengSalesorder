@@ -14,13 +14,16 @@ import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
+import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
+import static my.com.engpeng.engpengsalesorder.Global.LOG_TASK_UPDATE_HK;
 import static my.com.engpeng.engpengsalesorder.Global.sPassword;
 import static my.com.engpeng.engpengsalesorder.Global.sUniqueId;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
@@ -35,6 +38,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
     private boolean isLocal;
     private String action;
     private UpdateHouseKeepingAsyncTaskListener uhkatListener;
+    private int updateCount;
 
     public interface UpdateHouseKeepingAsyncTaskListener {
 
@@ -50,13 +54,15 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
                                        List<TableInfoEntry> tableInfoList,
                                        String action,
                                        boolean isLocal,
-                                       UpdateHouseKeepingAsyncTaskListener uhkatListener) {
+                                       UpdateHouseKeepingAsyncTaskListener uhkatListener,
+                                       int updateCount) {
         this.context = context;
         this.mDb = mDb;
         this.tableInfoList = tableInfoList;
         this.action = action;
         this.isLocal = isLocal;
         this.uhkatListener = uhkatListener;
+        this.updateCount = updateCount;
     }
 
     @Override
@@ -149,6 +155,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
                 double total = (double) jsonArray.length();
                 uhkatListener.updateProgress(PriceSettingEntry.TABLE_NAME, row, total);
             }
+            updateCount += jsonArray.length();
             return PriceSettingEntry.TABLE_NAME;
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,6 +183,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 uhkatListener.updateProgress(ItemPackingEntry.TABLE_NAME, row, total);
             }
+            updateCount += jsonArray.length();
             return ItemPackingEntry.TABLE_NAME;
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,6 +211,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 uhkatListener.updateProgress(CustomerCompanyEntry.TABLE_NAME, row, total);
             }
+            updateCount += jsonArray.length();
             return CustomerCompanyEntry.TABLE_NAME;
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,6 +239,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 uhkatListener.updateProgress(CustomerCompanyAddressEntry.TABLE_NAME, row, total);
             }
+            updateCount += jsonArray.length();
             return CustomerCompanyAddressEntry.TABLE_NAME;
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,6 +267,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
                 uhkatListener.updateProgress(BranchEntry.TABLE_NAME, row, total);
             }
+            updateCount += jsonArray.length();
             return BranchEntry.TABLE_NAME;
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,10 +280,18 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
         if (table_info_type != null && !table_info_type.equals("")) {
             setTableListUpdate(table_info_type);
 
-            UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(context, mDb, tableInfoList, action, isLocal, uhkatListener);
+            UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(context, mDb, tableInfoList, action, isLocal, uhkatListener, updateCount);
             updateHouseKeepingAsyncTask.execute();
         } else {
             uhkatListener.completeProgress();
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    String remark = String.valueOf(updateCount+ " data received");
+                    LogEntry logEntry = new LogEntry(LOG_TASK_UPDATE_HK, StringUtils.getCurrentDateTime(), remark);
+                    mDb.logDao().insertLog(logEntry);
+                }
+            });
         }
     }
 

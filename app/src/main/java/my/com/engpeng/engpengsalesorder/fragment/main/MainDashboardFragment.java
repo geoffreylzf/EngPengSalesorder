@@ -2,11 +2,9 @@ package my.com.engpeng.engpengsalesorder.fragment.main;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,17 +16,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
+
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
+import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
 import my.com.engpeng.engpengsalesorder.fragment.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
+import my.com.engpeng.engpengsalesorder.model.SalesInfo;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
-import static my.com.engpeng.engpengsalesorder.Global.PREF_KEY;
+import static my.com.engpeng.engpengsalesorder.Global.LOG_TASK_UPDATE_HK;
+import static my.com.engpeng.engpengsalesorder.Global.LOG_TASK_UPLOAD;
 import static my.com.engpeng.engpengsalesorder.Global.P_KEY_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.sCompanyCode;
 import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
@@ -39,10 +42,16 @@ public class MainDashboardFragment extends Fragment {
 
     public static final String tag = "MAIN_DASHBOARD_FRAGMENT";
     private Button btnSo;
+    private TextView tvLogHkDatetime, tvLogHkRemark;
+    private TextView tvLogUDatetime, tvLogURemark;
+    private TextView tvTmDraft, tvTmConfirm, tvTmUpload;
     private TextView tvCompany, tvVersion;
 
     private AppDatabase mDb;
     private FragmentActivity activity;
+
+    private LiveData<SalesInfo> ldSalesInfo;
+    private LiveData<List<LogEntry>> ldLog;
 
     @Nullable
     @Override
@@ -52,23 +61,25 @@ public class MainDashboardFragment extends Fragment {
         btnSo = rootView.findViewById(R.id.m_dashboard_btn_so);
         tvCompany = rootView.findViewById(R.id.m_dashboard_tv_company);
         tvVersion = rootView.findViewById(R.id.m_dashboard_tv_version);
-
-        setupVersion();
-        setupListener();
+        tvLogHkDatetime = rootView.findViewById(R.id.m_dashboard_tv_log_hk_dt);
+        tvLogHkRemark = rootView.findViewById(R.id.m_dashboard_tv_log_hk_r);
+        tvLogUDatetime = rootView.findViewById(R.id.m_dashboard_tv_log_u_dt);
+        tvLogURemark = rootView.findViewById(R.id.m_dashboard_tv_log_u_r);
+        tvTmDraft = rootView.findViewById(R.id.m_dashboard_tv_tm_draft_count);
+        tvTmConfirm = rootView.findViewById(R.id.m_dashboard_tv_so_tm_confirm_count);
+        tvTmUpload = rootView.findViewById(R.id.m_dashboard_tv_tm_upload);
 
         activity = getActivity();
         mDb = AppDatabase.getInstance(activity.getApplicationContext());
         getActivity().setTitle(getString(R.string.app_name));
 
-
+        setupVersion();
+        setupListener();
         setupSharedPreferences();
+        retrieveLastLog();
+        retrieveSoInfo();
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void setupVersion() {
@@ -146,4 +157,51 @@ public class MainDashboardFragment extends Fragment {
         tvCompany.setText(sCompanyName);
     }
 
+    private void retrieveLastLog() {
+        ldLog = mDb.logDao().loadLiveLastLogGroupByTask();
+        ldLog.removeObservers(getActivity());
+        ldLog.observe(getActivity(), new Observer<List<LogEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<LogEntry> logEntryList) {
+                if (logEntryList != null) {
+                    Log.e("logEntry", String.valueOf(logEntryList.size()));
+                    for (LogEntry log: logEntryList) {
+                        if(log.getTask().equals(LOG_TASK_UPDATE_HK)){
+                            tvLogHkDatetime.setText(log.getDatetime());
+                            tvLogHkRemark.setText(log.getRemark());
+                        }else if(log.getTask().equals(LOG_TASK_UPLOAD)){
+                            tvLogUDatetime.setText(log.getDatetime());
+                            tvLogURemark.setText(log.getRemark());
+                        }
+                    }
+                } else {
+                    tvLogUDatetime.setText("");
+                    tvLogURemark.setText("");
+                    tvLogHkDatetime.setText("");
+                    tvLogHkRemark.setText("");
+                }
+            }
+        });
+    }
+
+    private void retrieveSoInfo() {
+        String month = StringUtils.getCurrentYearMonth();
+        long companyId = sCompanyId;
+        ldSalesInfo = mDb.salesorderDao().loadLiveInfoCountByMonth(month, companyId);
+        ldSalesInfo.removeObservers(getActivity());
+        ldSalesInfo.observe(getActivity(), new Observer<SalesInfo>() {
+            @Override
+            public void onChanged(@Nullable SalesInfo salesInfo) {
+                if(salesInfo != null){
+                    tvTmDraft.setText(String.valueOf(salesInfo.getDraft()));
+                    tvTmConfirm.setText(String.valueOf(salesInfo.getConfirm()));
+                    tvTmUpload.setText(String.valueOf(salesInfo.getUnupload()));
+                }else{
+                    tvTmDraft.setText("0");
+                    tvTmConfirm.setText("0");
+                    tvTmUpload.setText("0");
+                }
+            }
+        });
+    }
 }

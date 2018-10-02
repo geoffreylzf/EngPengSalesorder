@@ -68,4 +68,7 @@ public interface ItemPackingDao {
             " ORDER BY item_packing.id" +
             " LIMIT 100")
     LiveData<List<ItemPackingDisplay>> loadLiveAllItemPackingsByFilter(String filter, Long customerCompanyId, String deliveryDate);
+
+    @Query("SELECT * FROM item_packing WHERE id = :id")
+    ItemPackingEntry loadItemPackingById(long id);
 }

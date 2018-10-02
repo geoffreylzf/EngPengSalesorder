@@ -38,6 +38,7 @@ public class SoPrintFragment extends Fragment {
         tvPrintout = rootView.findViewById(R.id.so_print_tv_printout);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
+        getActivity().setTitle("Print Preview");
 
         setupBundle();
 

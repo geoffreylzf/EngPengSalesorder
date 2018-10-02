@@ -43,4 +43,7 @@ public interface CustomerCompanyAddressDao {
             " AND is_delete = 0" +
             " ORDER BY id ")
     List<CustomerCompanyAddressEntry> loadCustomerCompanyAddressesByPersonCustomerCompanyId(Long personCustomerCompanyId);
+
+    @Query("SELECT * FROM person_customer_company_address WHERE id = :id")
+    CustomerCompanyAddressEntry loadCustomerCompanyAddressById(Long id);
 }

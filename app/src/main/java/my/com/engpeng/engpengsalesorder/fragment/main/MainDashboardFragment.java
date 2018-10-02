@@ -170,7 +170,6 @@ public class MainDashboardFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<LogEntry> logEntryList) {
                 if (logEntryList != null) {
-                    Log.e("logEntry", String.valueOf(logEntryList.size()));
                     for (LogEntry log: logEntryList) {
                         if(log.getTask().equals(LOG_TASK_UPDATE_HK)){
                             tvLogHkDatetime.setText(log.getDatetime());

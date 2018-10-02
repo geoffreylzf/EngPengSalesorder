@@ -38,4 +38,7 @@ public interface CustomerCompanyDao {
 
     @Query("SELECT * FROM person_customer_company WHERE id = :id")
     LiveData<CustomerCompanyEntry> loadLiveCustomerCompanyById(Long id);
+
+    @Query("SELECT * FROM person_customer_company WHERE id = :id")
+    CustomerCompanyEntry loadCustomerCompanyById(Long id);
 }

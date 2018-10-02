@@ -173,7 +173,7 @@ public class ItemSelectionActivity extends AppCompatActivity
     private void openEnterPriceDialog() {
         FragmentManager fm = getSupportFragmentManager();
         EnterPriceDialogFragment fragment = new EnterPriceDialogFragment();
-        fragment.show(fm, "enter_price");
+        fragment.show(fm, EnterPriceDialogFragment.tag);
     }
 
     private void openEnterQtyWgtDialog() {
@@ -183,6 +183,6 @@ public class ItemSelectionActivity extends AppCompatActivity
         bundle.putInt(I_KEY_PRICE_BY_WEIGHT, priceByWeight);
         bundle.putDouble(I_KEY_FACTOR, factor);
         fragment.setArguments(bundle);
-        fragment.show(fm, "enter_qty_wgt");
+        fragment.show(fm, EnterQtyWgtDialogFragment.tag);
     }
 }

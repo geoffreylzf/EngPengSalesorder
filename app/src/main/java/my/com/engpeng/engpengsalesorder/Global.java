@@ -29,6 +29,7 @@ public class Global {
     public static String sCompanyShortName;
 
     public static final int RC_GOOGLE_SIGN_IN = 8001;
+    public static final int RC_BLUETOOTH = 8002;
 
     //Preferences param keys
     public static final String PREF_KEY = "PREF_KEY";
@@ -53,6 +54,7 @@ public class Global {
     public static final String I_KEY_DELIVERY_DATE = "I_KEY_DELIVERY_DATE";
     public static final String I_KEY_LPO = "I_KEY_LPO";
     public static final String I_KEY_REMARK = "I_KEY_REMARK";
+    public static final String I_KEY_PRINTOUT = "I_KEY_PRINTOUT";
 
     public static final String I_KEY_SALESORDER_ENTRY = "I_KEY_SALESORDER_ENTRY";
     public static final String I_KEY_TRANSITION_NAME = "I_KEY_TRANSITION_NAME";

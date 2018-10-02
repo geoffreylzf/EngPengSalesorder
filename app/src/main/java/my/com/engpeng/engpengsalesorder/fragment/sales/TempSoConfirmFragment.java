@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -285,6 +286,9 @@ public class TempSoConfirmFragment extends Fragment {
                 }
 
                 ((NavigationHost) getActivity()).navigateDefault();
+                if (salesorderEntry.getStatus().equals(SO_STATUS_CONFIRM)) {
+                    openPrintPreview();
+                }
             }
         });
     }
@@ -351,14 +355,18 @@ public class TempSoConfirmFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.action_print) {
 
-            SoPrintFragment soPrintFragment = new SoPrintFragment();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
-            soPrintFragment.setArguments(bundle);
-            ((NavigationHost) getActivity()).navigateTo(soPrintFragment, SoPrintFragment.tag, true, null, null);
+            openPrintPreview();
 
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openPrintPreview(){
+        SoPrintFragment soPrintFragment = new SoPrintFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
+        soPrintFragment.setArguments(bundle);
+        ((NavigationHost) getActivity()).navigateTo(soPrintFragment, SoPrintFragment.tag, true, null, null);
     }
 }

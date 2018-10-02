@@ -14,6 +14,7 @@ import my.com.engpeng.engpengsalesorder.R;
 
 public class EnterPriceDialogFragment extends DialogFragment {
 
+    public static final String tag = "ENTER_PRICE_DIALOG_FRAGMENT";
     private EditText etValue;
     private Button btnSave, btnCancel;
 

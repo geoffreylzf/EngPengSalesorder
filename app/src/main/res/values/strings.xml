@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Engpeng Salesorder</string>
+    <string name="app_name">Salesorder</string>
     <string name="local2">Local (Connect Office Wi-Fi)</string>
     <string name="get">Get</string>
     <string name="last_synchronize">Last Synchronize</string>
@@ -13,7 +13,7 @@
     <string name="customer_address">Customer Address</string>
     <string name="item_packing">Item Packing</string>
     <string name="company">Company</string>
-    <string name="local_purchase_order">Local Purchase Order</string>
+    <string name="local_purchase_order">Local Purchase Order (LPO)</string>
     <string name="remark">Remark</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -59,6 +59,8 @@
     <string name="pending_upload">Pending Upload</string>
     <string name="last_history_log">Last History Log</string>
     <string name="sales_this_month">Sales This Month</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
 
     <string name="default_progress">0/0 (0.00%)</string>
     <string name="default_quantity">1</string>

@@ -86,8 +86,8 @@ public class PrintUtils {
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("E. & O.E.");
         s += formatLine(PRINT_SEPERATOR);
-        s += formatLine("Total Qty    : " + String.format(Locale.getDefault(), "%30.0f", ttlQty));
-        s += formatLine("Total Weight : " + String.format(Locale.getDefault(), "%28.3fKG", ttlWgt));
+        s += formatLine("Item(s) : " + String.format(Locale.getDefault(), "%.0f", ttlQty));
+        //s += formatLine("Total Weight : " + String.format(Locale.getDefault(), "%28.3fKG", ttlWgt));
         s += formatLine("Total Price  : "+ String.format(Locale.getDefault(), "%30.2f", ttlPrice));
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Printed By : " + sUsername);

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 
 import org.parceler.Parcels;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -177,6 +180,9 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
         try {
             etDocumentDate.setText(sdfDisplay.format(sdfSave.parse(documentDate).getTime()));
             etDeliveryDate.setText(sdfDisplay.format(sdfSave.parse(deliveryDate).getTime()));
+
+            calendarDocumentDate.setTime(sdfSave.parse(documentDate));
+            calendarDeliveryDate.setTime(sdfSave.parse(deliveryDate));
         } catch (ParseException e) {
             etDocumentDate.setText(salesorderEntry.getDocumentDate());
             etDeliveryDate.setText(salesorderEntry.getDeliveryDate());
@@ -192,9 +198,9 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
             @Override
             public void onChanged(@Nullable BranchEntry branchEntry) {
                 ld.removeObserver(this);
-                if(branchEntry != null){
+                if (branchEntry != null) {
                     etCompany.setText(branchEntry.getBranchName());
-                }else{
+                } else {
                     etCompany.setText(String.valueOf(companyId));
                 }
             }
@@ -244,7 +250,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
         etDeliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiUtils.showDatePickerDialog(getFragmentManager(), calendarDocumentDate, new DatePickerDialog.OnDateSetListener() {
+                UiUtils.showDatePickerDialog(getFragmentManager(), calendarDeliveryDate, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                         calendarDeliveryDate.set(Calendar.YEAR, year);
@@ -254,7 +260,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                         deliveryDate = sdfSave.format(calendarDeliveryDate.getTime());
                         clearTempSoDetailEntry();
                     }
-                });
+                }, System.currentTimeMillis(), System.currentTimeMillis() + 2 * 24 * 60 * 60 * 1000);
             }
         });
 
@@ -272,6 +278,30 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                 if (deliveryDate == null || deliveryDate.equals("")) {
                     UiUtils.showAlertDialog(getFragmentManager(), "Error", "Please select delivery date.");
                     return;
+                } else {
+                    try {
+                        long deliveryTimestamp = sdfSave.parse(deliveryDate).getTime();
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(Calendar.HOUR_OF_DAY, 0);
+                        cal.set(Calendar.MINUTE, 0);
+                        cal.set(Calendar.SECOND, 0);
+                        cal.set(Calendar.MILLISECOND, 0);
+
+                        long minDateTimeStamp = cal.getTime().getTime();
+                        cal.add(Calendar.DATE, 2);
+                        long maxDateTimeStamp = cal.getTime().getTime();
+
+                        if (deliveryTimestamp < minDateTimeStamp ){
+                            UiUtils.showAlertDialog(getFragmentManager(), "Invalid Delivery Date (Less Than Minimum Date)", "Please select delivery date again.");
+                            return;
+                        }else if (deliveryTimestamp > maxDateTimeStamp){
+                            UiUtils.showAlertDialog(getFragmentManager(), "Invalid Delivery Date (More Than Maximum Date)", "Please select delivery date again.");
+                            return;
+                        }
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 UiUtils.hideKeyboard(getActivity());
@@ -338,7 +368,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                     @Override
                     public void run() {
                         List<CustomerCompanyAddressEntry> customerCompanyAddressEntryList = mDb.customerCompanyAddressDao().loadCustomerCompanyAddressesByPersonCustomerCompanyId(customerCompanyId);
-                        if(customerCompanyAddressEntryList.size() == 1){
+                        if (customerCompanyAddressEntryList.size() == 1) {
                             final CustomerCompanyAddressEntry addr = customerCompanyAddressEntryList.get(0);
                             customerAddressId = addr.getId();
                             getActivity().runOnUiThread(new Runnable() {

@@ -46,8 +46,11 @@ public class UiUtils {
         alertDialogFragment.show(fragmentManager, AlertDialogFragment.tag);
     }
 
-    public static void showDatePickerDialog(FragmentManager fragmentManager, Calendar calendar, DatePickerDialog.OnDateSetListener listener){
-        DatePickerDialogFragment datePickerDialogFragment  = DatePickerDialogFragment.newInstance(calendar, listener);
+    public static void showDatePickerDialog(FragmentManager fragmentManager,
+                                            Calendar calendar,
+                                            DatePickerDialog.OnDateSetListener listener,
+                                            long minDateTimestamp, long maxDateTimestamp){
+        DatePickerDialogFragment datePickerDialogFragment  = DatePickerDialogFragment.newInstance(calendar, listener, minDateTimestamp, maxDateTimestamp);
         datePickerDialogFragment.show(fragmentManager, DatePickerDialogFragment.tag);
     }
 

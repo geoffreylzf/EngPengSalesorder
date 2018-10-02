@@ -21,6 +21,8 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 
 public class EnterQtyWgtDialogFragment extends DialogFragment {
 
+    public static final String tag = "ENTER_QTY_WGT_DIALOG_FRAGMENT";
+
     private EditText etValue;
     private SeekBar sbQty, sbQtyMulti;
     private Button btnSave, btnCancel;

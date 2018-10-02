@@ -118,6 +118,11 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String table_info_type) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         dhatListener.completeProgress();
     }
 }

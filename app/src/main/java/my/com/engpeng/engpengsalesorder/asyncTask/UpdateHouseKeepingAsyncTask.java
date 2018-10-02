@@ -277,6 +277,13 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, String>
 
     @Override
     protected void onPostExecute(String table_info_type) {
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if (table_info_type != null && !table_info_type.equals("")) {
             setTableListUpdate(table_info_type);
 

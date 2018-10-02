@@ -34,7 +34,7 @@ public class ScheduleUtils {
         Job autoUpdateHouseKeepingJob = dispatcher.newJobBuilder()
                 .setService(UpdateHouseKeepingJobService.class)
                 .setTag(AUTO_UPDATE_HOUSE_KEEPING_JOB_TAG)
-                .setConstraints(Constraint.ON_ANY_NETWORK, Constraint.DEVICE_IDLE)
+                .setConstraints(Constraint.ON_ANY_NETWORK)
                 .setLifetime(Lifetime.FOREVER)
                 .setRecurring(true)
                 .setTrigger(Trigger.executionWindow(REMINDER_INTERVAL_SECONDS, REMINDER_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))

@@ -66,6 +66,7 @@ public class SoDashboardFragment extends Fragment {
     private Chip cpDocumentDate, cpStatus;
     private ChipGroup cgFilter;
     private View rootView;
+    private MenuItem miFilter;
 
     private AppDatabase mDb;
     private SoDashboardDateAdapter dateAdapter;
@@ -321,6 +322,7 @@ public class SoDashboardFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.dashboard_so, menu);
         super.onCreateOptionsMenu(menu, menuInflater);
+        miFilter = menu.findItem(R.id.action_filter);
     }
 
     @Override
@@ -335,6 +337,11 @@ public class SoDashboardFragment extends Fragment {
 
     private void triggerBackdrop() {
         backdropShow = !backdropShow;
+        if(backdropShow){
+            miFilter.setIcon(R.drawable.ic_baseline_clear_white_24px);
+        }else{
+            miFilter.setIcon(R.drawable.ic_baseline_search_white_24px);
+        }
         BackdropMenuAnimation.showBackdropMenu(getContext(), rootView.findViewById(R.id.so_dashboard_cl), new AccelerateDecelerateInterpolator(), backdropShow);
     }
 

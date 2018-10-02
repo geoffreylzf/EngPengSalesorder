@@ -76,7 +76,6 @@ public class LoginFragment extends Fragment {
         sibtnEmail = rootView.findViewById(R.id.login_btn_sign_in_gmail);
         tvVersion =  rootView.findViewById(R.id.login_tv_version);
 
-        getActivity().getWindow().setStatusBarColor(UiUtils.getPrimaryDarkColorId(getContext()));
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
 
         SharedPreferencesUtils.clearUsernamePassword(getContext());
@@ -267,6 +266,8 @@ public class LoginFragment extends Fragment {
 
         LoginViewModelFactory factory = new LoginViewModelFactory(loginRunnable);
         LoginViewModel loginViewModel = ViewModelProviders.of(this, factory).get(LoginViewModel.class);
+        loginViewModel.setUsername(username);
+        loginViewModel.setPassword(password);
         loginViewModel.execute();
     }
 

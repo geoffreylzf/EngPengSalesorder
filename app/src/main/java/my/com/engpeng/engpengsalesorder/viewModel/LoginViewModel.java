@@ -13,6 +13,14 @@ public class LoginViewModel extends ViewModel {
         this.loginRunnable = loginRunnable;
     }
 
+    public void setUsername(String username) {
+        loginRunnable.setUsername(username);
+    }
+
+    public void setPassword(String password) {
+        loginRunnable.setPassword(password);
+    }
+
     public void execute() {
         AppExecutors.getInstance().diskIO().execute(this.loginRunnable);
     }

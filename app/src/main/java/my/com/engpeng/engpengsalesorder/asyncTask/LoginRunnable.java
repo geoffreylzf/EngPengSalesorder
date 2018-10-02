@@ -30,6 +30,14 @@ public class LoginRunnable implements Runnable {
         void onResult(String json);
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public void run() {
         activity.runOnUiThread(new Runnable() {

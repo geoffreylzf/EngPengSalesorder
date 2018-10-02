@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class MainFragment extends Fragment implements NavigationHost {
     private DrawerLayout dl;
     private NavigationView nvStart;
     private TextView navStartTvUsername, navStartTvUniqueId;
+    private View rootView;
 
     private Bundle savedInstanceState;
     private AppDatabase mDb;
@@ -51,7 +53,7 @@ public class MainFragment extends Fragment implements NavigationHost {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+         rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         tb = rootView.findViewById(R.id.f_main_tb);
         dl = rootView.findViewById(R.id.main_dl);
@@ -64,6 +66,12 @@ public class MainFragment extends Fragment implements NavigationHost {
         setupMainDashboard();
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ViewCompat.requestApplyInsets(rootView);
     }
 
     private void setupDrawerLayout() {

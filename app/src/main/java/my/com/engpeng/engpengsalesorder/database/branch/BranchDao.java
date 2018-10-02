@@ -27,4 +27,7 @@ public interface BranchDao {
 
     @Query("SELECT * FROM branch WHERE company_id = 0")
     LiveData<List<BranchEntry>> loadLiveAllCompany();
+
+    @Query("SELECT * FROM branch WHERE id = :id")
+    BranchEntry loadBranchById(Long id);
 }

@@ -9,6 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -70,6 +73,11 @@ public class TempSoConfirmFragment extends Fragment {
 
     private List<TempSalesorderDetailEntry> tempSalesorderDetailEntries;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -113,6 +121,7 @@ public class TempSoConfirmFragment extends Fragment {
             } else if (status.equals(SO_STATUS_CONFIRM)) {
                 llAction.setVisibility(View.GONE);
                 getActivity().setTitle("Salesorder Summary");
+                setHasOptionsMenu(true);
             } else if (status.equals(SO_STATUS_DRAFT)) {
                 constructRunningNo();
                 getActivity().setTitle("Saved Draft Salesorder");
@@ -145,9 +154,9 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable BranchEntry branchEntry) {
                 cc.removeObserver(this);
-                if(branchEntry != null){
+                if (branchEntry != null) {
                     etCompany.setText(branchEntry.getBranchName());
-                }else{
+                } else {
                     etCompany.setText(String.valueOf(salesorderEntry.getCompanyId()));
                 }
 
@@ -161,9 +170,9 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable CustomerCompanyEntry customerCompanyEntry) {
                 cc.removeObserver(this);
-                if(customerCompanyEntry != null){
+                if (customerCompanyEntry != null) {
                     etCustomer.setText(customerCompanyEntry.getPersonCustomerCompanyName());
-                }else{
+                } else {
                     etCustomer.setText(String.valueOf(salesorderEntry.getCustomerCompanyId()));
                 }
             }
@@ -178,7 +187,7 @@ public class TempSoConfirmFragment extends Fragment {
                 cca.removeObserver(this);
                 if (customerCompanyAddressEntry != null) {
                     etAddress.setText(customerCompanyAddressEntry.getPersonCustomerAddressName());
-                }else{
+                } else {
                     etAddress.setText(String.valueOf(salesorderEntry.getCustomerAddressId()));
                 }
             }
@@ -324,10 +333,32 @@ public class TempSoConfirmFragment extends Fragment {
                     runningNo = defaultRunningNo;
                 } else {
                     String[] arr = lastRunningNo.split("-");
-                    String newNo = String.format(Locale.getDefault(),"%03d", Integer.parseInt(arr[4]) + 1);
+                    String newNo = String.format(Locale.getDefault(), "%03d", Integer.parseInt(arr[4]) + 1);
                     runningNo = prefix + "-" + newNo;
                 }
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.temp_so_confirm, menu);
+        super.onCreateOptionsMenu(menu, menuInflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_print) {
+
+            SoPrintFragment soPrintFragment = new SoPrintFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));
+            soPrintFragment.setArguments(bundle);
+            ((NavigationHost) getActivity()).navigateTo(soPrintFragment, SoPrintFragment.tag, true, null, null);
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

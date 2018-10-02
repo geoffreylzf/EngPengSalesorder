@@ -33,6 +33,7 @@
     <string name="view">View</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="print">Print</string>
     <string name="search_here">Search Here</string>
     <string name="add_to_cart">Add To Cart</string>
     <string name="filter">Filter</string>

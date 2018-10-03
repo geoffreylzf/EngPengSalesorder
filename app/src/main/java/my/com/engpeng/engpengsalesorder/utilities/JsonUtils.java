@@ -16,6 +16,8 @@ public class JsonUtils {
     public static final String MESSAGE = "message";
     public static final String ACTION = "action";
     public static final String TYPE = "type";
+    public static final String COUNT = "count";
+    public static final String LOG_ID = "log_id";
     public static final String IMPORTED_MOBILE_IDS = "imported_mobile_ids";
     public static final String LIMIT_START = "limit_start";
     public static final String LIMIT_ROW = "limit_row";
@@ -75,10 +77,38 @@ public class JsonUtils {
             if (json.has(key)) {
                 return json.getString(key);
             }
-            return "";
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return null;
+        }
+    }
+
+    public static long getLong(String jsonStr, String key) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+
+            if (json.has(key)) {
+                return json.getLong(key);
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public static int getInt(String jsonStr, String key) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+
+            if (json.has(key)) {
+                return json.getInt(key);
+            }
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 

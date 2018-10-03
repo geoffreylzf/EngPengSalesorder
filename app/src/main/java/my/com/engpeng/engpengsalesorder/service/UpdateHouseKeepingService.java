@@ -97,7 +97,7 @@ public class UpdateHouseKeepingService extends Service implements
             tableInfoList.add(new TableInfoEntry(table, false));
         }
 
-        UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, isLocal, this, 0);
+        UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, isLocal, this, 0, null);
         updateHouseKeepingAsyncTask.execute();
 
         return START_STICKY;
@@ -118,6 +118,18 @@ public class UpdateHouseKeepingService extends Service implements
         completeNotificationProgress();
     }
 
+    @Override
+    public void errorProgress() {
+        notificationBuilder
+                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setContentText("Update error")
+                .setOngoing(false)
+                .setProgress(0, 0, false);
+        notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_ID, notificationBuilder.build());
+        stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
+    }
+
     private void startNotificationProgress(String table) {
 
         String content_text = "Reading " + StringUtils.getTableDisplayName(table) + " data from server...";
@@ -131,13 +143,9 @@ public class UpdateHouseKeepingService extends Service implements
         int percentage = (int) (row / total * 100);
         String content_text = "Updating " + StringUtils.getTableDisplayName(table) + "...";
 
-        if (percentage != progressCurrent) {
-            if (percentage % 5 == 0) {
-                notificationBuilder.setContentText(content_text).setProgress(PROGRESS_MAX, percentage, false);
-                notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_ID, notificationBuilder.build());
-                progressCurrent = percentage;
-            }
-        }
+        notificationBuilder.setContentText(content_text).setProgress(PROGRESS_MAX, percentage, false);
+        notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_ID, notificationBuilder.build());
+        progressCurrent = percentage;
     }
 
     private void completeNotificationProgress() {

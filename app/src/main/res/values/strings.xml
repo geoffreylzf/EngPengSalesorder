@@ -103,8 +103,12 @@
     <string name="dialog_btn_positive_get_history">Retrieve</string>
 
     <string name="dialog_title_select_company">Select company before enter?</string>
-    <string name="dialog_msg_select_company">No company selected, please select a company to proceed</string>
+    <string name="dialog_msg_select_company">No company selected, please select a company to proceed.</string>
     <string name="dialog_btn_positive_select_company">Select</string>
+
+    <string name="dialog_title_resync_hk">Resync all house keeping data?</string>
+    <string name="dialog_msg_resync_hk">This will take at least half an hour to process.</string>
+    <string name="dialog_btn_positive_resync_hk">Resync</string>
 
     <string name="dialog_error_msg_so_no_item">No item to proceed, please add at least 1 item.</string>
     <string name="dialog_error_msg_no_data_upload">No data to upload.</string>

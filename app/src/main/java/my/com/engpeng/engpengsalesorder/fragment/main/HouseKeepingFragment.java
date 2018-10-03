@@ -27,7 +27,9 @@ import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.Customer
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingService;
+import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_GET_ALL_TABLE;
 import static my.com.engpeng.engpengsalesorder.Global.ACTION_REFRESH;
@@ -238,7 +240,16 @@ public class HouseKeepingFragment extends Fragment {
         btnReSyncAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retrieveHouseKeepingUpdate(ACTION_GET_ALL_TABLE, ACTION_REFRESH);
+                UiUtils.showConfirmDialog(getFragmentManager(),
+                        getString(R.string.dialog_title_resync_hk),
+                        getString(R.string.dialog_msg_resync_hk),
+                        getString(R.string.dialog_btn_positive_resync_hk),
+                        new ConfirmDialogFragment.ConfirmDialogFragmentListener() {
+                            @Override
+                            public void onPositiveButtonClicked() {
+                                retrieveHouseKeepingUpdate(ACTION_GET_ALL_TABLE, ACTION_REFRESH);
+                            }
+                        });
             }
         });
         btnUpdateAll.setOnClickListener(new View.OnClickListener() {

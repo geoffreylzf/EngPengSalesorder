@@ -23,6 +23,9 @@ public class NetworkUtils {
     public final static String PARAM_ACTION = "action";
     public final static String PARAM_UNIQUE_ID = "uniqueId";
     public final static String PARAM_EMAIL = "email";
+    public final static String PARAM_LIMIT_START = "limitStart";
+    public final static String PARAM_LIMIT_LENGTH = "limitLength";
+    public final static String PARAM_LOG_ID = "logId";
 
     final static String DEPLOYMENT_URL = "http://epgroup.dlinkddns.com:5030/eperp/";
     final static String ENGPENG_BASE_URL = DEPLOYMENT_URL;

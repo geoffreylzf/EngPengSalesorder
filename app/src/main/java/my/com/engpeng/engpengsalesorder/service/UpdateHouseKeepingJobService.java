@@ -64,7 +64,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
 
             String action = ACTION_UPDATE;
 
-            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(this, mDb, tableInfoList, action, false, this, 0);
+            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, false, this, 0, null);
             updateHouseKeepingAsyncTask.execute();
         } else {
             stopSelf();
@@ -110,6 +110,19 @@ public class UpdateHouseKeepingJobService extends JobService implements
     @Override
     public void completeProgress() {
         completeNotificationProgress();
+        jobFinished(job, false);
+    }
+
+    @Override
+    public void errorProgress() {
+        notificationBuilder
+                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setContentText("Update error")
+                .setOngoing(false)
+                .setProgress(0, 0, false);
+        notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
+        stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
         jobFinished(job, false);
     }
 

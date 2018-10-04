@@ -28,7 +28,7 @@ public interface ItemPackingDao {
     @Query("SELECT COUNT(*) FROM item_packing")
     LiveData<Integer> getLiveCount();
 
-    @Query("SELECT item_packing.*," +
+    @Query("SELECT * FROM (SELECT item_packing.*," +
             " A.price_setting_id AS standardPriceSettingId," +
             " A.selling_price AS standardPrice," +
             " B.price_setting_id AS customerPriceSettingId," +
@@ -65,7 +65,9 @@ public interface ItemPackingDao {
             " WHERE sku_code||sku_name LIKE :filter" +
             " AND is_delete = 0" +
             " AND id NOT IN (SELECT item_packing_id FROM temp_salesorder_detail)" +
-            " ORDER BY item_packing.id" +
+            " ORDER BY item_packing.sku_name) C" +
+            " WHERE IFNULL(standardPrice, 0) > 0 " +
+            " OR IFNULL(customerPrice, 0) > 0" +
             " LIMIT 100")
     LiveData<List<ItemPackingDisplay>> loadLiveAllItemPackingsByFilter(String filter, Long customerCompanyId, String deliveryDate);
 

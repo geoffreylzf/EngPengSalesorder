@@ -269,6 +269,7 @@ public class TempSoConfirmFragment extends Fragment {
                 }
 
                 Long salesorderId = mDb.salesorderDao().insertSalesorder(salesorderEntry);
+                salesorderEntry.setId(salesorderId);
 
                 for (TempSalesorderDetailEntry tempSalesorderDetailEntry : tempSalesorderDetailEntries) {
                     SalesorderDetailEntry salesorderDetailEntry =

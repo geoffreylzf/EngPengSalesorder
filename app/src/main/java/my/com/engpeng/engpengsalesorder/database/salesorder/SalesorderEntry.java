@@ -1,10 +1,10 @@
 package my.com.engpeng.engpengsalesorder.database.salesorder;
 
-import android.arch.persistence.db.SimpleSQLiteQuery;
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -17,7 +17,6 @@ import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDeta
 
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_MONTH;
 import static my.com.engpeng.engpengsalesorder.Global.DATE_TYPE_YEAR;
-import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 
 @Parcel
 @Entity(tableName = SalesorderEntry.TABLE_NAME)

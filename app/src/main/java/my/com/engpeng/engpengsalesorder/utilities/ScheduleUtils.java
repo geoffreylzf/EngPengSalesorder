@@ -1,7 +1,7 @@
 package my.com.engpeng.engpengsalesorder.utilities;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;

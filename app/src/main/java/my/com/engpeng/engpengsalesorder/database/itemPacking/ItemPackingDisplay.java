@@ -1,6 +1,6 @@
 package my.com.engpeng.engpengsalesorder.database.itemPacking;
 
-import android.arch.persistence.room.Ignore;
+import androidx.room.Ignore;
 
 public class ItemPackingDisplay extends ItemPackingEntry {
 

@@ -1,8 +1,7 @@
 package my.com.engpeng.engpengsalesorder.viewModel;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
-import my.com.engpeng.engpengsalesorder.asyncTask.LoginAsyncTask;
 import my.com.engpeng.engpengsalesorder.asyncTask.LoginRunnable;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 

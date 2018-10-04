@@ -1,10 +1,9 @@
 package my.com.engpeng.engpengsalesorder.viewModel;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.annotation.NonNull;
 
-import my.com.engpeng.engpengsalesorder.asyncTask.LoginAsyncTask;
 import my.com.engpeng.engpengsalesorder.asyncTask.LoginRunnable;
 
 public class LoginViewModelFactory extends ViewModelProvider.NewInstanceFactory {

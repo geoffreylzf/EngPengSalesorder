@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,7 +10,7 @@
     android:background="@drawable/background_fragment_so_dashboard_back_date"
     android:padding="12dp">
 
-    <android.support.design.chip.Chip
+    <com.google.android.material.chip.Chip
         android:id="@+id/li_cp_count"
         style="@style/Widget.MaterialComponents.Chip.Action"
         android:layout_width="wrap_content"
@@ -35,4 +35,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@tools:sample/date/ddmmyy"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

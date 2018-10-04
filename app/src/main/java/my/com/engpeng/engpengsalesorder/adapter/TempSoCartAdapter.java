@@ -1,10 +1,10 @@
 package my.com.engpeng.engpengsalesorder.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.chip.Chip;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

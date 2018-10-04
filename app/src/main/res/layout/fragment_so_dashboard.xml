@@ -26,18 +26,18 @@
             android:textColor="@color/colorWhite"
             android:textSize="12sp" />
 
-        <android.support.design.widget.CoordinatorLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/so_dashboard_cl_date"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.6">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/so_dashboard_rv_date"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/so_dashboard_fab_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 app:layout_anchor="@id/so_dashboard_rv_date"
                 app:layout_anchorGravity="bottom|right|end" />
 
-        </android.support.design.widget.CoordinatorLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <View
             android:layout_width="match_parent"
@@ -59,13 +59,13 @@
     </LinearLayout>
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/so_dashboard_cl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_fragment_so_dashboard_front">
 
-        <android.support.design.chip.ChipGroup
+        <com.google.android.material.chip.ChipGroup
             android:id="@+id/so_dashboard_cg_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,21 +76,21 @@
             app:layout_constraintTop_toTopOf="parent"
             >
 
-            <android.support.design.chip.Chip
+            <com.google.android.material.chip.Chip
                 android:id="@+id/so_dashboard_cp_document_date"
                 style="@style/Widget.MaterialComponents.Chip.Action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <android.support.design.chip.Chip
+            <com.google.android.material.chip.Chip
                 android:id="@+id/so_dashboard_cp_status"
                 style="@style/Widget.MaterialComponents.Chip.Action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-        </android.support.design.chip.ChipGroup>
+        </com.google.android.material.chip.ChipGroup>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/so_dashboard_rv_so"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -100,7 +100,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/so_dashboard_cg_filter" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/so_dashboard_fab_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,6 +112,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

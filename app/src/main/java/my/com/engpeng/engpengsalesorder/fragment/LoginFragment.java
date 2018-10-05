@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class LoginFragment extends Fragment {
     private TextInputLayout tilUsername, tilPassword;
     private EditText etUsername, etPassword;
     private Button btnLogin, btnCancel;
+    private CheckBox cbLocal;
     private TextView tvVersion;
 
     private GoogleSignInClient googleSignInClient;
@@ -71,6 +73,7 @@ public class LoginFragment extends Fragment {
         tilPassword = rootView.findViewById(R.id.login_til_password);
         etUsername = rootView.findViewById(R.id.login_et_username);
         etPassword = rootView.findViewById(R.id.login_et_password);
+        cbLocal = rootView.findViewById(R.id.login_cb_local);
         btnLogin = rootView.findViewById(R.id.login_btn_login);
         btnCancel = rootView.findViewById(R.id.login_btn_cancel);
         sibtnEmail = rootView.findViewById(R.id.login_btn_sign_in_gmail);
@@ -222,7 +225,7 @@ public class LoginFragment extends Fragment {
         final String password = etPassword.getText().toString();
         String data = NetworkUtils.buildParam(NetworkUtils.PARAM_EMAIL, email);
 
-        LoginRunnable loginRunnable = new LoginRunnable(getActivity(), username, password, data, false, new LoginRunnable.LoginRunnableListener() {
+        LoginRunnable loginRunnable = new LoginRunnable(getActivity(), username, password, data, cbLocal.isChecked(), new LoginRunnable.LoginRunnableListener() {
             @Override
             public void onStart() {
                 dlProgress.show();
@@ -240,14 +243,14 @@ public class LoginFragment extends Fragment {
                             SharedPreferencesUtils.generateSaveUniqueId(getContext());
 
                             Intent intentHistory = new Intent(getActivity(), DownloadHistoryService.class);
-                            intentHistory.putExtra(I_KEY_LOCAL, false);
+                            intentHistory.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
                             getActivity().stopService(intentHistory);
                             getActivity().startService(intentHistory);
 
                             Intent intentHk = new Intent(getActivity(), UpdateHouseKeepingService.class);
                             intentHk.putExtra(I_KEY_TABLE, ACTION_GET_ALL_TABLE);
                             intentHk.putExtra(I_KEY_ACTION, ACTION_REFRESH);
-                            intentHk.putExtra(I_KEY_LOCAL, false);
+                            intentHk.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
                             getActivity().stopService(intentHk);
                             getActivity().startService(intentHk);
 

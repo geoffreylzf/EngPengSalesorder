@@ -58,7 +58,7 @@
     <string name="total_confirm">Total Confirm</string>
     <string name="pending_upload">Pending Upload</string>
     <string name="last_history_log">Last History Log</string>
-    <string name="sales_this_month">Sales This Month</string>
+    <string name="salesorder_this_month">Salesorder This Month</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
 

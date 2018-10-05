@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class UploadFragment extends Fragment {
     private TextView tvCount;
     private Button btnUpload;
     private ProgressBar pb;
+    private CheckBox cbLocal;
 
     private RecyclerView rv;
     private LogAdapter adapter;
@@ -57,6 +59,7 @@ public class UploadFragment extends Fragment {
         btnUpload = rootView.findViewById(R.id.m_upload_btn_upload);
         pb = rootView.findViewById(R.id.m_upload_pb);
         rv = rootView.findViewById(R.id.m_upload_rv);
+        cbLocal = rootView.findViewById(R.id.m_upload_cb_local);
 
         getActivity().setTitle("Upload Salesorder");
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
@@ -106,7 +109,7 @@ public class UploadFragment extends Fragment {
             public void onClick(View view) {
                 if (count != 0) {
                     Intent intent = new Intent(getActivity(), UploadService.class);
-                    intent.putExtra(I_KEY_LOCAL, false);
+                    intent.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
                     getActivity().stopService(intent);
                     getActivity().startService(intent);
                     pb.setVisibility(View.VISIBLE);

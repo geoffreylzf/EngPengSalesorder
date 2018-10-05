@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class HistoryFragment extends Fragment {
     private Button btnHistory;
     private TextView tvSoCount, tvSoProgress, tvSoLastSync;
     private ProgressBar pbSoProgress;
+    private CheckBox cbLocal;
 
     private AppDatabase mDb;
 
@@ -47,9 +49,8 @@ public class HistoryFragment extends Fragment {
         tvSoProgress = rootView.findViewById(R.id.history_tv_so_progress);
         tvSoLastSync = rootView.findViewById(R.id.history_tv_so_last_sync);
         pbSoProgress = rootView.findViewById(R.id.history_pb_so_progress);
-
+        cbLocal = rootView.findViewById(R.id.m_history_cb_local);
         btnHistory = rootView.findViewById(R.id.m_history_btn_history);
-
 
         getActivity().setTitle("History Management");
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
@@ -77,7 +78,7 @@ public class HistoryFragment extends Fragment {
                                         @Override
                                         public void onPositiveButtonClicked() {
                                             Intent intent = new Intent(getActivity(), DownloadHistoryService.class);
-                                            intent.putExtra(I_KEY_LOCAL, false);
+                                            intent.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
                                             getActivity().stopService(intent);
                                             getActivity().startService(intent);
                                         }

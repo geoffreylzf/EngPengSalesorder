@@ -57,6 +57,16 @@
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <CheckBox
+        android:id="@+id/m_history_cb_local"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/local2"
+        app:layout_constraintBottom_toBottomOf="@id/m_history_btn_history"
+        app:layout_constraintEnd_toStartOf="@id/m_history_btn_history"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/m_history_btn_history" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/m_history_btn_history"
         android:layout_width="wrap_content"

@@ -21,9 +21,9 @@
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:background="@color/colorDivider"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/m_upload_gl"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/m_upload_gl"
@@ -41,8 +41,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/m_upload_gl"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.35"/>
+        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/m_upload_tv_count"
@@ -62,9 +62,9 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/m_upload_btn_upload"
-        app:layout_constraintTop_toBottomOf="@id/m_upload_tv_count"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@id/m_upload_tv_count" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/m_upload_btn_upload"
@@ -79,6 +79,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/m_upload_gl"
         app:layout_constraintTop_toBottomOf="@id/m_upload_tv_count" />
+
+    <CheckBox
+        android:id="@+id/m_upload_cb_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:text="@string/local2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/m_upload_gl" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

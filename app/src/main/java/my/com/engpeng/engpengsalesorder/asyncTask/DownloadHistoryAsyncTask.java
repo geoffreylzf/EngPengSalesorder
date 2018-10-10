@@ -12,6 +12,7 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.model.ConnectionInfo;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
 import my.com.engpeng.engpengsalesorder.utilities.NetworkUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
@@ -20,7 +21,7 @@ import static my.com.engpeng.engpengsalesorder.Global.SO_STATUS_CONFIRM;
 import static my.com.engpeng.engpengsalesorder.Global.sPassword;
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
-public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
+public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, ConnectionInfo> {
 
     private String lastSyncDate;
     private boolean isLocal;
@@ -39,11 +40,13 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
         void updateProgress(String table, double row, double total);
 
         void completeProgress();
+
+        void errorProgress();
     }
 
 
     @Override
-    protected String doInBackground(Void... voids) {
+    protected ConnectionInfo doInBackground(Void... voids) {
         String username = sUsername;
         String password = sPassword;
         String data = "";
@@ -59,7 +62,7 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
                     JSONArray salesorderArray = JsonUtils.getJsonArray(json, SalesorderEntry.TABLE_NAME);
                     if (salesorderArray != null) {
                         ClearConfirmedUploadedSalesorder();
-                        InsertSalesorder(salesorderArray);
+                        return InsertSalesorder(salesorderArray);
                     }
                 }
             }
@@ -67,7 +70,7 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
             e.printStackTrace();
         }
 
-        return null;
+        return new ConnectionInfo(false);
     }
 
     private void ClearConfirmedUploadedSalesorder() {
@@ -78,7 +81,7 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
         }
     }
 
-    private void InsertSalesorder(JSONArray headArray) {
+    private ConnectionInfo InsertSalesorder(JSONArray headArray) {
         try {
             if (headArray.length() != 0) {
                 for (int i = 0; i < headArray.length(); i++) {
@@ -111,18 +114,25 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, String> {
                 TableInfoEntry tableInfo = new TableInfoEntry(SalesorderEntry.TABLE_NAME, lastSyncDate, 0, headArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
             }
+            return new ConnectionInfo(true);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ConnectionInfo(false);
         }
     }
 
     @Override
-    protected void onPostExecute(String table_info_type) {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    protected void onPostExecute(ConnectionInfo connectionInfo) {
+
+        if(connectionInfo.isSuccess()){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            dhatListener.completeProgress();
+        }else{
+            dhatListener.errorProgress();
         }
-        dhatListener.completeProgress();
     }
 }

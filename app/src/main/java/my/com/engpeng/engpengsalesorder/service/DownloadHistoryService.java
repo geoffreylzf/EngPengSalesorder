@@ -113,6 +113,18 @@ public class DownloadHistoryService extends Service
     }
 
     @Override
+    public void errorProgress() {
+        notificationBuilder
+                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setContentText("Download history error")
+                .setOngoing(false)
+                .setProgress(0, 0, false);
+        notificationManager.notify(GET_HISTORY_NOTIFICATION_ID, notificationBuilder.build());
+        stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
     }

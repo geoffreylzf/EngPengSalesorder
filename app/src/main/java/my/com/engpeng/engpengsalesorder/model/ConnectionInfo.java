@@ -1,14 +1,14 @@
 package my.com.engpeng.engpengsalesorder.model;
 
-public class UploadInfo {
+public class ConnectionInfo {
     private boolean isSuccess;
     private String jsonStr;
 
-    public UploadInfo(boolean isSuccess) {
+    public ConnectionInfo(boolean isSuccess) {
         this.isSuccess = isSuccess;
     }
 
-    public UploadInfo(boolean isSuccess, String jsonStr) {
+    public ConnectionInfo(boolean isSuccess, String jsonStr) {
         this.isSuccess = isSuccess;
         this.jsonStr = jsonStr;
     }

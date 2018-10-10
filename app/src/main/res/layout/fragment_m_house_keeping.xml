@@ -16,8 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.35">
+        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <TextView
             android:id="@+id/house_keeping_tv_branch_count"
@@ -60,9 +60,11 @@
 
         <ImageButton
             android:id="@+id/house_keeping_btn_branch_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/house_keeping_pb_branch_progress"
@@ -121,9 +123,11 @@
 
         <ImageButton
             android:id="@+id/house_keeping_btn_cust_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/house_keeping_pb_cust_progress"
@@ -182,9 +186,11 @@
 
         <ImageButton
             android:id="@+id/house_keeping_btn_addr_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/house_keeping_pb_addr_progress"
@@ -220,6 +226,7 @@
             android:max="100"
             app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_ip_last_sync"
             app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_ip_refresh"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_ip_count" />
 
@@ -243,9 +250,11 @@
 
         <ImageButton
             android:id="@+id/house_keeping_btn_ip_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/house_keeping_pb_ip_progress"
@@ -304,9 +313,11 @@
 
         <ImageButton
             android:id="@+id/house_keeping_btn_ps_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/house_keeping_pb_ps_progress"
@@ -333,10 +344,10 @@
         app:icon="@drawable/ic_baseline_refresh_24px"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/house_keeping_cb_local"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_update_all"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cb_local" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/house_keeping_btn_update_all"
@@ -347,9 +358,9 @@
         android:text="@string/update_all"
         app:icon="@drawable/ic_baseline_update_24px"
         app:iconGravity="textStart"
-        app:layout_constraintTop_toBottomOf="@id/house_keeping_cb_local"
+        app:iconPadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/house_keeping_btn_resync_all"
-        app:iconPadding="8dp" />
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cb_local" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

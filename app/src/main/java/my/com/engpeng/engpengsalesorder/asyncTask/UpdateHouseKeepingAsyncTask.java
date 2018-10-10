@@ -31,6 +31,8 @@ import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
 public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateHkInfo> {
 
+    private int RECORD_PER_TRANSFER = 200;
+
     private String lastSyncDate;
 
     private List<TableInfoEntry> tableInfoList;
@@ -40,6 +42,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
     private UpdateHouseKeepingAsyncTaskListener uhkatListener;
     private int updateCount;
     private UpdateHkInfo updateHkInfo;
+    private boolean isAuto;
 
     public interface UpdateHouseKeepingAsyncTaskListener {
 
@@ -59,7 +62,8 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
             boolean isLocal,
             UpdateHouseKeepingAsyncTaskListener uhkatListener,
             int updateCount,
-            UpdateHkInfo updateHkInfo) {
+            UpdateHkInfo updateHkInfo,
+            boolean isAuto) {
 
         this.mDb = mDb;
         this.tableInfoList = tableInfoList;
@@ -68,6 +72,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
         this.uhkatListener = uhkatListener;
         this.updateCount = updateCount;
         this.updateHkInfo = updateHkInfo;
+        this.isAuto = isAuto;
     }
 
     @Override
@@ -134,7 +139,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                             updateHkInfo.setLogId(logId);
                             updateHkInfo.setPartial(true);
                             updateHkInfo.setLimitStart(0);
-                            updateHkInfo.setLimitLength(200);
+                            updateHkInfo.setLimitLength(RECORD_PER_TRANSFER);
                             return updateHkInfo;
                         } else {
                             return InsertPartial(json, tableName, updateHkInfo);
@@ -189,7 +194,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                 uhkatListener.updateProgress(tableName, row, total);
             }
 
-            if(jsonArray.length() == 0){
+            if (jsonArray.length() == 0) {
                 TableInfoEntry tableInfo = new TableInfoEntry(tableName, lastSyncDate, 0, 0);
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
             }
@@ -257,19 +262,24 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        String remark = String.valueOf(updateCount + " data received");
+                        String remark;
+                        if (isAuto) {
+                            remark = updateCount + " data auto received";
+                        } else {
+                            remark = updateCount + " data received";
+                        }
                         LogEntry logEntry = new LogEntry(LOG_TASK_UPDATE_HK, StringUtils.getCurrentDateTime(), remark);
                         mDb.logDao().insertLog(logEntry);
                     }
                 });
             } else if (updateHkInfo.isPartial()) {
-                UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, isLocal, uhkatListener, updateCount, updateHkInfo);
+                UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, isLocal, uhkatListener, updateCount, updateHkInfo, isAuto);
                 updateHouseKeepingAsyncTask.execute();
 
             } else {
                 //continue next table
                 setTableListUpdate(updateHkInfo.getTableName());
-                UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, isLocal, uhkatListener, updateCount, null);
+                UpdateHouseKeepingAsyncTask updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, isLocal, uhkatListener, updateCount, null, isAuto);
                 updateHouseKeepingAsyncTask.execute();
             }
         } else {
@@ -278,7 +288,12 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    String remark = String.valueOf(updateCount + " data received with error");
+                    String remark;
+                    if (isAuto) {
+                        remark = updateCount + " data auto received with error";
+                    } else {
+                        remark = updateCount + " data received with error";
+                    }
                     LogEntry logEntry = new LogEntry(LOG_TASK_UPDATE_HK, StringUtils.getCurrentDateTime(), remark);
                     mDb.logDao().insertLog(logEntry);
                 }

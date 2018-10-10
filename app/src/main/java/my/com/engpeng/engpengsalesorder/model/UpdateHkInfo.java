@@ -1,7 +1,7 @@
 package my.com.engpeng.engpengsalesorder.model;
 
 public class UpdateHkInfo {
-    private boolean isSuccess = true;
+    private boolean isSuccess;
     private boolean isEnd = false;
     private boolean isPartial = false;
     private String tableName = null;

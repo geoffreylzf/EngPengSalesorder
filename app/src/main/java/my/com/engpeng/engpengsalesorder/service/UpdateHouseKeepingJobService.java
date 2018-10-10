@@ -16,6 +16,7 @@ import java.util.List;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.asyncTask.UpdateHouseKeepingAsyncTask;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
+import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
@@ -56,6 +57,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
             startForeground(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
 
             List<TableInfoEntry> tableInfoList = new ArrayList<>();
+            tableInfoList.add(new TableInfoEntry(BranchEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(ItemPackingEntry.TABLE_NAME, false));
@@ -63,7 +65,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
 
             String action = ACTION_UPDATE;
 
-            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, false, this, 0, null);
+            updateHouseKeepingAsyncTask = new UpdateHouseKeepingAsyncTask(mDb, tableInfoList, action, false, this, 0, null, true);
             updateHouseKeepingAsyncTask.execute();
         } else {
             stopSelf();
@@ -116,7 +118,7 @@ public class UpdateHouseKeepingJobService extends JobService implements
     public void errorProgress() {
         notificationBuilder
                 .setSmallIcon(android.R.drawable.stat_notify_error)
-                .setContentText("Update error")
+                .setContentText("Auto update error")
                 .setOngoing(false)
                 .setProgress(0, 0, false);
         notificationManager.notify(UPDATE_HOUSE_KEEPING_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());

@@ -49,7 +49,7 @@ public class UploadJobService extends JobService implements UploadAsyncTask.Uplo
                 if (count != 0) {
                     startForeground(UPLOAD_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
 
-                    UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(mDb, false, UploadJobService.this);
+                    UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(mDb, false, UploadJobService.this, true);
                     uploadAsyncTask.execute();
                 }else{
                     stopSelf();
@@ -97,6 +97,19 @@ public class UploadJobService extends JobService implements UploadAsyncTask.Uplo
         notificationBuilder
                 .setSmallIcon(android.R.drawable.stat_sys_upload_done)
                 .setContentText("Upload complete")
+                .setOngoing(false)
+                .setProgress(0, 0, false);
+        notificationManager.notify(UPLOAD_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());
+        stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
+        jobFinished(job, false);
+    }
+
+    @Override
+    public void errorProgress() {
+        notificationBuilder
+                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setContentText("Auto upload error")
                 .setOngoing(false)
                 .setProgress(0, 0, false);
         notificationManager.notify(UPLOAD_NOTIFICATION_SCHEDULE_ID, notificationBuilder.build());

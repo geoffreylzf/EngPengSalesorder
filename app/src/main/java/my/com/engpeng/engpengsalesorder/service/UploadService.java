@@ -73,7 +73,7 @@ public class UploadService extends Service implements
                     startForeground(UPLOAD_NOTIFICATION_ID, notificationBuilder.build());
 
                     isLocal = intent.getBooleanExtra(I_KEY_LOCAL, false);
-                    UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(mDb, isLocal, UploadService.this);
+                    UploadAsyncTask uploadAsyncTask = new UploadAsyncTask(mDb, isLocal, UploadService.this, false);
                     uploadAsyncTask.execute();
                 }else{
                     stopSelf();
@@ -97,6 +97,18 @@ public class UploadService extends Service implements
         notificationBuilder
                 .setSmallIcon(android.R.drawable.stat_sys_upload_done)
                 .setContentText("Upload complete")
+                .setOngoing(false)
+                .setProgress(0, 0, false);
+        notificationManager.notify(UPLOAD_NOTIFICATION_ID, notificationBuilder.build());
+        stopForeground(STOP_FOREGROUND_DETACH);
+        stopSelf();
+    }
+
+    @Override
+    public void errorProgress() {
+        notificationBuilder
+                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setContentText("Upload error")
                 .setOngoing(false)
                 .setProgress(0, 0, false);
         notificationManager.notify(UPLOAD_NOTIFICATION_ID, notificationBuilder.build());

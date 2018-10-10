@@ -64,7 +64,7 @@ public class PrintUtils {
         s += formatLine(company.getBranchRegno());
         s += formatLine(company.getInvAddress());
         s += formatLine(PRINT_SEPERATOR);
-        s += formatLine("Salesorder No : " + StringUtils.getDisplayRunningNo(salesorderEntry.getRunningNo()));
+        s += formatLine("Temp Salesorder No : " + StringUtils.getDisplayRunningNo(salesorderEntry.getRunningNo()));
         s += formatLine("Document Date : " + salesorderEntry.getDocumentDate());
         s += formatLine("Delivery Date : " + salesorderEntry.getDeliveryDate());
         s += formatLine("Cust. Code : " + customer.getPersonCustomerCompanyCode());
@@ -72,7 +72,7 @@ public class PrintUtils {
         s += formatLine("Cust. Address : " + address.getPersonCustomerAddressName());
         s += formatLine(PRINT_SEPERATOR);
 
-        s += formatLine(String.format("%20s%12s%12s", "QTY", "U/PRICE", "AMOUNT"));
+        s += formatLine(String.format("%20s%12s%12s", "QTY/KG", "U/PRICE", "AMOUNT"));
         double ttlQty = 0, ttlWgt = 0, ttlPrice = 0;
         List<SalesorderDetailEntry> details = db.salesorderDetailDao().loadAllSalesorderDetailsBySalesorderId(salesorderEntry.getId());
         for (SalesorderDetailEntry detail : details) {
@@ -81,14 +81,18 @@ public class PrintUtils {
             ttlPrice += detail.getTotalPrice();
             ItemPackingEntry item = db.itemPackingDao().loadItemPackingById(detail.getItemPackingId());
             s += formatLine(item.getSkuName());
-            s += formatLine(String.format(Locale.getDefault(), "%20.0f%12.2f%12.2f", detail.getQty(), detail.getPrice(), detail.getTotalPrice()));
+            s += formatLine(String.format(Locale.getDefault(),
+                    "%20s%12.2f%12.2f",
+                    String.format(Locale.getDefault(), "%.0f/%.0f", detail.getQty(), detail.getWeight()),
+                    detail.getPrice(),
+                    detail.getTotalPrice()));
         }
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("E. & O.E.");
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Item(s) : " + String.format(Locale.getDefault(), "%.0f", ttlQty));
         //s += formatLine("Total Weight : " + String.format(Locale.getDefault(), "%28.3fKG", ttlWgt));
-        s += formatLine("Total Price  : "+ String.format(Locale.getDefault(), "%30.2f", ttlPrice));
+        s += formatLine("Total Price  : " + String.format(Locale.getDefault(), "%30.2f", ttlPrice));
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Printed By : " + sUsername);
         s += formatLine("Date Time : " + StringUtils.getCurrentDateTime());

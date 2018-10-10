@@ -13,11 +13,6 @@
         <item name="cardViewStyle">@style/CardView</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.TitleDialog" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:windowNoTitle">false</item>
     </style>

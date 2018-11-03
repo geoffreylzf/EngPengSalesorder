@@ -12,6 +12,7 @@
     <string name="branch">Branch</string>
     <string name="customer_address">Customer Address</string>
     <string name="item_packing">Item Packing</string>
+    <string name="item_company">Item Company</string>
     <string name="company">Company</string>
     <string name="local_purchase_order">Local Purchase Order (LPO)</string>
     <string name="remark">Remark</string>

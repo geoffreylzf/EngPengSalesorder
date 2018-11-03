@@ -24,14 +24,17 @@ public class CustomerCompanyAddressEntry {
     private String personCustomerAddressName;
     @ColumnInfo(name = "person_customer_company_id")
     private long personCustomerCompanyId;
+    @ColumnInfo(name = "tax_zone_id")
+    private long taxZoneId;
     @ColumnInfo(name = "is_delete")
     private int isDelete;
 
-    public CustomerCompanyAddressEntry(@NonNull long id, String personCustomerAddressCode, String personCustomerAddressName, long personCustomerCompanyId, int isDelete) {
+    public CustomerCompanyAddressEntry(@NonNull long id, String personCustomerAddressCode, String personCustomerAddressName, long personCustomerCompanyId, long taxZoneId, int isDelete) {
         this.id = id;
         this.personCustomerAddressCode = personCustomerAddressCode;
         this.personCustomerAddressName = personCustomerAddressName;
         this.personCustomerCompanyId = personCustomerCompanyId;
+        this.taxZoneId = taxZoneId;
         this.isDelete = isDelete;
     }
 
@@ -41,6 +44,7 @@ public class CustomerCompanyAddressEntry {
             setPersonCustomerAddressCode(jsonObject.isNull("pcac") ? null : jsonObject.getString("pcac"));
             setPersonCustomerAddressName(jsonObject.isNull("pcan") ? null : jsonObject.getString("pcan"));
             setPersonCustomerCompanyId(jsonObject.isNull("pcc_i") ? 0 : jsonObject.getLong("pcc_i"));
+            setTaxZoneId(jsonObject.isNull("tz_i") ? 0 : jsonObject.getLong("tz_i"));
             setIsDelete(jsonObject.isNull("i_d") ? 0 : jsonObject.getInt("i_d"));
 
         } catch (Exception e) {
@@ -79,6 +83,14 @@ public class CustomerCompanyAddressEntry {
 
     public void setPersonCustomerCompanyId(long personCustomerCompanyId) {
         this.personCustomerCompanyId = personCustomerCompanyId;
+    }
+
+    public long getTaxZoneId() {
+        return taxZoneId;
+    }
+
+    public void setTaxZoneId(long taxZoneId) {
+        this.taxZoneId = taxZoneId;
     }
 
     public int getIsDelete() {

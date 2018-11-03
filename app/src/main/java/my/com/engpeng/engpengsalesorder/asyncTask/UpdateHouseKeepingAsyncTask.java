@@ -1,6 +1,7 @@
 package my.com.engpeng.engpengsalesorder.asyncTask;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,10 +13,14 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
+import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.database.taxCode.TaxCodeEntry;
+import my.com.engpeng.engpengsalesorder.database.taxItemMatching.TaxItemMatchingEntry;
+import my.com.engpeng.engpengsalesorder.database.taxType.TaxTypeEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.model.UpdateHkInfo;
 import my.com.engpeng.engpengsalesorder.utilities.JsonUtils;
@@ -122,16 +127,34 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                     if (action.equals(ACTION_REFRESH)) {
                         if (logId > 0 && count > 0) {
 
-                            if (tableName.equals(CustomerCompanyEntry.TABLE_NAME)) {
-                                mDb.customerCompanyDao().deleteAll();
-                            } else if (tableName.equals(CustomerCompanyAddressEntry.TABLE_NAME)) {
-                                mDb.customerCompanyAddressDao().deleteAll();
-                            } else if (tableName.equals(ItemPackingEntry.TABLE_NAME)) {
-                                mDb.itemPackingDao().deleteAll();
-                            } else if (tableName.equals(PriceSettingEntry.TABLE_NAME)) {
-                                mDb.priceSettingDao().deleteAll();
-                            } else if (tableName.equals(BranchEntry.TABLE_NAME)) {
-                                mDb.branchDao().deleteAll();
+                            switch (tableName){
+                                case BranchEntry.TABLE_NAME:
+                                    mDb.branchDao().deleteAll();
+                                    break;
+                                case CustomerCompanyAddressEntry.TABLE_NAME:
+                                    mDb.customerCompanyAddressDao().deleteAll();
+                                    break;
+                                case CustomerCompanyEntry.TABLE_NAME:
+                                    mDb.customerCompanyDao().deleteAll();
+                                    break;
+                                case ItemCompanyEntry.TABLE_NAME:
+                                    mDb.itemCompanyDao().deleteAll();
+                                    break;
+                                case ItemPackingEntry.TABLE_NAME:
+                                    mDb.itemPackingDao().deleteAll();
+                                    break;
+                                case PriceSettingEntry.TABLE_NAME:
+                                    mDb.priceSettingDao().deleteAll();
+                                    break;
+                                case TaxCodeEntry.TABLE_NAME:
+                                    mDb.taxCodeDao().deleteAll();
+                                    break;
+                                case TaxItemMatchingEntry.TABLE_NAME:
+                                    mDb.taxItemMatchingDao().deleteAll();
+                                    break;
+                                case TaxTypeEntry.TABLE_NAME:
+                                    mDb.taxItemMatchingDao().deleteAll();
+                                    break;
                             }
 
                             UpdateHkInfo updateHkInfo = new UpdateHkInfo(true, tableName, count, logId);
@@ -168,22 +191,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                if (tableName.equals(CustomerCompanyEntry.TABLE_NAME)) {
-                    CustomerCompanyEntry customerCompanyEntry = new CustomerCompanyEntry(jsonObject);
-                    mDb.customerCompanyDao().insertCustomerCompany(customerCompanyEntry);
-                } else if (tableName.equals(PriceSettingEntry.TABLE_NAME)) {
-                    PriceSettingEntry priceSetting = new PriceSettingEntry(jsonObject);
-                    mDb.priceSettingDao().insertPriceSetting(priceSetting);
-                } else if (tableName.equals(ItemPackingEntry.TABLE_NAME)) {
-                    ItemPackingEntry itemPacking = new ItemPackingEntry(jsonObject);
-                    mDb.itemPackingDao().insertItemPacking(itemPacking);
-                } else if (tableName.equals(CustomerCompanyAddressEntry.TABLE_NAME)) {
-                    CustomerCompanyAddressEntry customerCompanyAddressEntry = new CustomerCompanyAddressEntry(jsonObject);
-                    mDb.customerCompanyAddressDao().insertCustomerCompanyAddress(customerCompanyAddressEntry);
-                } else if (tableName.equals(BranchEntry.TABLE_NAME)) {
-                    BranchEntry branchEntry = new BranchEntry(jsonObject);
-                    mDb.branchDao().insertBranch(branchEntry);
-                }
+                insertTable(tableName, jsonObject);
 
                 TableInfoEntry tableInfo = new TableInfoEntry(tableName, lastSyncDate, (i + 1), jsonArray.length());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
@@ -214,22 +222,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                if (tableName.equals(CustomerCompanyEntry.TABLE_NAME)) {
-                    CustomerCompanyEntry customerCompanyEntry = new CustomerCompanyEntry(jsonObject);
-                    mDb.customerCompanyDao().insertCustomerCompany(customerCompanyEntry);
-                } else if (tableName.equals(PriceSettingEntry.TABLE_NAME)) {
-                    PriceSettingEntry priceSetting = new PriceSettingEntry(jsonObject);
-                    mDb.priceSettingDao().insertPriceSetting(priceSetting);
-                } else if (tableName.equals(ItemPackingEntry.TABLE_NAME)) {
-                    ItemPackingEntry itemPacking = new ItemPackingEntry(jsonObject);
-                    mDb.itemPackingDao().insertItemPacking(itemPacking);
-                } else if (tableName.equals(CustomerCompanyAddressEntry.TABLE_NAME)) {
-                    CustomerCompanyAddressEntry customerCompanyAddressEntry = new CustomerCompanyAddressEntry(jsonObject);
-                    mDb.customerCompanyAddressDao().insertCustomerCompanyAddress(customerCompanyAddressEntry);
-                } else if (tableName.equals(BranchEntry.TABLE_NAME)) {
-                    BranchEntry branchEntry = new BranchEntry(jsonObject);
-                    mDb.branchDao().insertBranch(branchEntry);
-                }
+                insertTable(tableName, jsonObject);
 
                 TableInfoEntry tableInfo = new TableInfoEntry(tableName, lastSyncDate, (updateHkInfo.getLimitStart() + i + 1), updateHkInfo.getCount());
                 mDb.tableInfoDao().insertTableInfo(tableInfo);
@@ -298,6 +291,38 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                     mDb.logDao().insertLog(logEntry);
                 }
             });
+        }
+    }
+
+    private void insertTable(String tableName, JSONObject jsonObject){
+        switch (tableName){
+            case BranchEntry.TABLE_NAME:
+                mDb.branchDao().insertBranch(new BranchEntry(jsonObject));
+                break;
+            case CustomerCompanyAddressEntry.TABLE_NAME:
+                mDb.customerCompanyAddressDao().insertCustomerCompanyAddress(new CustomerCompanyAddressEntry(jsonObject));
+                break;
+            case CustomerCompanyEntry.TABLE_NAME:
+                mDb.customerCompanyDao().insertCustomerCompany(new CustomerCompanyEntry(jsonObject));
+                break;
+            case ItemCompanyEntry.TABLE_NAME:
+                mDb.itemCompanyDao().insertItemCompany(new ItemCompanyEntry(jsonObject));
+                break;
+            case ItemPackingEntry.TABLE_NAME:
+                mDb.itemPackingDao().insertItemPacking(new ItemPackingEntry(jsonObject));
+                break;
+            case PriceSettingEntry.TABLE_NAME:
+                mDb.priceSettingDao().insertPriceSetting(new PriceSettingEntry(jsonObject));
+                break;
+            case TaxCodeEntry.TABLE_NAME:
+                mDb.taxCodeDao().insertTaxCode(new TaxCodeEntry(jsonObject));
+                break;
+            case TaxItemMatchingEntry.TABLE_NAME:
+                mDb.taxItemMatchingDao().insertTaxItemMatching(new TaxItemMatchingEntry(jsonObject));
+                break;
+            case TaxTypeEntry.TABLE_NAME:
+                mDb.taxTypeDao().insertTaxType(new TaxTypeEntry(jsonObject));
+                break;
         }
     }
 

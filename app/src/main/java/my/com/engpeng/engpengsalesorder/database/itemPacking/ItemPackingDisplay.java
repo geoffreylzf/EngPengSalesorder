@@ -1,5 +1,6 @@
 package my.com.engpeng.engpengsalesorder.database.itemPacking;
 
+import androidx.annotation.NonNull;
 import androidx.room.Ignore;
 
 public class ItemPackingDisplay extends ItemPackingEntry {
@@ -10,10 +11,8 @@ public class ItemPackingDisplay extends ItemPackingEntry {
     private long customerPriceSettingId;
     private double customerPrice;
 
-    public ItemPackingDisplay(long id, String skuCode, String skuName, int priceByWeight, double factor, int isDelete,
-                              long standardPriceSettingId,  double standardPrice,
-                              long customerPriceSettingId, double customerPrice) {
-        super(id, skuCode, skuName, priceByWeight, factor, isDelete);
+    public ItemPackingDisplay(@NonNull long id, long itemMasterId, String skuCode, String skuName, int priceByWeight, double factor, long taxItemTypeId, int isDelete, long standardPriceSettingId, double standardPrice, long customerPriceSettingId, double customerPrice) {
+        super(id, itemMasterId, skuCode, skuName, priceByWeight, factor, taxItemTypeId, isDelete);
         this.standardPriceSettingId = standardPriceSettingId;
         this.standardPrice = standardPrice;
         this.customerPriceSettingId = customerPriceSettingId;

@@ -32,6 +32,9 @@ public interface ItemPackingDao {
             " B.price_setting_id AS customerPriceSettingId," +
             " B.selling_price AS customerPrice" +
             " FROM item_packing" +
+            " INNER JOIN item_company" +
+            "         ON item_packing.item_master_id = item_company.item_master_id" +
+            "         AND item_company.is_delete = 0" +
             " LEFT JOIN" +
             "        (SELECT" +
             "            id AS price_setting_id, item_packing_id, selling_price " +
@@ -46,7 +49,7 @@ public interface ItemPackingDao {
             "            AND price_group_id = (SELECT price_group_id FROM person_customer_company WHERE id = :customerCompanyId) "+
             "        GROUP BY item_packing_id " +
             "        ORDER BY starting_date DESC, end_date DESC, create_date DESC) A " +
-            "        ON id = A.item_packing_id " +
+            "        ON item_packing.id = A.item_packing_id " +
             " LEFT JOIN" +
             "        (SELECT" +
             "            id AS price_setting_id, item_packing_id, selling_price " +
@@ -59,10 +62,11 @@ public interface ItemPackingDao {
             "                OR IFNULL(end_date,'') = '') " +
             "        GROUP BY item_packing_id " +
             "        ORDER BY starting_date DESC, end_date DESC, create_date DESC) B " +
-            "        ON id = B.item_packing_id " +
+            "        ON item_packing.id = B.item_packing_id " +
             " WHERE sku_code||sku_name LIKE :filter" +
-            " AND is_delete = 0" +
-            " AND id NOT IN (SELECT item_packing_id FROM temp_salesorder_detail)" +
+            " AND item_packing.is_delete = 0" +
+            " AND item_packing.id NOT IN (SELECT item_packing_id FROM temp_salesorder_detail)" +
+            " GROUP BY item_packing.id" +
             " ORDER BY item_packing.sku_name) C" +
             " WHERE IFNULL(standardPrice, 0) > 0 " +
             " OR IFNULL(customerPrice, 0) > 0" +

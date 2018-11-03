@@ -19,9 +19,13 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
+import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.database.taxCode.TaxCodeEntry;
+import my.com.engpeng.engpengsalesorder.database.taxItemMatching.TaxItemMatchingEntry;
+import my.com.engpeng.engpengsalesorder.database.taxType.TaxTypeEntry;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 
@@ -60,8 +64,12 @@ public class UpdateHouseKeepingJobService extends JobService implements
             tableInfoList.add(new TableInfoEntry(BranchEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(CustomerCompanyEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(CustomerCompanyAddressEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(ItemCompanyEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(ItemPackingEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(PriceSettingEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(TaxCodeEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(TaxItemMatchingEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(TaxTypeEntry.TABLE_NAME, false));
 
             String action = ACTION_UPDATE;
 

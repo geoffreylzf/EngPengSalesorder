@@ -24,6 +24,7 @@ import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
+import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
@@ -52,6 +53,10 @@ public class HouseKeepingFragment extends Fragment {
     private ImageButton ibAddrRefresh;
     private TextView tvAddrCount, tvAddrProgress, tvAddrLastSync;
     private ProgressBar pbAddrProgress;
+
+    private ImageButton ibIcRefresh;
+    private TextView tvIcCount, tvIcProgress, tvIcLastSync;
+    private ProgressBar pbIcProgress;
 
     private ImageButton ibIPRefresh;
     private TextView tvIPCount, tvIPProgress, tvIPLastSync;
@@ -88,6 +93,12 @@ public class HouseKeepingFragment extends Fragment {
         tvAddrLastSync = rootView.findViewById(R.id.house_keeping_tv_addr_last_sync);
         pbAddrProgress = rootView.findViewById(R.id.house_keeping_pb_addr_progress);
         ibAddrRefresh = rootView.findViewById(R.id.house_keeping_btn_addr_refresh);
+
+        tvIcCount = rootView.findViewById(R.id.house_keeping_tv_ic_count);
+        tvIcProgress = rootView.findViewById(R.id.house_keeping_tv_ic_progress);
+        tvIcLastSync = rootView.findViewById(R.id.house_keeping_tv_ic_last_sync);
+        pbIcProgress = rootView.findViewById(R.id.house_keeping_pb_ic_progress);
+        ibIcRefresh = rootView.findViewById(R.id.house_keeping_btn_ic_refresh);
 
         tvIPCount = rootView.findViewById(R.id.house_keeping_tv_ip_count);
         tvIPProgress = rootView.findViewById(R.id.house_keeping_tv_ip_progress);
@@ -144,6 +155,17 @@ public class HouseKeepingFragment extends Fragment {
                             tvPSProgress.setText(msg_progress);
                         }
 
+                        if (tableInfo.getType().equals(ItemCompanyEntry.TABLE_NAME)) {
+                            String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
+                            double row = tableInfo.getInsert();
+                            double total = tableInfo.getTotal();
+                            double percentage = row / total * 100;
+                            String msg_progress = (int) row + "/" + (int) total + " (" + String.format(Locale.US, "%.2f", percentage) + "%)";
+                            tvIcLastSync.setText(msg_last_sync);
+                            pbIcProgress.setProgress((int) percentage);
+                            tvIcProgress.setText(msg_progress);
+                        }
+
                         if (tableInfo.getType().equals(ItemPackingEntry.TABLE_NAME)) {
                             String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
                             double row = tableInfo.getInsert();
@@ -181,48 +203,38 @@ public class HouseKeepingFragment extends Fragment {
             }
         });
 
-        final LiveData<Integer> branchCount = mDb.branchDao().getLiveCount();
-        branchCount.observe(this, new Observer<Integer>() {
+        mDb.branchDao().getLiveCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                String msg = BranchEntry.TABLE_DISPLAY_NAME + " (" + integer + ")";
-                tvBranchCount.setText(msg);
+                tvBranchCount.setText(BranchEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
 
-        final LiveData<Integer> priceSettingCount = mDb.priceSettingDao().getLiveCount();
-        priceSettingCount.observe(this, new Observer<Integer>() {
+        mDb.priceSettingDao().getLiveCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                String msg = PriceSettingEntry.TABLE_DISPLAY_NAME + " (" + integer + ")";
-                tvPSCount.setText(msg);
+                tvPSCount.setText(PriceSettingEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
 
-        final LiveData<Integer> itemPackingCount = mDb.itemPackingDao().getLiveCount();
-        itemPackingCount.observe(this, new Observer<Integer>() {
+        mDb.itemPackingDao().getLiveCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                String msg = ItemPackingEntry.TABLE_DISPLAY_NAME + " (" + integer + ")";
-                tvIPCount.setText(msg);
+                tvIPCount.setText(ItemPackingEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
 
-        final LiveData<Integer> ccCount = mDb.customerCompanyDao().getLiveCount();
-        ccCount.observe(this, new Observer<Integer>() {
+        mDb.customerCompanyDao().getLiveCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                String msg = CustomerCompanyEntry.TABLE_DISPLAY_NAME + " (" + integer + ")";
-                tvCustCount.setText(msg);
+                tvCustCount.setText(CustomerCompanyEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
 
-        final LiveData<Integer> ccaCount = mDb.customerCompanyAddressDao().getLiveCount();
-        ccaCount.observe(this, new Observer<Integer>() {
+        mDb.customerCompanyAddressDao().getLiveCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
-                String msg = CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME + " (" + integer + ")";
-                tvAddrCount.setText(msg);
+                tvAddrCount.setText(CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
     }
@@ -269,6 +281,12 @@ public class HouseKeepingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 retrieveHouseKeepingUpdate(PriceSettingEntry.TABLE_NAME, ACTION_REFRESH);
+            }
+        });
+        ibIcRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveHouseKeepingUpdate(ItemCompanyEntry.TABLE_NAME, ACTION_REFRESH);
             }
         });
         ibIPRefresh.setOnClickListener(new View.OnClickListener() {

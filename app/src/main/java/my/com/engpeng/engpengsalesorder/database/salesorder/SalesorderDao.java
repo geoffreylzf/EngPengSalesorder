@@ -52,8 +52,8 @@ public interface SalesorderDao {
     @Query("SELECT SUM(CASE WHEN status = 'DRAFT' THEN 1 ELSE 0 END) AS draft," +
             " SUM(CASE WHEN status = 'CONFIRM' AND is_upload = 1 THEN 1 ELSE 0 END) AS confirm," +
             " SUM(CASE WHEN status = 'CONFIRM' AND is_upload = 0 THEN 1 ELSE 0 END) AS unupload," +
-            " SUM(CASE WHEN status = 'DRAFT' THEN amount ELSE 0 END) AS draftAmt," +
-            " SUM(CASE WHEN status = 'CONFIRM' THEN amount ELSE 0 END) AS confirmAmt" +
+            " SUM(CASE WHEN status = 'DRAFT' THEN amount + round_adj ELSE 0 END) AS draftAmt," +
+            " SUM(CASE WHEN status = 'CONFIRM' THEN amount + round_adj ELSE 0 END) AS confirmAmt" +
             " FROM" +
             "   (SELECT salesorder.*, SUM(salesorder_detail.total_price) AS amount" +
             "   FROM salesorder" +

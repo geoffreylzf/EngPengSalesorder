@@ -30,6 +30,7 @@ public class Global {
 
     public static final int RC_GOOGLE_SIGN_IN = 8001;
     public static final int RC_BLUETOOTH = 8002;
+    public static final int RC_GPS = 8003;
 
     //Preferences param keys
     public static final String PREF_KEY = "PREF_KEY";

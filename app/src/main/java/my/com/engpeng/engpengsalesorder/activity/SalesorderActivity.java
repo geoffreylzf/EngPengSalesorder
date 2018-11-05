@@ -15,12 +15,14 @@ import my.com.engpeng.engpengsalesorder.fragment.sales.SoDashboardFragment;
 import my.com.engpeng.engpengsalesorder.fragment.sales.TempSoCartFragment;
 import my.com.engpeng.engpengsalesorder.fragment.sales.TempSoConfirmFragment;
 import my.com.engpeng.engpengsalesorder.fragment.sales.TempSoHeadFragment;
+import my.com.engpeng.engpengsalesorder.gps.GpsConnection;
 
 public class SalesorderActivity extends AppCompatActivity implements NavigationHost {
 
     private Toolbar tb;
     private AppBarLayout abl;
     private Bundle savedInstanceState;
+    private GpsConnection gpsConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
         abl = findViewById(R.id.salesorder_abl);
         this.savedInstanceState = savedInstanceState;
 
+        gpsConnection = new GpsConnection(this);
         setSupportActionBar(tb);
         setupSoDashBoard();
     }
@@ -42,6 +45,10 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
                     .add(R.id.salesorder_fl, new SoDashboardFragment(), SoDashboardFragment.tag)
                     .commit();
         }
+    }
+
+    public GpsConnection getGpsConnection(){
+        return gpsConnection;
     }
 
     @Override

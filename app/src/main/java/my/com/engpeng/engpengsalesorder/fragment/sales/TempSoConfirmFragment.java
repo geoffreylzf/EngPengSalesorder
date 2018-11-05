@@ -3,6 +3,7 @@ package my.com.engpeng.engpengsalesorder.fragment.sales;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import java.util.Locale;
 import my.com.engpeng.engpengsalesorder.Global;
 import my.com.engpeng.engpengsalesorder.R;
 import my.com.engpeng.engpengsalesorder.activity.NavigationHost;
+import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.adapter.TempSoConfirmAdapter;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
@@ -266,9 +268,17 @@ public class TempSoConfirmFragment extends Fragment {
         }
 
         if (status.equals(SO_STATUS_CONFIRM)) {
-            //TODO
-            salesorderEntry.setLatitude("");
-            salesorderEntry.setLongitude("");
+            String latitude = "0", longitude = "0";
+            Location location = ((SalesorderActivity) getActivity()).getGpsConnection().getLastKnownLocation();
+            if (location == null) {
+                location = ((SalesorderActivity) getActivity()).getGpsConnection().switchProviderAndGetLocation();
+            }
+            if (location != null) {
+                latitude = String.valueOf(location.getLatitude());
+                longitude = String.valueOf(location.getLongitude());
+            }
+            salesorderEntry.setLatitude(latitude);
+            salesorderEntry.setLongitude(longitude);
         }
 
 

@@ -25,6 +25,7 @@ import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
 import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
+import my.com.engpeng.engpengsalesorder.gps.GpsConnection;
 import my.com.engpeng.engpengsalesorder.model.SalesInfo;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
@@ -96,9 +97,7 @@ public class MainDashboardFragment extends Fragment {
         btnSo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sCompanyId != 0) {
-                    startActivity(new Intent(activity, SalesorderActivity.class));
-                } else {
+                if (sCompanyId == 0) {
                     UiUtils.showConfirmDialog(getFragmentManager(),
                             getString(R.string.dialog_title_select_company),
                             getString(R.string.dialog_msg_select_company),
@@ -109,6 +108,11 @@ public class MainDashboardFragment extends Fragment {
                                     ((MainFragment) getParentFragment()).navigateTo(new CompanyFragment(), CompanyFragment.tag, true, null, null);
                                 }
                             });
+
+                } else if(GpsConnection.checkPermission(getContext())){
+                    GpsConnection.requestPermission(getActivity());
+                } else{
+                    startActivity(new Intent(activity, SalesorderActivity.class));
                 }
             }
         });

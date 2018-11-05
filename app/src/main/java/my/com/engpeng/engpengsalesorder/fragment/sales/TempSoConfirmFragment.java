@@ -2,7 +2,9 @@ package my.com.engpeng.engpengsalesorder.fragment.sales;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -57,7 +59,7 @@ public class TempSoConfirmFragment extends Fragment {
     public static final String tag = "TEMP_SO_CONFIRM_FRAGMENT";
 
     private EditText etCompany, etCustomer, etAddress, etDocumentDate, etDeliveryDate, etLpo, etRemark;
-    private TextView tvTotalPrice;
+    private TextView tvRoundAdj, tvTotalPrice;
     private RecyclerView rv;
     private Button btnDraft, btnConfirm;
     private LinearLayout llAction;
@@ -73,6 +75,7 @@ public class TempSoConfirmFragment extends Fragment {
     private String runningNo;
 
     private List<TempSalesorderDetailEntry> tempSalesorderDetailEntries;
+    private double roundAdj;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class TempSoConfirmFragment extends Fragment {
         etLpo = rootView.findViewById(R.id.temp_so_confirm_et_lpo);
         etRemark = rootView.findViewById(R.id.temp_so_confirm_et_remark);
         rv = rootView.findViewById(R.id.temp_so_confirm_rv);
+        tvRoundAdj = rootView.findViewById(R.id.temp_so_confirm_tv_round_adj);
         tvTotalPrice = rootView.findViewById(R.id.temp_so_confirm_tv_total_price);
         llAction = rootView.findViewById(R.id.temp_so_confirm_ll_action);
         btnDraft = rootView.findViewById(R.id.temp_so_confirm_btn_draft);
@@ -225,9 +229,14 @@ public class TempSoConfirmFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Double d) {
                 if (d == null) {
+                    roundAdj = 0;
+                    tvRoundAdj.setText("Total Price (Round Adjustment: 0)");
                     tvTotalPrice.setText(StringUtils.getDisplayPrice(0));
                 } else {
-                    tvTotalPrice.setText(StringUtils.getDisplayPrice(d));
+                    double roundedTotalPrice = Math.round(d * 20.0) / 20.0;
+                    roundAdj = Math.round((roundedTotalPrice - d) * 100.0) / 100.0;
+                    tvRoundAdj.setText("Total Price (Round Adjustment: " + roundAdj + ")");
+                    tvTotalPrice.setText(StringUtils.getDisplayPrice(roundedTotalPrice));
                 }
             }
         });
@@ -256,6 +265,14 @@ public class TempSoConfirmFragment extends Fragment {
             salesorderEntry.setCreateDatetime(StringUtils.getCurrentDateTime());
         }
 
+        if (status.equals(SO_STATUS_CONFIRM)) {
+            //TODO
+            salesorderEntry.setLatitude("");
+            salesorderEntry.setLongitude("");
+        }
+
+
+        salesorderEntry.setRoundAdj(roundAdj);
         salesorderEntry.setStatus(status);
         salesorderEntry.setRunningNo(newRunningNo);
         salesorderEntry.setIsUpload(0);
@@ -281,6 +298,9 @@ public class TempSoConfirmFragment extends Fragment {
                                     tempSalesorderDetailEntry.getWeight(),
                                     tempSalesorderDetailEntry.getFactor(),
                                     tempSalesorderDetailEntry.getPrice(),
+                                    tempSalesorderDetailEntry.getTaxCodeId(),
+                                    tempSalesorderDetailEntry.getTaxRate(),
+                                    tempSalesorderDetailEntry.getTaxAmt(),
                                     tempSalesorderDetailEntry.getTotalPrice());
 
                     mDb.salesorderDetailDao().insertSalesorderDetail(salesorderDetailEntry);
@@ -363,7 +383,7 @@ public class TempSoConfirmFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPrintPreview(){
+    private void openPrintPreview() {
         SoPrintFragment soPrintFragment = new SoPrintFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(I_KEY_SALESORDER_ENTRY, Parcels.wrap(salesorderEntry));

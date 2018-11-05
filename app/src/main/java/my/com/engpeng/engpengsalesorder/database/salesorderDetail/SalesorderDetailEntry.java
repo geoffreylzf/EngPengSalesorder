@@ -30,10 +30,16 @@ public class SalesorderDetailEntry {
     private double factor;
     @ColumnInfo(name = "price")
     private double price;
+    @ColumnInfo(name = "tax_code_id")
+    private long taxCodeId;
+    @ColumnInfo(name = "tax_rate")
+    private double taxRate;
+    @ColumnInfo(name = "tax_amt")
+    private double taxAmt;
     @ColumnInfo(name = "total_price")
     private double totalPrice;
 
-    public SalesorderDetailEntry(long id, long salesorderId, long itemPackingId, long priceSettingId, String priceMethod, double qty, double weight, double factor, double price, double totalPrice) {
+    public SalesorderDetailEntry(long id, long salesorderId, long itemPackingId, long priceSettingId, String priceMethod, double qty, double weight, double factor, double price, long taxCodeId, double taxRate, double taxAmt, double totalPrice) {
         this.id = id;
         this.salesorderId = salesorderId;
         this.itemPackingId = itemPackingId;
@@ -43,15 +49,14 @@ public class SalesorderDetailEntry {
         this.weight = weight;
         this.factor = factor;
         this.price = price;
+        this.taxCodeId = taxCodeId;
+        this.taxRate = taxRate;
+        this.taxAmt = taxAmt;
         this.totalPrice = totalPrice;
     }
 
     @Ignore
-    public SalesorderDetailEntry(long salesorderId, long itemPackingId,
-                                 long priceSettingId, String priceMethod, double qty,
-                                 double weight, double factor, double price,
-                                 double totalPrice) {
-
+    public SalesorderDetailEntry(long salesorderId, long itemPackingId, long priceSettingId, String priceMethod, double qty, double weight, double factor, double price, long taxCodeId, double taxRate, double taxAmt, double totalPrice) {
         this.salesorderId = salesorderId;
         this.itemPackingId = itemPackingId;
         this.priceSettingId = priceSettingId;
@@ -60,6 +65,9 @@ public class SalesorderDetailEntry {
         this.weight = weight;
         this.factor = factor;
         this.price = price;
+        this.taxCodeId = taxCodeId;
+        this.taxRate = taxRate;
+        this.taxAmt = taxAmt;
         this.totalPrice = totalPrice;
     }
 
@@ -73,6 +81,9 @@ public class SalesorderDetailEntry {
             setWeight(jsonObject.isNull("w") ? 0 : jsonObject.getDouble("w"));
             setFactor(jsonObject.isNull("f") ? 0 : jsonObject.getDouble("f"));
             setPrice(jsonObject.isNull("p") ? 0 : jsonObject.getDouble("p"));
+            setTaxCodeId(jsonObject.isNull("tc_i") ? 0 : jsonObject.getLong("tc_i"));
+            setTaxRate(jsonObject.isNull("tr") ? 0 : jsonObject.getDouble("tr"));
+            setTaxAmt(jsonObject.isNull("ta") ? 0 : jsonObject.getDouble("ta"));
             setTotalPrice(jsonObject.isNull("tp") ? 0 : jsonObject.getDouble("tp"));
 
         } catch (Exception e) {
@@ -150,6 +161,30 @@ public class SalesorderDetailEntry {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public long getTaxCodeId() {
+        return taxCodeId;
+    }
+
+    public void setTaxCodeId(long taxCodeId) {
+        this.taxCodeId = taxCodeId;
+    }
+
+    public double getTaxRate() {
+        return taxRate;
+    }
+
+    public void setTaxRate(double taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public double getTaxAmt() {
+        return taxAmt;
+    }
+
+    public void setTaxAmt(double taxAmt) {
+        this.taxAmt = taxAmt;
     }
 
     public double getTotalPrice() {

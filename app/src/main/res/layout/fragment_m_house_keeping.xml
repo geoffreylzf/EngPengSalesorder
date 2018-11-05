@@ -11,12 +11,11 @@
         android:id="@+id/house_keeping_cl_branch"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_cust"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35"
         app:layout_constraintVertical_chainStyle="packed">
 
         <TextView
@@ -76,7 +75,7 @@
         android:id="@+id/house_keeping_cl_cust"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_addr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +138,7 @@
         android:id="@+id/house_keeping_cl_addr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_ic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +201,7 @@
         android:id="@+id/house_keeping_cl_ic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_ip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -266,7 +265,7 @@
         android:id="@+id/house_keeping_cl_ip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_ps"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -330,8 +329,8 @@
         android:id="@+id/house_keeping_cl_ps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@id/house_keeping_cb_local"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_tc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_ip">
@@ -389,6 +388,195 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/house_keeping_cl_tc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_tim"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_ps">
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tc_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tax_code"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_tc_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_tc_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_tc_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_tc_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_tc_count" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tc_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_tc_progress" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tc_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_tc_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_tc_refresh" />
+
+        <ImageButton
+            android:id="@+id/house_keeping_btn_tc_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_tc_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/house_keeping_cl_tim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cl_tt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_tc">
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tim_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tax_item_matching"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_tim_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_tim_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_tim_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_tim_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_tim_count" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tim_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_tim_progress" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tim_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_tim_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_tim_refresh" />
+
+        <ImageButton
+            android:id="@+id/house_keeping_btn_tim_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_tim_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/house_keeping_cl_tt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/house_keeping_cb_local"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_tim">
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tt_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tax_type"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_tt_progress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <ProgressBar
+            android:id="@+id/house_keeping_pb_tt_progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_tv_tt_last_sync"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_tt_refresh"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_tv_tt_count" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tt_last_sync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_synchronize"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/house_keeping_pb_tt_progress" />
+
+        <TextView
+            android:id="@+id/house_keeping_tv_tt_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_progress"
+            app:layout_constraintBottom_toTopOf="@id/house_keeping_pb_tt_progress"
+            app:layout_constraintEnd_toStartOf="@id/house_keeping_btn_tt_refresh" />
+
+        <ImageButton
+            android:id="@+id/house_keeping_btn_tt_refresh"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_baseline_refresh_24px"
+            android:tint="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/house_keeping_pb_tt_progress"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <CheckBox
         android:id="@+id/house_keeping_cb_local"
         android:layout_width="match_parent"
@@ -396,7 +584,7 @@
         android:text="@string/local2"
         app:layout_constraintBottom_toTopOf="@id/house_keeping_btn_resync_all"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_ps" />
+        app:layout_constraintTop_toBottomOf="@id/house_keeping_cl_tt" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/house_keeping_btn_resync_all"

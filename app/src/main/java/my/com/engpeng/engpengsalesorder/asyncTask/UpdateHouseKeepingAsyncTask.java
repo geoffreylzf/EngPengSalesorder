@@ -153,7 +153,7 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                                     mDb.taxItemMatchingDao().deleteAll();
                                     break;
                                 case TaxTypeEntry.TABLE_NAME:
-                                    mDb.taxItemMatchingDao().deleteAll();
+                                    mDb.taxTypeDao().deleteAll();
                                     break;
                             }
 

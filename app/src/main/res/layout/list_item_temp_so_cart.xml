@@ -28,86 +28,107 @@
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="2dp">
 
-                <RelativeLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp">
+                    android:padding="16dp">
 
                     <TextView
                         android:id="@+id/li_tv_primary"
-                        style="@style/ListItemPrimaryTextViewStyle"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorListItemPrimaryText"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@id/li_tv_secondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/li_tv_secondary"
-                        style="@style/ListItemSecondaryTextViewStyle"
-                        android:layout_below="@id/li_tv_primary" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorListItemSecondaryText"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@id/li_cp_price_method"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/li_tv_primary" />
 
-                    <TextView
-                        android:id="@+id/li_tv_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="32dp"
-                        android:layout_toEndOf="@id/li_tv_primary"
-                        android:gravity="bottom|end"
-                        android:textColor="@color/colorHint"
-                        android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/li_cp_price_method"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/li_tv_secondary"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="4dp"
                         android:textColor="@color/colorWhite"
-                        app:chipBackgroundColor="@color/colorAccent" />
+                        app:chipBackgroundColor="@color/colorAccent"
+                        android:layout_marginTop="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/li_tv_secondary" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/li_cp_price_by_weight"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/li_tv_secondary"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_toEndOf="@id/li_cp_price_method"
                         android:text="@string/px_by_wgt"
                         android:textColor="@color/colorWhite"
-                        app:chipBackgroundColor="@color/colorBrown600" />
+                        app:chipBackgroundColor="@color/colorBrown600"
+                        app:layout_constraintBottom_toBottomOf="@id/li_cp_price_method"
+                        app:layout_constraintStart_toEndOf="@id/li_cp_price_method"
+                        app:layout_constraintTop_toTopOf="@id/li_cp_price_method" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/li_cp_qty"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/li_tv_secondary"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_toEndOf="@id/li_cp_price_by_weight" />
+                        app:layout_constraintBottom_toBottomOf="@id/li_cp_price_method"
+                        app:layout_constraintStart_toEndOf="@id/li_cp_price_by_weight"
+                        app:layout_constraintTop_toTopOf="@id/li_cp_price_method" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/li_cp_wgt"
                         style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/li_tv_secondary"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_toEndOf="@id/li_cp_qty" />
+                        app:layout_constraintBottom_toBottomOf="@id/li_cp_price_method"
+                        app:layout_constraintStart_toEndOf="@id/li_cp_qty"
+                        app:layout_constraintTop_toTopOf="@id/li_cp_price_method" />
+
+                    <TextView
+                        android:id="@+id/li_tv_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorHint"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/li_tv_tax_amt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorHint"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/li_tv_price" />
 
                     <TextView
                         android:id="@+id/li_tv_total_price"
-                        style="@style/ListItemTertiaryTextViewStyle"
-                        android:layout_below="@id/li_tv_secondary"
-                        android:layout_marginTop="12dp"
-                        android:layout_toEndOf="@+id/li_cp_wgt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
                         android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         tools:text="RM9999.99" />
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
 
@@ -125,8 +146,8 @@
                 style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="28dp"
                 android:layout_marginStart="28dp"
+                android:layout_marginEnd="28dp"
                 android:clickable="true"
                 android:focusable="true"
                 app:backgroundTint="@color/colorRed800"

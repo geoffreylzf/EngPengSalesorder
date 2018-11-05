@@ -370,6 +370,9 @@ public class SoDashboardFragment extends Fragment {
                                     soDetailEntry.getPrice(),
                                     soDetailEntry.getPriceSettingId(),
                                     soDetailEntry.getPriceMethod(),
+                                    soDetailEntry.getTaxCodeId(),
+                                    soDetailEntry.getTaxRate(),
+                                    soDetailEntry.getTaxAmt(),
                                     soDetailEntry.getTotalPrice());
                             tempSoDetailEntryList.add(tempSoDetailEntry);
                         }

@@ -2,16 +2,22 @@ package my.com.engpeng.engpengsalesorder.activity;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
 import android.content.Intent;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.List;
@@ -26,6 +32,7 @@ import my.com.engpeng.engpengsalesorder.fragment.dialog.EnterPriceDialogFragment
 import my.com.engpeng.engpengsalesorder.fragment.dialog.EnterQtyWgtDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.reuse.SearchBarFragment;
 
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_FACTOR;
@@ -34,7 +41,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
 public class ItemSelectionActivity extends AppCompatActivity
         implements SearchBarFragment.SearchBarFragmentListener,
         EnterQtyWgtDialogFragment.EnterQtyWgtFragmentListener,
-        EnterPriceDialogFragment.EnterPriceFragmentListener{
+        EnterPriceDialogFragment.EnterPriceFragmentListener {
 
     private Toolbar tb;
     private DrawerLayout dl;
@@ -46,13 +53,12 @@ public class ItemSelectionActivity extends AppCompatActivity
     private AppDatabase mDb;
 
     //receive from intent
-    private Long customerCompanyId;
-    private Long priceGroupId;
+    private Long customerCompanyId, customerAddressId;
     private String deliveryDate;
 
-    private Long itemPackingId, priceSettingId;
+    private Long itemPackingId, priceSettingId, taxCodeId;
     private String priceMethod;
-    private double factor, price;
+    private double factor, price, taxRate, taxAmt;
     private int priceByWeight;
 
     @Override
@@ -91,23 +97,39 @@ public class ItemSelectionActivity extends AppCompatActivity
         if (intentStart.hasExtra(I_KEY_CUSTOMER_COMPANY_ID)) {
             customerCompanyId = intentStart.getLongExtra(I_KEY_CUSTOMER_COMPANY_ID, 0);
         }
+        if (intentStart.hasExtra(I_KEY_CUSTOMER_ADDRESS_ID)) {
+            customerAddressId = intentStart.getLongExtra(I_KEY_CUSTOMER_ADDRESS_ID, 0);
+        }
         if (intentStart.hasExtra(I_KEY_DELIVERY_DATE)) {
             deliveryDate = intentStart.getStringExtra(I_KEY_DELIVERY_DATE);
         }
     }
 
     private void setupRecycleView() {
-        //rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        //rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         adapter = new ItemSelectionAdapter(this, new ItemSelectionAdapter.ItemSelectionAdapterListener() {
             @Override
-            public void onItemSelected(long id, double p_factor, int p_priceByWeight, String p_priceMethod, long p_priceSettingId, double p_price) {
+            public void onItemSelected(
+                    long id,
+                    double p_factor,
+                    int p_priceByWeight,
+                    String p_priceMethod,
+                    long p_priceSettingId,
+                    double p_price,
+                    long p_taxCodeId,
+                    double p_taxRate,
+                    double p_taxAmt) {
+
                 itemPackingId = id;
                 factor = p_factor;
                 priceMethod = p_priceMethod;
                 priceSettingId = p_priceSettingId;
                 priceByWeight = p_priceByWeight;
                 price = p_price;
+                taxCodeId = p_taxCodeId;
+                taxRate = p_taxRate;
+                taxAmt = p_taxAmt;
 
                 if (price != 0) {
                     openEnterQtyWgtDialog();
@@ -121,7 +143,7 @@ public class ItemSelectionActivity extends AppCompatActivity
 
 
     private void retrieveItemPacking(final String filter) {
-        final LiveData<List<ItemPackingDisplay>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%", customerCompanyId, deliveryDate);
+        final LiveData<List<ItemPackingDisplay>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%", customerCompanyId, customerAddressId, deliveryDate);
         cc.observe(this, new Observer<List<ItemPackingDisplay>>() {
             @Override
             public void onChanged(@Nullable List<ItemPackingDisplay> itemPackingDisplays) {
@@ -138,11 +160,11 @@ public class ItemSelectionActivity extends AppCompatActivity
 
     @Override
     public void afterEnterQtyWgt(double quantity, double weight) {
-        double totalPrice = 0;
+        double totalPrice;
         if (priceByWeight == 1) {
-            totalPrice = price * weight;
+            totalPrice = (price + taxAmt) * weight;
         } else {
-            totalPrice = price * quantity;
+            totalPrice = (price + taxAmt) * quantity;
         }
 
         final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
@@ -153,6 +175,9 @@ public class ItemSelectionActivity extends AppCompatActivity
                 price,
                 priceSettingId,
                 priceMethod,
+                taxCodeId,
+                taxRate,
+                taxAmt,
                 totalPrice);
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {

@@ -28,6 +28,9 @@ import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
+import my.com.engpeng.engpengsalesorder.database.taxCode.TaxCodeEntry;
+import my.com.engpeng.engpengsalesorder.database.taxItemMatching.TaxItemMatchingEntry;
+import my.com.engpeng.engpengsalesorder.database.taxType.TaxTypeEntry;
 import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingService;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
@@ -65,6 +68,18 @@ public class HouseKeepingFragment extends Fragment {
     private ImageButton ibPSRefresh;
     private TextView tvPSCount, tvPSProgress, tvPSLastSync;
     private ProgressBar pbPSProgress;
+
+    private ImageButton ibTcRefresh;
+    private TextView tvTcCount, tvTcProgress, tvTcLastSync;
+    private ProgressBar pbTcProgress;
+
+    private ImageButton ibTimRefresh;
+    private TextView tvTimCount, tvTimProgress, tvTimLastSync;
+    private ProgressBar pbTimProgress;
+
+    private ImageButton ibTtRefresh;
+    private TextView tvTtCount, tvTtProgress, tvTtLastSync;
+    private ProgressBar pbTtProgress;
 
     private CheckBox cbLocal;
     private Button btnReSyncAll, btnUpdateAll;
@@ -111,6 +126,24 @@ public class HouseKeepingFragment extends Fragment {
         tvPSLastSync = rootView.findViewById(R.id.house_keeping_tv_ps_last_sync);
         pbPSProgress = rootView.findViewById(R.id.house_keeping_pb_ps_progress);
         ibPSRefresh = rootView.findViewById(R.id.house_keeping_btn_ps_refresh);
+
+        tvTcCount = rootView.findViewById(R.id.house_keeping_tv_tc_count);
+        tvTcProgress = rootView.findViewById(R.id.house_keeping_tv_tc_progress);
+        tvTcLastSync = rootView.findViewById(R.id.house_keeping_tv_tc_last_sync);
+        pbTcProgress = rootView.findViewById(R.id.house_keeping_pb_tc_progress);
+        ibTcRefresh = rootView.findViewById(R.id.house_keeping_btn_tc_refresh);
+
+        tvTimCount = rootView.findViewById(R.id.house_keeping_tv_tim_count);
+        tvTimProgress = rootView.findViewById(R.id.house_keeping_tv_tim_progress);
+        tvTimLastSync = rootView.findViewById(R.id.house_keeping_tv_tim_last_sync);
+        pbTimProgress = rootView.findViewById(R.id.house_keeping_pb_tim_progress);
+        ibTimRefresh = rootView.findViewById(R.id.house_keeping_btn_tim_refresh);
+
+        tvTtCount = rootView.findViewById(R.id.house_keeping_tv_tt_count);
+        tvTtProgress = rootView.findViewById(R.id.house_keeping_tv_tt_progress);
+        tvTtLastSync = rootView.findViewById(R.id.house_keeping_tv_tt_last_sync);
+        pbTtProgress = rootView.findViewById(R.id.house_keeping_pb_tt_progress);
+        ibTtRefresh = rootView.findViewById(R.id.house_keeping_btn_tt_refresh);
 
         cbLocal = rootView.findViewById(R.id.house_keeping_cb_local);
         btnReSyncAll = rootView.findViewById(R.id.house_keeping_btn_resync_all);
@@ -198,6 +231,39 @@ public class HouseKeepingFragment extends Fragment {
                             pbAddrProgress.setProgress((int) percentage);
                             tvAddrProgress.setText(msg_progress);
                         }
+
+                        if (tableInfo.getType().equals(TaxCodeEntry.TABLE_NAME)) {
+                            String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
+                            double row = tableInfo.getInsert();
+                            double total = tableInfo.getTotal();
+                            double percentage = row / total * 100;
+                            String msg_progress = (int) row + "/" + (int) total + " (" + String.format(Locale.US, "%.2f", percentage) + "%)";
+                            tvTcLastSync.setText(msg_last_sync);
+                            pbTcProgress.setProgress((int) percentage);
+                            tvTcProgress.setText(msg_progress);
+                        }
+
+                        if (tableInfo.getType().equals(TaxItemMatchingEntry.TABLE_NAME)) {
+                            String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
+                            double row = tableInfo.getInsert();
+                            double total = tableInfo.getTotal();
+                            double percentage = row / total * 100;
+                            String msg_progress = (int) row + "/" + (int) total + " (" + String.format(Locale.US, "%.2f", percentage) + "%)";
+                            tvTimLastSync.setText(msg_last_sync);
+                            pbTimProgress.setProgress((int) percentage);
+                            tvTimProgress.setText(msg_progress);
+                        }
+
+                        if (tableInfo.getType().equals(TaxTypeEntry.TABLE_NAME)) {
+                            String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
+                            double row = tableInfo.getInsert();
+                            double total = tableInfo.getTotal();
+                            double percentage = row / total * 100;
+                            String msg_progress = (int) row + "/" + (int) total + " (" + String.format(Locale.US, "%.2f", percentage) + "%)";
+                            tvTtLastSync.setText(msg_last_sync);
+                            pbTtProgress.setProgress((int) percentage);
+                            tvTtProgress.setText(msg_progress);
+                        }
                     }
                 }
             }
@@ -235,6 +301,27 @@ public class HouseKeepingFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Integer integer) {
                 tvAddrCount.setText(CustomerCompanyAddressEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
+            }
+        });
+
+        mDb.taxCodeDao().getLiveCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                tvTcCount.setText(TaxCodeEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
+            }
+        });
+
+        mDb.taxItemMatchingDao().getLiveCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                tvTimCount.setText(TaxItemMatchingEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
+            }
+        });
+
+        mDb.taxTypeDao().getLiveCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                tvTtCount.setText(TaxTypeEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
     }
@@ -305,6 +392,24 @@ public class HouseKeepingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 retrieveHouseKeepingUpdate(CustomerCompanyAddressEntry.TABLE_NAME, ACTION_REFRESH);
+            }
+        });
+        ibTcRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveHouseKeepingUpdate(TaxCodeEntry.TABLE_NAME, ACTION_REFRESH);
+            }
+        });
+        ibTimRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveHouseKeepingUpdate(TaxItemMatchingEntry.TABLE_NAME, ACTION_REFRESH);
+            }
+        });
+        ibTtRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveHouseKeepingUpdate(TaxTypeEntry.TABLE_NAME, ACTION_REFRESH);
             }
         });
     }

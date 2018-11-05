@@ -41,8 +41,12 @@ public class SalesorderEntry {
     public String lpo;
     public String remark;
     public String status;
+    @ColumnInfo(name = "round_adj")
+    public double roundAdj;
     @ColumnInfo(name = "running_no")
     public String runningNo;
+    public String latitude;
+    public String longitude;
     @ColumnInfo(name = "is_upload")
     public int isUpload;
     @ColumnInfo(name = "create_datetime")
@@ -54,11 +58,7 @@ public class SalesorderEntry {
     @Transient
     public List<SalesorderDetailEntry> salesorderDetails;
 
-    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
-                           String documentDate, String deliveryDate,
-                           String lpo, String remark,
-                           String status, String runningNo, int isUpload,
-                           String createDatetime, String modifyDatetime) {
+    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId, String documentDate, String deliveryDate, String lpo, String remark, String status, double roundAdj, String runningNo, String latitude, String longitude, int isUpload, String createDatetime, String modifyDatetime) {
         this.id = id;
         this.companyId = companyId;
         this.customerCompanyId = customerCompanyId;
@@ -68,7 +68,10 @@ public class SalesorderEntry {
         this.lpo = lpo;
         this.remark = remark;
         this.status = status;
+        this.roundAdj = roundAdj;
         this.runningNo = runningNo;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.isUpload = isUpload;
         this.createDatetime = createDatetime;
         this.modifyDatetime = modifyDatetime;
@@ -77,48 +80,6 @@ public class SalesorderEntry {
     @Ignore
     public SalesorderEntry() {
 
-    }
-
-    @Ignore
-    //for new insert
-    public SalesorderEntry(long companyId, long customerCompanyId,
-                           long customerAddressId, String documentDate, String deliveryDate,
-                           String lpo, String remark, String status,
-                           String runningNo, int isUpload,
-                           String createDatetime, String modifyDatetime) {
-        this.companyId = companyId;
-        this.customerCompanyId = customerCompanyId;
-        this.customerAddressId = customerAddressId;
-        this.documentDate = documentDate;
-        this.deliveryDate = deliveryDate;
-        this.lpo = lpo;
-        this.remark = remark;
-        this.status = status;
-        this.runningNo = runningNo;
-        this.isUpload = isUpload;
-        this.createDatetime = createDatetime;
-        this.modifyDatetime = modifyDatetime;
-    }
-
-    @Ignore
-    //for update
-    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
-                           String documentDate, String deliveryDate,
-                           String lpo, String remark, String status,
-                           String runningNo, int isUpload,
-                           String modifyDatetime) {
-        this.id = id;
-        this.companyId = companyId;
-        this.customerCompanyId = customerCompanyId;
-        this.customerAddressId = customerAddressId;
-        this.documentDate = documentDate;
-        this.deliveryDate = deliveryDate;
-        this.lpo = lpo;
-        this.remark = remark;
-        this.status = status;
-        this.runningNo = runningNo;
-        this.isUpload = isUpload;
-        this.modifyDatetime = modifyDatetime;
     }
 
     @Ignore
@@ -131,6 +92,9 @@ public class SalesorderEntry {
             setDeliveryDate(jsonObject.isNull("del_d") ? null : jsonObject.getString("del_d"));
             setLpo(jsonObject.isNull("lpo") ? null : jsonObject.getString("lpo"));
             setRemark(jsonObject.isNull("r") ? null : jsonObject.getString("r"));
+            setRoundAdj(jsonObject.isNull("ra") ? 0 : jsonObject.getDouble("ra"));
+            setLatitude(jsonObject.isNull("lat") ? null : jsonObject.getString("lat"));
+            setLongitude(jsonObject.isNull("lon") ? null : jsonObject.getString("lon"));
             setRunningNo(jsonObject.isNull("rn") ? null : jsonObject.getString("rn"));
             setCreateDatetime(jsonObject.isNull("c_dt") ? null : jsonObject.getString("c_dt"));
             setModifyDatetime(jsonObject.isNull("m_dt") ? null : jsonObject.getString("m_dt"));
@@ -303,6 +267,30 @@ public class SalesorderEntry {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public double getRoundAdj() {
+        return roundAdj;
+    }
+
+    public void setRoundAdj(double roundAdj) {
+        this.roundAdj = roundAdj;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getRunningNo() {

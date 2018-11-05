@@ -38,6 +38,7 @@ import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_ADDRESS_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_SALESORDER_ENTRY;
@@ -192,6 +193,7 @@ public class TempSoCartFragment extends Fragment {
     private void callItemSelection() {
         Intent intent = new Intent(getActivity(), ItemSelectionActivity.class);
         intent.putExtra(I_KEY_CUSTOMER_COMPANY_ID, salesorderEntry.getCustomerCompanyId());
+        intent.putExtra(I_KEY_CUSTOMER_ADDRESS_ID, salesorderEntry.getCustomerAddressId());
         intent.putExtra(I_KEY_DELIVERY_DATE, salesorderEntry.getDeliveryDate());
         startActivity(intent);
     }

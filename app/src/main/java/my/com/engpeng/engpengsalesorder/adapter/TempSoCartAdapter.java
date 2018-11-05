@@ -1,10 +1,14 @@
 package my.com.engpeng.engpengsalesorder.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +54,13 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
 
         detailViewHolder.tvCode.setText(dt.getSkuCode());
         detailViewHolder.tvName.setText(dt.getSkuName());
-        detailViewHolder.tvPrice.setText(StringUtils.getDisplayPrice(dt.getPrice()));
-        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
         detailViewHolder.cpQty.setText(StringUtils.getDisplayQty((int) dt.getQty()));
         detailViewHolder.cpWgt.setText(StringUtils.getDisplayWgt(dt.getWeight()));
+
+        detailViewHolder.tvPrice.setText(StringUtils.getDisplayPrice(dt.getPrice()));
+        detailViewHolder.tvTaxAmt.setText("(" + dt.getTaxCode() + " ~ " + dt.getTaxRate() + "%) " + StringUtils.getDisplayPrice(dt.getTaxAmt()));
+        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
+
         detailViewHolder.cpPriceMethod.setText(dt.getPriceMethod());
         if (dt.getPriceByWeight() == 1) {
             detailViewHolder.cpPriceByWeight.setVisibility(View.VISIBLE);
@@ -90,7 +97,7 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
 
     class DetailViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName, tvCode, tvPrice, tvTotalPrice;
+        TextView tvName, tvCode, tvPrice, tvTotalPrice, tvTaxAmt;
         Chip cpPriceMethod, cpPriceByWeight, cpQty, cpWgt;
         SwipeHorizontalMenuLayout shml;
         FloatingActionButton fabDelete;
@@ -102,6 +109,7 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
             tvName = view.findViewById(R.id.li_tv_primary);
             tvCode = view.findViewById(R.id.li_tv_secondary);
             tvPrice = view.findViewById(R.id.li_tv_price);
+            tvTaxAmt = view.findViewById(R.id.li_tv_tax_amt);
             tvTotalPrice = view.findViewById(R.id.li_tv_total_price);
             cpPriceMethod = view.findViewById(R.id.li_cp_price_method);
             cpPriceByWeight = view.findViewById(R.id.li_cp_price_by_weight);

@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
 
 @Entity(tableName = TempSalesorderDetailEntry.TABLE_NAME)
 public class TempSalesorderDetailEntry {
@@ -27,10 +26,16 @@ public class TempSalesorderDetailEntry {
     private long priceSettingId;
     @ColumnInfo(name = "price_method")
     private String priceMethod;
+    @ColumnInfo(name = "tax_code_id")
+    private long taxCodeId;
+    @ColumnInfo(name = "tax_rate")
+    private double taxRate;
+    @ColumnInfo(name = "tax_amt")
+    private double taxAmt;
     @ColumnInfo(name = "total_price")
     private double totalPrice;
 
-    public TempSalesorderDetailEntry(long itemPackingId, double qty, double weight, double factor, double price, long priceSettingId, String priceMethod, double totalPrice) {
+    public TempSalesorderDetailEntry(long itemPackingId, double qty, double weight, double factor, double price, long priceSettingId, String priceMethod, long taxCodeId, double taxRate, double taxAmt, double totalPrice) {
         this.itemPackingId = itemPackingId;
         this.qty = qty;
         this.weight = weight;
@@ -38,6 +43,9 @@ public class TempSalesorderDetailEntry {
         this.price = price;
         this.priceSettingId = priceSettingId;
         this.priceMethod = priceMethod;
+        this.taxCodeId = taxCodeId;
+        this.taxRate = taxRate;
+        this.taxAmt = taxAmt;
         this.totalPrice = totalPrice;
     }
 
@@ -103,6 +111,30 @@ public class TempSalesorderDetailEntry {
 
     public void setPriceMethod(String priceMethod) {
         this.priceMethod = priceMethod;
+    }
+
+    public long getTaxCodeId() {
+        return taxCodeId;
+    }
+
+    public void setTaxCodeId(long taxCodeId) {
+        this.taxCodeId = taxCodeId;
+    }
+
+    public double getTaxRate() {
+        return taxRate;
+    }
+
+    public void setTaxRate(double taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public double getTaxAmt() {
+        return taxAmt;
+    }
+
+    public void setTaxAmt(double taxAmt) {
+        this.taxAmt = taxAmt;
     }
 
     public double getTotalPrice() {

@@ -1,12 +1,16 @@
 package my.com.engpeng.engpengsalesorder.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.material.chip.Chip;
 
 import java.util.List;
 
@@ -22,7 +26,15 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
     private ItemSelectionAdapterListener isaListener;
 
     public interface ItemSelectionAdapterListener {
-        void onItemSelected(long id, double factor, int priceByWeight, String priceMethod, long priceSettingId, double price);
+        void onItemSelected(long id,
+                            double factor,
+                            int priceByWeight,
+                            String priceMethod,
+                            long priceSettingId,
+                            double price,
+                            long taxCodeId,
+                            double taxRate,
+                            double taxAmt);
     }
 
     public ItemSelectionAdapter(Context context, ItemSelectionAdapterListener isaListener) {
@@ -34,7 +46,7 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.list_item_2_column_card_view, viewGroup, false);
+                .inflate(R.layout.list_item_item_selection, viewGroup, false);
         return new ItemViewHolder(view);
     }
 
@@ -73,13 +85,28 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
 
         itemViewHolder.tvCode.setText(item.getSkuCode());
         itemViewHolder.tvName.setText(item.getSkuName());
-        itemViewHolder.tvPrice.setText(StringUtils.getDisplayPrice(price) + priceIndicator);
         itemViewHolder.tvWeight.setText(StringUtils.getDisplayWgt(item.getFactor()) + priceByWeightIndicator);
+
+        final double taxAmt = Math.round(price * item.getTaxRate()) / 100.0;
+        double priceWithTax = price + taxAmt;
+
+        itemViewHolder.tvTax.setText("(" + item.getTaxCode() + " ~ " + item.getTaxRate() + "%) " + StringUtils.getDisplayPrice(taxAmt));
+        itemViewHolder.tvPrice.setText(priceIndicator + StringUtils.getDisplayPrice(price));
+        itemViewHolder.tvPriceWithTax.setText(StringUtils.getDisplayPrice(priceWithTax));
 
         itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isaListener.onItemSelected(item.getId(), item.getFactor(), item.getPriceByWeight(), f_priceMethod, f_priceSettingId, f_price);
+                isaListener.onItemSelected(
+                        item.getId(),
+                        item.getFactor(),
+                        item.getPriceByWeight(),
+                        f_priceMethod,
+                        f_priceSettingId,
+                        f_price,
+                        item.getTaxCodeId(),
+                        item.getTaxRate(),
+                        taxAmt);
             }
         });
     }
@@ -99,14 +126,17 @@ public class ItemSelectionAdapter extends RecyclerView.Adapter<ItemSelectionAdap
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName, tvCode, tvWeight, tvPrice;
+        TextView tvName, tvCode, tvWeight;
+        TextView tvPrice, tvTax, tvPriceWithTax;
 
         public ItemViewHolder(View view) {
             super(view);
-            tvName = view.findViewById(R.id.li_tv_primary);
-            tvCode = view.findViewById(R.id.li_tv_secondary);
+            tvName = view.findViewById(R.id.li_tv_item_name);
+            tvCode = view.findViewById(R.id.li_tv_item_code);
             tvWeight = view.findViewById(R.id.li_tv_weight);
-            tvPrice = view.findViewById(R.id.li_tv_tertiary);
+            tvPrice = view.findViewById(R.id.li_tv_price);
+            tvTax = view.findViewById(R.id.li_tv_tax);
+            tvPriceWithTax = view.findViewById(R.id.li_tv_price_with_tax);
         }
     }
 }

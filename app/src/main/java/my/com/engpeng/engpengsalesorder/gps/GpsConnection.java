@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -35,13 +36,13 @@ public class GpsConnection implements LocationListener {
         }
 
         if (isAvailable && checkPermission(this.context)) {
+            Log.e("checkPermission", "checkPermission");
             if (isGpsProviderEnabled) {
                 selectedProvider = LocationManager.GPS_PROVIDER;
             } else if (isNetworkProviderEnabled) {
                 selectedProvider = LocationManager.NETWORK_PROVIDER;
             }
             locationManager.requestLocationUpdates(selectedProvider, MIN_SECONDS, MIN_METER, this);
-
         }
     }
 

@@ -52,6 +52,12 @@ public class SalesorderActivity extends AppCompatActivity implements NavigationH
     }
 
     @Override
+    protected void onDestroy() {
+        gpsConnection.removeConnection();
+        super.onDestroy();
+    }
+
+    @Override
     public void navigateTo(Fragment fragment, String tag, boolean addToBackStack, View sharedView, String transitionName) {
         setAppBarLayoutElevation(4);
         FragmentTransaction transaction =

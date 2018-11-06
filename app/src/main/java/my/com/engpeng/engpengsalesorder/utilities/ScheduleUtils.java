@@ -17,7 +17,7 @@ import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingJobService;
 import my.com.engpeng.engpengsalesorder.service.UploadJobService;
 
 public class ScheduleUtils {
-    private static final int UPDATE_REMINDER_INTERVAL_HOURS = 3;
+    private static final int UPDATE_REMINDER_INTERVAL_HOURS = 1;
     private static final int UPDATE_REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.HOURS.toSeconds(UPDATE_REMINDER_INTERVAL_HOURS));
     private static final int UPDATE_SYNC_FLEXTIME_HOURS = 1;
     private static final int UPDATE_SYNC_FLEXTIME_SECONDS = (int) (TimeUnit.HOURS.toSeconds(UPDATE_SYNC_FLEXTIME_HOURS));

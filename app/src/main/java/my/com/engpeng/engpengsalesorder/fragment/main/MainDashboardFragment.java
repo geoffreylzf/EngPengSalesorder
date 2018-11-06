@@ -109,7 +109,7 @@ public class MainDashboardFragment extends Fragment {
                                 }
                             });
 
-                } else if(GpsConnection.checkPermission(getContext())){
+                } else if(!GpsConnection.checkPermission(getContext())){
                     GpsConnection.requestPermission(getActivity());
                 } else{
                     startActivity(new Intent(activity, SalesorderActivity.class));

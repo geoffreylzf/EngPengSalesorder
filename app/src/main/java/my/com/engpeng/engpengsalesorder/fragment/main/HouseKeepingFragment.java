@@ -304,6 +304,13 @@ public class HouseKeepingFragment extends Fragment {
             }
         });
 
+        mDb.itemCompanyDao().getLiveCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                tvIcCount.setText(ItemCompanyEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
+            }
+        });
+
         mDb.taxCodeDao().getLiveCount().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {

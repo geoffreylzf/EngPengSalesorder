@@ -27,7 +27,7 @@ public class LoginRunnable implements Runnable {
 
     public interface LoginRunnableListener{
         void onStart();
-        void onResult(String json);
+        void onResult(String json, String username, String password);
     }
 
     public void setUsername(String username) {
@@ -58,7 +58,7 @@ public class LoginRunnable implements Runnable {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                lrListener.onResult(json);
+                lrListener.onResult(json, username, password);
             }
         });
     }

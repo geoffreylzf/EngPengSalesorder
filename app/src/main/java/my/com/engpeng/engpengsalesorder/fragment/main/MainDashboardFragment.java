@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
@@ -23,14 +24,22 @@ import my.com.engpeng.engpengsalesorder.activity.SalesorderActivity;
 import my.com.engpeng.engpengsalesorder.database.AppDatabase;
 import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
+import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.fragment.dialog.ConfirmDialogFragment;
 import my.com.engpeng.engpengsalesorder.fragment.MainFragment;
 import my.com.engpeng.engpengsalesorder.gps.GpsConnection;
 import my.com.engpeng.engpengsalesorder.model.SalesInfo;
+import my.com.engpeng.engpengsalesorder.service.UpdateHouseKeepingService;
+import my.com.engpeng.engpengsalesorder.service.UploadService;
 import my.com.engpeng.engpengsalesorder.utilities.SharedPreferencesUtils;
 import my.com.engpeng.engpengsalesorder.utilities.StringUtils;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
+import static my.com.engpeng.engpengsalesorder.Global.ACTION_GET_ALL_TABLE;
+import static my.com.engpeng.engpengsalesorder.Global.ACTION_UPDATE;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_ACTION;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_LOCAL;
+import static my.com.engpeng.engpengsalesorder.Global.I_KEY_TABLE;
 import static my.com.engpeng.engpengsalesorder.Global.LOG_TASK_UPDATE_HK;
 import static my.com.engpeng.engpengsalesorder.Global.LOG_TASK_UPLOAD;
 import static my.com.engpeng.engpengsalesorder.Global.P_KEY_COMPANY_ID;
@@ -42,10 +51,12 @@ import static my.com.engpeng.engpengsalesorder.Global.sCompanyShortName;
 public class MainDashboardFragment extends Fragment {
 
     public static final String tag = "MAIN_DASHBOARD_FRAGMENT";
-    private Button btnSo;
+    private Button btnSync;
     private TextView tvLogHkDatetime, tvLogHkRemark;
     private TextView tvLogUDatetime, tvLogURemark;
+    private CheckBox cbLocal;
 
+    private Button btnSo;
     private TextView tvTmDraft, tvTmDraftAmt, tvTmConfirm, tvTmConfirmAmt, tvTmUpload;
 
     private TextView tvCompany, tvVersion;
@@ -62,6 +73,7 @@ public class MainDashboardFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_m_dashboard, container, false);
 
         btnSo = rootView.findViewById(R.id.m_dashboard_btn_so);
+        btnSync = rootView.findViewById(R.id.m_dashboard_btn_sync);
         tvCompany = rootView.findViewById(R.id.m_dashboard_tv_company);
         tvVersion = rootView.findViewById(R.id.m_dashboard_tv_version);
 
@@ -69,6 +81,7 @@ public class MainDashboardFragment extends Fragment {
         tvLogHkRemark = rootView.findViewById(R.id.m_dashboard_tv_log_hk_r);
         tvLogUDatetime = rootView.findViewById(R.id.m_dashboard_tv_log_u_dt);
         tvLogURemark = rootView.findViewById(R.id.m_dashboard_tv_log_u_r);
+        cbLocal = rootView.findViewById(R.id.m_dashboard_cb_local);
 
         tvTmDraft = rootView.findViewById(R.id.m_dashboard_tv_so_tm_draft_count);
         tvTmDraftAmt = rootView.findViewById(R.id.m_dashboard_tv_so_tm_draft_amount);
@@ -94,6 +107,24 @@ public class MainDashboardFragment extends Fragment {
     }
 
     public void setupListener() {
+
+        btnSync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentUpdate = new Intent(getActivity(), UpdateHouseKeepingService.class);
+                intentUpdate.putExtra(I_KEY_TABLE, ACTION_GET_ALL_TABLE);
+                intentUpdate.putExtra(I_KEY_ACTION, ACTION_UPDATE);
+                intentUpdate.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
+                getActivity().stopService(intentUpdate);
+                getActivity().startService(intentUpdate);
+
+                Intent intentDownload = new Intent(getActivity(), UploadService.class);
+                intentDownload.putExtra(I_KEY_LOCAL, cbLocal.isChecked());
+                getActivity().stopService(intentDownload);
+                getActivity().startService(intentDownload);
+            }
+        });
+
         btnSo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

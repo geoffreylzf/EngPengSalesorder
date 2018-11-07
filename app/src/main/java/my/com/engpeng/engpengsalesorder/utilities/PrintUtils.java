@@ -60,6 +60,7 @@ public class PrintUtils {
         s += formatLine("");
         s += formatLine(company.getBranchName());
         s += formatLine(company.getBranchRegno());
+        s += formatLine("SST Reg No: " + company.getSstRegNo());
         s += formatLine(company.getInvAddress());
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Temp Salesorder No : " + StringUtils.getDisplayRunningNo(salesorderEntry.getRunningNo()));

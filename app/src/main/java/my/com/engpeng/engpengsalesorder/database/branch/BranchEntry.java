@@ -30,8 +30,10 @@ public class BranchEntry {
     private String branchRegno;
     @ColumnInfo(name = "inv_address")
     private String invAddress;
+    @ColumnInfo(name = "sst_reg_no")
+    private String sstRegNo;
 
-    public BranchEntry(@NonNull long id, String branchCode, String branchName, String branchShortName, long companyId, String branchRegno, String invAddress) {
+    public BranchEntry(@NonNull long id, String branchCode, String branchName, String branchShortName, long companyId, String branchRegno, String invAddress, String sstRegNo) {
         this.id = id;
         this.branchCode = branchCode;
         this.branchName = branchName;
@@ -39,6 +41,7 @@ public class BranchEntry {
         this.companyId = companyId;
         this.branchRegno = branchRegno;
         this.invAddress = invAddress;
+        this.sstRegNo = sstRegNo;
     }
 
     public BranchEntry(JSONObject jsonObject) {
@@ -50,6 +53,7 @@ public class BranchEntry {
             setCompanyId(jsonObject.isNull("ci") ? 0 : jsonObject.getLong("ci"));
             setBranchRegno(jsonObject.isNull("brn") ? null : jsonObject.getString("brn"));
             setInvAddress(jsonObject.isNull("addr") ? null : jsonObject.getString("addr"));
+            setSstRegNo(jsonObject.isNull("srn") ? null : jsonObject.getString("srn"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,5 +115,13 @@ public class BranchEntry {
 
     public void setInvAddress(String invAddress) {
         this.invAddress = invAddress;
+    }
+
+    public String getSstRegNo() {
+        return sstRegNo;
+    }
+
+    public void setSstRegNo(String sstRegNo) {
+        this.sstRegNo = sstRegNo;
     }
 }

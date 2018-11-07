@@ -222,8 +222,8 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        final String username = etUsername.getText().toString();
-        final String password = etPassword.getText().toString();
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
         String data = NetworkUtils.buildParam(NetworkUtils.PARAM_EMAIL, email);
 
         LoginRunnable loginRunnable = new LoginRunnable(getActivity(), username, password, data, cbLocal.isChecked(), new LoginRunnable.LoginRunnableListener() {
@@ -233,7 +233,7 @@ public class LoginFragment extends Fragment {
             }
 
             @Override
-            public void onResult(String json) {
+            public void onResult(String json, String username, String password) {
                 dlProgress.hide();
                 if (json != null && !json.equals("")) {
                     Status status = JsonUtils.getAuthentication(json);

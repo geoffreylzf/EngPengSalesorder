@@ -1,6 +1,7 @@
 package my.com.engpeng.engpengsalesorder.asyncTask;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,10 +54,15 @@ public class DownloadHistoryAsyncTask extends AsyncTask<Void, Void, ConnectionIn
 
         dhatListener.initialProgress();
 
+        Log.e("username", username);
+        Log.e("password", password);
+
         lastSyncDate = StringUtils.getCurrentDateTime();
         URL url = NetworkUtils.buildUrl(NetworkUtils.MODULE_GET_HISTORY, isLocal);
         try {
+
             String json = NetworkUtils.sendPostToHttpUrl(url, username, password, data);
+            Log.e("json", json);
             if (json != null && !json.equals("")) {
                 if (JsonUtils.getAuthentication(json).isSuccess()) {
                     JSONArray salesorderArray = JsonUtils.getJsonArray(json, SalesorderEntry.TABLE_NAME);

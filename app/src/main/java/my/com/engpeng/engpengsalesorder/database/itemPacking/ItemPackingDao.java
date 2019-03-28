@@ -26,13 +26,12 @@ public interface ItemPackingDao {
     @Query("SELECT COUNT(*) FROM item_packing")
     LiveData<Integer> getLiveCount();
 
-    //TODO remove fix taxRate
     @Query("SELECT * FROM " +
             " (SELECT " +
             " item_packing.*," +
             " tax_code.id AS taxCodeId," +
             " tax_code.tax_code AS taxCode," +
-            " 5.0 AS taxRate," +
+            " tax_code.tax_rate AS taxRate," +
             " A.price_setting_id AS standardPriceSettingId," +
             " A.selling_price AS standardPrice," +
             " B.price_setting_id AS customerPriceSettingId," +

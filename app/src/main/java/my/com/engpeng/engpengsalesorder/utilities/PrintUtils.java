@@ -60,7 +60,10 @@ public class PrintUtils {
         s += formatLine("");
         s += formatLine(company.getBranchName());
         s += formatLine(company.getBranchRegno());
-        s += formatLine("SST Reg No: " + company.getSstRegNo());
+
+        if(company.getSstRegNo() != null  && !company.getSstRegNo().equals("")){
+            s += formatLine("SST Reg No: " + company.getSstRegNo());
+        }
         s += formatLine(company.getInvAddress());
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Temp Salesorder No : " + StringUtils.getDisplayRunningNo(salesorderEntry.getRunningNo()));
@@ -92,9 +95,9 @@ public class PrintUtils {
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Item(s) : " + String.format(Locale.getDefault(), "%.0f", ttlQty));
         //s += formatLine("Total Weight : " + String.format(Locale.getDefault(), "%28.3fKG", ttlWgt));
-        s += formatLine("Total Price  : " + String.format(Locale.getDefault(), "%30.2f", ttlPrice));
-        s += formatLine("Round Adj    : " + String.format(Locale.getDefault(), "%30.2f", salesorderEntry.getRoundAdj()));
-        s += formatLine("Aft Round Adj: " + String.format(Locale.getDefault(), "%30.2f", ttlPrice + salesorderEntry.getRoundAdj()));
+        s += formatLine("Total        : " + String.format(Locale.getDefault(), "%30.2f", ttlPrice));
+        s += formatLine("Rounding  Adj: " + String.format(Locale.getDefault(), "%30.2f", salesorderEntry.getRoundAdj()));
+        s += formatLine("Grand Total  : " + String.format(Locale.getDefault(), "%30.2f", ttlPrice + salesorderEntry.getRoundAdj()));
         s += formatLine(PRINT_SEPERATOR);
         s += formatLine("Printed By : " + sUsername);
         s += formatLine("Date Time : " + StringUtils.getCurrentDateTime());

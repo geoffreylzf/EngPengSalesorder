@@ -27,6 +27,7 @@ import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.Customer
 import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
+import my.com.engpeng.engpengsalesorder.database.store.StoreEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.database.taxCode.TaxCodeEntry;
 import my.com.engpeng.engpengsalesorder.database.taxItemMatching.TaxItemMatchingEntry;
@@ -68,6 +69,10 @@ public class HouseKeepingFragment extends Fragment {
     private ImageButton ibPSRefresh;
     private TextView tvPSCount, tvPSProgress, tvPSLastSync;
     private ProgressBar pbPSProgress;
+
+    private ImageButton ibSRefresh;
+    private TextView tvSCount, tvSProgress, tvSLastSync;
+    private ProgressBar pbSProgress;
 
     private ImageButton ibTcRefresh;
     private TextView tvTcCount, tvTcProgress, tvTcLastSync;
@@ -126,6 +131,12 @@ public class HouseKeepingFragment extends Fragment {
         tvPSLastSync = rootView.findViewById(R.id.house_keeping_tv_ps_last_sync);
         pbPSProgress = rootView.findViewById(R.id.house_keeping_pb_ps_progress);
         ibPSRefresh = rootView.findViewById(R.id.house_keeping_btn_ps_refresh);
+
+        tvSCount = rootView.findViewById(R.id.house_keeping_tv_s_count);
+        tvSProgress = rootView.findViewById(R.id.house_keeping_tv_s_progress);
+        tvSLastSync = rootView.findViewById(R.id.house_keeping_tv_s_last_sync);
+        pbSProgress = rootView.findViewById(R.id.house_keeping_pb_s_progress);
+        ibSRefresh = rootView.findViewById(R.id.house_keeping_btn_s_refresh);
 
         tvTcCount = rootView.findViewById(R.id.house_keeping_tv_tc_count);
         tvTcProgress = rootView.findViewById(R.id.house_keeping_tv_tc_progress);
@@ -232,6 +243,17 @@ public class HouseKeepingFragment extends Fragment {
                             tvAddrProgress.setText(msg_progress);
                         }
 
+                        if (tableInfo.getType().equals(StoreEntry.TABLE_NAME)) {
+                            String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
+                            double row = tableInfo.getInsert();
+                            double total = tableInfo.getTotal();
+                            double percentage = row / total * 100;
+                            String msg_progress = (int) row + "/" + (int) total + " (" + String.format(Locale.US, "%.2f", percentage) + "%)";
+                            tvSLastSync.setText(msg_last_sync);
+                            pbSProgress.setProgress((int) percentage);
+                            tvSProgress.setText(msg_progress);
+                        }
+
                         if (tableInfo.getType().equals(TaxCodeEntry.TABLE_NAME)) {
                             String msg_last_sync = "Last Synchronize : " + tableInfo.getLastSyncDate();
                             double row = tableInfo.getInsert();
@@ -308,6 +330,13 @@ public class HouseKeepingFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Integer integer) {
                 tvIcCount.setText(ItemCompanyEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
+            }
+        });
+
+        mDb.storeDao().getLiveCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer integer) {
+                tvSCount.setText(StoreEntry.TABLE_DISPLAY_NAME + " (" + integer + ")");
             }
         });
 
@@ -399,6 +428,12 @@ public class HouseKeepingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 retrieveHouseKeepingUpdate(CustomerCompanyAddressEntry.TABLE_NAME, ACTION_REFRESH);
+            }
+        });
+        ibSRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveHouseKeepingUpdate(StoreEntry.TABLE_NAME, ACTION_REFRESH);
             }
         });
         ibTcRefresh.setOnClickListener(new View.OnClickListener() {

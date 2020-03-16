@@ -21,6 +21,7 @@ import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.Customer
 import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
+import my.com.engpeng.engpengsalesorder.database.store.StoreEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.database.taxCode.TaxCodeEntry;
 import my.com.engpeng.engpengsalesorder.database.taxItemMatching.TaxItemMatchingEntry;
@@ -98,6 +99,7 @@ public class UpdateHouseKeepingService extends Service implements
             tableInfoList.add(new TableInfoEntry(ItemCompanyEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(ItemPackingEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(PriceSettingEntry.TABLE_NAME, false));
+            tableInfoList.add(new TableInfoEntry(StoreEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(TaxCodeEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(TaxItemMatchingEntry.TABLE_NAME, false));
             tableInfoList.add(new TableInfoEntry(TaxTypeEntry.TABLE_NAME, false));

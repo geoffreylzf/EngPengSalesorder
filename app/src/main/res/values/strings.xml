@@ -7,6 +7,7 @@
     <string name="re_sync_all">Re-sync All</string>
     <string name="update_all">Update All</string>
     <string name="price_setting">Price Setting</string>
+    <string name="store">Store</string>
     <string name="tax_type">Tax Type</string>
     <string name="tax_item_matching">Tax Item Matching</string>
     <string name="tax_code">Tax Code</string>

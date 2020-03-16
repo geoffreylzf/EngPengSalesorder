@@ -5,8 +5,8 @@ public class SoDisplay extends SalesorderEntry {
     private String companyName, customerCompanyName, customerAddressName;
     private int count;
 
-    public SoDisplay(long id, long companyId, long customerCompanyId, long customerAddressId, String documentDate, String deliveryDate, String lpo, String remark, String status, double roundAdj, String runningNo, String latitude, String longitude, int isUpload, String createDatetime, String modifyDatetime, String companyName, String customerCompanyName, String customerAddressName, int count) {
-        super(id, companyId, customerCompanyId, customerAddressId, documentDate, deliveryDate, lpo, remark, status, roundAdj, runningNo, latitude, longitude, isUpload, createDatetime, modifyDatetime);
+    public SoDisplay(long id, long companyId, long customerCompanyId, long customerAddressId, String documentDate, String deliveryDate, long storeId, String lpo, String remark, String status, double roundAdj, String runningNo, String latitude, String longitude, int isUpload, String createDatetime, String modifyDatetime, String companyName, String customerCompanyName, String customerAddressName, int count) {
+        super(id, companyId, customerCompanyId, customerAddressId, documentDate, deliveryDate, storeId, lpo, remark, status, roundAdj, runningNo, latitude, longitude, isUpload, createDatetime, modifyDatetime);
         this.companyName = companyName;
         this.customerCompanyName = customerCompanyName;
         this.customerAddressName = customerAddressName;

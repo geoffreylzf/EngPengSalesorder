@@ -6,8 +6,12 @@ android {
         applicationId "my.com.engpeng.engpengsalesorder"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 6
+        versionName "1.0.5"
+
+        //6-1.0.5 - 20200316 - Allow to bypass gps (location service not open) when confirm so
+        //5-1.0.4 - 20200210 - Add store to salesorder
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

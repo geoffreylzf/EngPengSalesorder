@@ -14,17 +14,17 @@
         app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_customer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <EditText
             android:id="@+id/temp_so_head_et_company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:inputType="text"
-            android:hint="@string/company" />
+            android:hint="@string/company"
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,9 +76,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_tv_store"
         app:layout_constraintEnd_toStartOf="@id/temp_so_head_til_delivery_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_lpo"
         app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_address">
 
         <EditText
@@ -113,6 +113,25 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/temp_so_head_tv_store"
+        style="@style/LabelTextViewStyle"
+        android:text="@string/store"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_document_date"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_sn_store"/>
+
+    <Spinner
+        android:id="@+id/temp_so_head_sn_store"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_lpo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_tv_store" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/temp_so_head_til_lpo"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -121,15 +140,15 @@
         app:layout_constraintBottom_toTopOf="@id/temp_so_head_til_remark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/temp_so_head_til_document_date">
+        app:layout_constraintTop_toBottomOf="@id/temp_so_head_sn_store">
 
         <EditText
             android:id="@+id/temp_so_head_et_lpo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/local_purchase_order"
-            android:maxLength="100"
-            android:inputType="text" />
+            android:inputType="text"
+            android:maxLength="100" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -148,8 +167,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/remark"
-            android:maxLength="100"
-            android:inputType="text" />
+            android:inputType="text"
+            android:maxLength="100" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,9 +177,9 @@
         style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:text="@string/start"
         app:icon="@drawable/ic_baseline_shopping_cart_white_24px"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
@@ -188,7 +207,6 @@
         android:layout_margin="40dp"
         android:src="@drawable/ic_baseline_edit_white_24px"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

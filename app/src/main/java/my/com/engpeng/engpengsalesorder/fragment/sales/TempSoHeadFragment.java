@@ -1,10 +1,13 @@
 package my.com.engpeng.engpengsalesorder.fragment.sales;
 
 import android.app.DatePickerDialog;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,10 +16,12 @@ import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -38,6 +43,7 @@ import my.com.engpeng.engpengsalesorder.database.branch.BranchEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.CustomerCompanyAddressEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
+import my.com.engpeng.engpengsalesorder.database.store.StoreEntry;
 import my.com.engpeng.engpengsalesorder.executor.AppExecutors;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
@@ -59,6 +65,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
     private View rootView;
     private TextView tvNote;
     private ImageView ivFabIcon;
+    private Spinner snStore;
 
     private Calendar calendarDocumentDate, calendarDeliveryDate;
     private SimpleDateFormat sdfSave, sdfDisplay;
@@ -93,6 +100,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
         btnStart = rootView.findViewById(R.id.temp_so_head_btn_start);
         tvNote = rootView.findViewById(R.id.temp_so_head_tv_note);
         ivFabIcon = rootView.findViewById(R.id.temp_so_head_iv_fab_icon);
+        snStore = rootView.findViewById(R.id.temp_so_head_sn_store);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
         calendarDocumentDate = Calendar.getInstance();
@@ -106,8 +114,25 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
         setupBundle();
         setupAnimation();
         setupListener();
-
+        loadSpinnerData();
         return rootView;
+    }
+
+    private void loadSpinnerData() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<StoreEntry> storeList = mDb.storeDao().getStores();
+
+                ArrayAdapter dataAdapter = new ArrayAdapter<>(getActivity(),
+                        R.layout.spinner_item, storeList);
+
+                dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+                snStore.setAdapter(dataAdapter);
+            }
+        });
+
     }
 
     private void setupBundle() {
@@ -289,10 +314,10 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                         cal.add(Calendar.DATE, 2);
                         long maxDateTimeStamp = cal.getTime().getTime();
 
-                        if (deliveryTimestamp < minDateTimeStamp ){
+                        if (deliveryTimestamp < minDateTimeStamp) {
                             UiUtils.showAlertDialog(getFragmentManager(), "Invalid Delivery Date (Less Than Minimum Date)", "Please select delivery date again.");
                             return;
-                        }else if (deliveryTimestamp > maxDateTimeStamp){
+                        } else if (deliveryTimestamp > maxDateTimeStamp) {
                             UiUtils.showAlertDialog(getFragmentManager(), "Invalid Delivery Date (More Than Maximum Date)", "Please select delivery date again.");
                             return;
                         }
@@ -315,6 +340,7 @@ public class TempSoHeadFragment extends Fragment implements FabOpenAnimation.Dis
                 salesorderEntry.setCustomerAddressId(customerAddressId);
                 salesorderEntry.setDocumentDate(documentDate);
                 salesorderEntry.setDeliveryDate(deliveryDate);
+                salesorderEntry.setStoreId(((StoreEntry) snStore.getSelectedItem()).getId());
                 salesorderEntry.setLpo(etLpo.getText().toString());
                 salesorderEntry.setRemark(etRemark.getText().toString());
 

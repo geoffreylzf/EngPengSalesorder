@@ -38,6 +38,8 @@ public class SalesorderEntry {
     public String documentDate;
     @ColumnInfo(name = "delivery_date")
     public String deliveryDate;
+    @ColumnInfo(name = "store_id")
+    public long storeId;
     public String lpo;
     public String remark;
     public String status;
@@ -58,13 +60,21 @@ public class SalesorderEntry {
     @Transient
     public List<SalesorderDetailEntry> salesorderDetails;
 
-    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId, String documentDate, String deliveryDate, String lpo, String remark, String status, double roundAdj, String runningNo, String latitude, String longitude, int isUpload, String createDatetime, String modifyDatetime) {
+    public SalesorderEntry(long id, long companyId, long customerCompanyId, long customerAddressId,
+                           String documentDate, String deliveryDate,
+                           long storeId,
+                           String lpo, String remark,
+                           String status, double roundAdj,
+                           String runningNo,
+                           String latitude, String longitude,
+                           int isUpload, String createDatetime, String modifyDatetime) {
         this.id = id;
         this.companyId = companyId;
         this.customerCompanyId = customerCompanyId;
         this.customerAddressId = customerAddressId;
         this.documentDate = documentDate;
         this.deliveryDate = deliveryDate;
+        this.storeId = storeId;
         this.lpo = lpo;
         this.remark = remark;
         this.status = status;
@@ -90,6 +100,7 @@ public class SalesorderEntry {
             setCustomerAddressId(jsonObject.isNull("pcca_id") ? 0 : jsonObject.getLong("pcca_id"));
             setDocumentDate(jsonObject.isNull("doc_d") ? null : jsonObject.getString("doc_d"));
             setDeliveryDate(jsonObject.isNull("del_d") ? null : jsonObject.getString("del_d"));
+            setStoreId(jsonObject.isNull("s_i") ? 0 : jsonObject.getLong("s_i"));
             setLpo(jsonObject.isNull("lpo") ? null : jsonObject.getString("lpo"));
             setRemark(jsonObject.isNull("r") ? null : jsonObject.getString("r"));
             setRoundAdj(jsonObject.isNull("ra") ? 0 : jsonObject.getDouble("ra"));
@@ -243,6 +254,14 @@ public class SalesorderEntry {
 
     public void setDeliveryDate(String deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
     }
 
     public String getLpo() {

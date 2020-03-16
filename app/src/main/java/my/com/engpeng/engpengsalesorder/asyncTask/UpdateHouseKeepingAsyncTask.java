@@ -17,6 +17,7 @@ import my.com.engpeng.engpengsalesorder.database.itemCompany.ItemCompanyEntry;
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.log.LogEntry;
 import my.com.engpeng.engpengsalesorder.database.priceSetting.PriceSettingEntry;
+import my.com.engpeng.engpengsalesorder.database.store.StoreEntry;
 import my.com.engpeng.engpengsalesorder.database.tableList.TableInfoEntry;
 import my.com.engpeng.engpengsalesorder.database.taxCode.TaxCodeEntry;
 import my.com.engpeng.engpengsalesorder.database.taxItemMatching.TaxItemMatchingEntry;
@@ -145,6 +146,9 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                                     break;
                                 case PriceSettingEntry.TABLE_NAME:
                                     mDb.priceSettingDao().deleteAll();
+                                    break;
+                                case StoreEntry.TABLE_NAME:
+                                    mDb.storeDao().deleteAll();
                                     break;
                                 case TaxCodeEntry.TABLE_NAME:
                                     mDb.taxCodeDao().deleteAll();
@@ -313,6 +317,9 @@ public class UpdateHouseKeepingAsyncTask extends AsyncTask<String, Void, UpdateH
                 break;
             case PriceSettingEntry.TABLE_NAME:
                 mDb.priceSettingDao().insertPriceSetting(new PriceSettingEntry(jsonObject));
+                break;
+            case StoreEntry.TABLE_NAME:
+                mDb.storeDao().insertStore(new StoreEntry(jsonObject));
                 break;
             case TaxCodeEntry.TABLE_NAME:
                 mDb.taxCodeDao().insertTaxCode(new TaxCodeEntry(jsonObject));

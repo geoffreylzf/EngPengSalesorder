@@ -269,14 +269,23 @@ public class TempSoConfirmFragment extends Fragment {
 
         if (status.equals(SO_STATUS_CONFIRM)) {
             String latitude = "0", longitude = "0";
-            Location location = ((SalesorderActivity) getActivity()).getGpsConnection().getLastKnownLocation();
-            if (location == null) {
-                location = ((SalesorderActivity) getActivity()).getGpsConnection().switchProviderAndGetLocation();
+
+            try {
+                Location location = ((SalesorderActivity) getActivity()).getGpsConnection().getLastKnownLocation();
+                if (location == null) {
+                    location = ((SalesorderActivity) getActivity()).getGpsConnection().switchProviderAndGetLocation();
+                }
+                if (location != null) {
+                    latitude = String.valueOf(location.getLatitude());
+                    longitude = String.valueOf(location.getLongitude());
+                }
+            } catch (IllegalArgumentException iae) {
+                System.out.println(iae.getMessage());
+            } catch (Exception e) {
+                UiUtils.showAlertDialog(getFragmentManager(), "Error in getting GPS", e.getMessage());
+                return;
             }
-            if (location != null) {
-                latitude = String.valueOf(location.getLatitude());
-                longitude = String.valueOf(location.getLongitude());
-            }
+
             salesorderEntry.setLatitude(latitude);
             salesorderEntry.setLongitude(longitude);
         }

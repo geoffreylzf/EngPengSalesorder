@@ -27,7 +27,7 @@ public class NetworkUtils {
     public final static String PARAM_LIMIT_LENGTH = "limitLength";
     public final static String PARAM_LOG_ID = "logId";
 
-    final static String DEPLOYMENT_URL = "http://epgroup.dlinkddns.com:5030/eperp/";
+    final static String DEPLOYMENT_URL = "http://epgroup.dyndns.org:8833/eperp/";
     final static String ENGPENG_BASE_URL = DEPLOYMENT_URL;
     final static String LOCAL_URL = "http://192.168.8.1:8833/eperp/";
     final static String PARAM_MODULE = "r";

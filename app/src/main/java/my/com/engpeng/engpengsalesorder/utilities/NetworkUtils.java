@@ -35,7 +35,7 @@ public class NetworkUtils {
     final public static String MODULE_GET_HOUSE_KEEPING = "ApiMobileSalesorder/GetHouseKeeping";
     final public static String MODULE_UPLOAD = "ApiMobileSalesorder/Upload";
     final public static String MODULE_GET_HISTORY = "ApiMobileSalesorder/GetHistory";
-    final public static String MODULE_AUTH_LOGIN = "MobileAuth/Login";
+    final public static String MODULE_AUTH_LOGIN = "MobileAuth/nonGoogleAccLogin";
 
     final public static String ENCODE = "UTF-8";
 

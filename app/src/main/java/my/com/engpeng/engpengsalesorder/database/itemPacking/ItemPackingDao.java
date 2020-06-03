@@ -61,14 +61,14 @@ public interface ItemPackingDao {
             "            AND doc_type_id = 44" +
             "            AND (end_date >= :deliveryDate " +
             "                OR IFNULL(end_date,'') = '') " +
-            "            AND price_group_id = (SELECT price_group_id FROM person_customer_company WHERE id = :customerCompanyId) "+
+            "            AND price_group_id = (SELECT price_group_id FROM person_customer_company WHERE id = :customerCompanyId) " +
             "        GROUP BY item_packing_id ) A " +
             "        ON item_packing.id = A.item_packing_id " +
             " LEFT JOIN" +
             "        (SELECT" +
             "            id AS price_setting_id, item_packing_id, selling_price " +
             "        FROM" +
-            "            (SELECT * FROM price_setting ORDER BY starting_date DESC, end_date DESC, create_date DESC) ps" +
+            "            (SELECT * FROM price_setting ORDER BY starting_date ASC, end_date ASC, create_date ASC) ps" +
             "        WHERE is_delete = 0" +
             "            AND person_customer_company_id = :customerCompanyId" +
             "            AND starting_date <= :deliveryDate " +
@@ -88,6 +88,7 @@ public interface ItemPackingDao {
             " OR IFNULL(customerPrice, 0) > 0" +
             " LIMIT 100")
     LiveData<List<ItemPackingDisplay>> loadLiveAllItemPackingsByFilter(String filter, Long customerCompanyId, Long customerAddressId, String deliveryDate);
+    // 20200603 Found out bug, change order of customer specific price order from DESC to ASC
 
     @Query("SELECT * FROM item_packing WHERE id = :id")
     ItemPackingEntry loadItemPackingById(long id);

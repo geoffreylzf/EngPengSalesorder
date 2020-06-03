@@ -57,10 +57,6 @@ public class LoginFragment extends Fragment {
     private CheckBox cbLocal;
     private TextView tvVersion;
 
-    private GoogleSignInClient googleSignInClient;
-    private String email;
-    private SignInButton sibtnEmail;
-
     private Dialog dlProgress;
     private AppDatabase mDb;
 
@@ -76,7 +72,6 @@ public class LoginFragment extends Fragment {
         cbLocal = rootView.findViewById(R.id.login_cb_local);
         btnLogin = rootView.findViewById(R.id.login_btn_login);
         btnCancel = rootView.findViewById(R.id.login_btn_cancel);
-        sibtnEmail = rootView.findViewById(R.id.login_btn_sign_in_gmail);
         tvVersion =  rootView.findViewById(R.id.login_tv_version);
 
         mDb = AppDatabase.getInstance(getActivity().getApplicationContext());
@@ -90,7 +85,6 @@ public class LoginFragment extends Fragment {
         nukeAllData();
         setupVersion();
 
-        setupGoogleSignIn();
         setupListener();
 
         return rootView;
@@ -116,76 +110,6 @@ public class LoginFragment extends Fragment {
                 mDb.logDao().deleteAll();
             }
         });
-    }
-
-    private void setupGoogleSignIn() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
-
-        sibtnEmail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
-                if (account != null) {
-                    googleSignInClient.signOut();
-                    populateUi(GoogleSignIn.getLastSignedInAccount(getContext()));
-                    UiUtils.showToastMessage(getContext(), "Sign out from google account");
-                } else {
-                    Intent signInIntent = googleSignInClient.getSignInIntent();
-                    startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN);
-                }
-            }
-        });
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_GOOGLE_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                populateUi(account);
-            } catch (ApiException e) {
-                if (e.getStatusCode() != 12501) {
-                    UiUtils.showToastMessage(getContext(), "Error : " + e.toString());
-                }
-                populateUi(null);
-            }
-        }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getContext());
-        populateUi(account);
-    }
-
-    private void populateUi(GoogleSignInAccount account) {
-        if (account != null) {
-            email = account.getEmail();
-            setGoogleSignInButtonText(sibtnEmail, account.getEmail() + " (Sign out)");
-        } else {
-            email = null;
-            setGoogleSignInButtonText(sibtnEmail, "Sign in");
-        }
-    }
-
-    private void setGoogleSignInButtonText(SignInButton signInButton, String buttonText) {
-        for (int i = 0; i < signInButton.getChildCount(); i++) {
-            View v = signInButton.getChildAt(i);
-
-            if (v instanceof TextView) {
-                TextView tv = (TextView) v;
-                tv.setText(buttonText);
-                return;
-            }
-        }
     }
 
     private void setupListener() {
@@ -217,14 +141,9 @@ public class LoginFragment extends Fragment {
             return;
         }
 
-        if (email == null || email.isEmpty()) {
-            UiUtils.showToastMessage(getContext(), "Please sign in google account before login");
-            return;
-        }
-
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        String data = NetworkUtils.buildParam(NetworkUtils.PARAM_EMAIL, email);
+        String data = NetworkUtils.buildParam("data", "");
 
         LoginRunnable loginRunnable = new LoginRunnable(getActivity(), username, password, data, cbLocal.isChecked(), new LoginRunnable.LoginRunnableListener() {
             @Override

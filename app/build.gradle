@@ -6,9 +6,10 @@ android {
         applicationId "my.com.engpeng.engpengsalesorder"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 7
-        versionName "1.0.6"
+        versionCode 8
+        versionName "1.0.7"
 
+        //8-1.0.7 - 20200603 - Remove google sign in and debug item packing search query
         //7-1.0.6 - 20200504 - Change global url
         //6-1.0.5 - 20200316 - Allow to bypass gps (location service not open) when confirm so
         //5-1.0.4 - 20200210 - Add store to salesorder

@@ -6,9 +6,11 @@ android {
         applicationId "my.com.engpeng.engpengsalesorder"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 8
-        versionName "1.0.7"
+        versionCode 10
+        versionName "1.0.9"
 
+        //10-1.0.9 - 20200701 - QtyWgt entry modal change to allow enter and weight with adjustment
+        //9-1.0.8 - 20200701 - Add company filter to item search
         //8-1.0.7 - 20200603 - Remove google sign in and debug item packing search query
         //7-1.0.6 - 20200504 - Change global url
         //6-1.0.5 - 20200316 - Allow to bypass gps (location service not open) when confirm so

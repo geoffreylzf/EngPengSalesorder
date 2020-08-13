@@ -37,6 +37,7 @@ import static my.com.engpeng.engpengsalesorder.Global.I_KEY_CUSTOMER_COMPANY_ID;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_DELIVERY_DATE;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_FACTOR;
 import static my.com.engpeng.engpengsalesorder.Global.I_KEY_PRICE_BY_WEIGHT;
+import static my.com.engpeng.engpengsalesorder.Global.sCompanyId;
 
 public class ItemSelectionActivity extends AppCompatActivity
         implements SearchBarFragment.SearchBarFragmentListener,
@@ -143,7 +144,7 @@ public class ItemSelectionActivity extends AppCompatActivity
 
 
     private void retrieveItemPacking(final String filter) {
-        final LiveData<List<ItemPackingDisplay>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%", customerCompanyId, customerAddressId, deliveryDate);
+        final LiveData<List<ItemPackingDisplay>> cc = mDb.itemPackingDao().loadLiveAllItemPackingsByFilter("%" + filter + "%", sCompanyId, customerCompanyId, customerAddressId, deliveryDate);
         cc.observe(this, new Observer<List<ItemPackingDisplay>>() {
             @Override
             public void onChanged(@Nullable List<ItemPackingDisplay> itemPackingDisplays) {

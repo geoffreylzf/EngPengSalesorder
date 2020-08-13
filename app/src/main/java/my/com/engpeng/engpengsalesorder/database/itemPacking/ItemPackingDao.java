@@ -40,6 +40,7 @@ public interface ItemPackingDao {
             " INNER JOIN item_company" +
             "         ON item_packing.item_master_id = item_company.item_master_id" +
             "         AND item_company.is_delete = 0" +
+            "         AND item_company.company_id = :companyId" +
             " INNER JOIN tax_item_matching " +
             "         ON tax_item_matching.tax_item_type_id = item_packing.tax_item_type_id" +
             "         AND tax_item_matching.is_delete = 0" +
@@ -87,7 +88,7 @@ public interface ItemPackingDao {
             " WHERE IFNULL(standardPrice, 0) > 0 " +
             " OR IFNULL(customerPrice, 0) > 0" +
             " LIMIT 100")
-    LiveData<List<ItemPackingDisplay>> loadLiveAllItemPackingsByFilter(String filter, Long customerCompanyId, Long customerAddressId, String deliveryDate);
+    LiveData<List<ItemPackingDisplay>> loadLiveAllItemPackingsByFilter(String filter, Long companyId, Long customerCompanyId, Long customerAddressId, String deliveryDate);
     // 20200603 Found out bug, change order of customer specific price order from DESC to ASC
 
     @Query("SELECT * FROM item_packing WHERE id = :id")

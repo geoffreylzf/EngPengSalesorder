@@ -19,6 +19,8 @@
     <string name="item_packing">Item Packing</string>
     <string name="item_company">Item Company</string>
     <string name="company">Company</string>
+    <string name="quantity">Quantity</string>
+    <string name="weight_kg">Weight (Kg)</string>
     <string name="local_purchase_order">Local Purchase Order (LPO)</string>
     <string name="remark">Remark</string>
     <string name="username">Username</string>

@@ -10,51 +10,62 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
 
-        <EditText
-            android:id="@+id/enter_qty_wgt_et_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="32dp"
-            android:layout_marginTop="32dp"
-            android:inputType="number"
-            android:text="@string/default_quantity"
-            android:textSize="24sp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/enter_qty_wgt_til_qty"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/enter_qty_wgt_til_wgt"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed">
 
-        <TextView
-            android:id="@+id/enter_qty_wgt_tv_kg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="32dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/kg"
-            android:textSize="24sp" />
+                <EditText
+                    android:id="@+id/enter_qty_wgt_et_qty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="24sp"
+                    android:hint="@string/quantity"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/enter_qty_wgt_til_wgt"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/enter_qty_wgt_til_qty"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <EditText
+                    android:id="@+id/enter_qty_wgt_et_wgt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="24sp"
+                    android:hint="@string/weight_kg"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
-    <SeekBar
-        android:id="@+id/enter_qty_wgt_sb_qty"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:max="10"
-        android:progress="1" />
-
-    <SeekBar
-        android:id="@+id/enter_qty_wgt_sb_qty_multi"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:max="10"
-        android:progress="1" />
 
     <RelativeLayout
         android:layout_width="match_parent"

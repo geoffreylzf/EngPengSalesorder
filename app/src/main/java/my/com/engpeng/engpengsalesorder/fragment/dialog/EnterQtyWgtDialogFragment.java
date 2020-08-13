@@ -1,9 +1,13 @@
 package my.com.engpeng.engpengsalesorder.fragment.dialog;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.Locale;
 
 import my.com.engpeng.engpengsalesorder.R;
 
@@ -21,10 +27,8 @@ public class EnterQtyWgtDialogFragment extends DialogFragment {
 
     public static final String tag = "ENTER_QTY_WGT_DIALOG_FRAGMENT";
 
-    private EditText etValue;
-    private SeekBar sbQty, sbQtyMulti;
+    private EditText etQty, etWgt;
     private Button btnSave, btnCancel;
-    private TextView tvKg;
 
     //receive from bundle
     private int priceByWeight;
@@ -35,15 +39,13 @@ public class EnterQtyWgtDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_enter_qty_wgt, container, false);
 
-        etValue = rootView.findViewById(R.id.enter_qty_wgt_et_value);
-        sbQty = rootView.findViewById(R.id.enter_qty_wgt_sb_qty);
-        sbQtyMulti = rootView.findViewById(R.id.enter_qty_wgt_sb_qty_multi);
+        etQty = rootView.findViewById(R.id.enter_qty_wgt_et_qty);
+        etWgt = rootView.findViewById(R.id.enter_qty_wgt_et_wgt);
         btnSave = rootView.findViewById(R.id.enter_qty_wgt_btn_save);
         btnCancel = rootView.findViewById(R.id.enter_qty_wgt_btn_cancel);
-        tvKg = rootView.findViewById(R.id.enter_qty_wgt_tv_kg);
-        etValue.setSelection(0, etValue.getText().length());
 
         getDialog().setCanceledOnTouchOutside(false);
+        getDialog().setTitle("Enter Quantity & Weight");
 
         setupBundle();
         setupListener();
@@ -51,7 +53,7 @@ public class EnterQtyWgtDialogFragment extends DialogFragment {
         return rootView;
     }
 
-    public interface EnterQtyWgtFragmentListener{
+    public interface EnterQtyWgtFragmentListener {
         void afterEnterQtyWgt(double qty, double wgt);
     }
 
@@ -59,50 +61,34 @@ public class EnterQtyWgtDialogFragment extends DialogFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             priceByWeight = bundle.getInt(I_KEY_PRICE_BY_WEIGHT, 0);
-            if(priceByWeight == 1){
-                getDialog().setTitle("Enter Weight");
-            }else{
-                getDialog().setTitle("Enter Quantity");
-                tvKg.setVisibility(View.GONE);
-            }
             factor = bundle.getDouble(I_KEY_FACTOR, 0);
+
+            etQty.setText("1");
+            etQty.requestFocus();
+            etQty.setSelection(1);
+            etWgt.setText(String.format(Locale.ENGLISH, "%.3f", factor));
         }
     }
 
-    private void setupListener(){
-        sbQty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    private void setupListener() {
+        etQty.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                etValue.setText(String.valueOf(i));
-                etValue.setSelection(0, etValue.getText().length());
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //nothing
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //nothing
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        sbQtyMulti.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                etValue.setText(String.valueOf(i*10));
-                etValue.setSelection(0, etValue.getText().length());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void afterTextChanged(Editable editable) {
+                String strQty = etQty.getText().toString();
+                if (strQty.length() > 0) {
+                    double wgt = Double.parseDouble(strQty) * factor;
+                    etWgt.setText(String.format(Locale.ENGLISH, "%.3f", wgt));
+                }
             }
         });
 
@@ -110,13 +96,8 @@ public class EnterQtyWgtDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 double qty, wgt;
-                if(priceByWeight == 1){
-                    wgt = Double.parseDouble(etValue.getText().toString());
-                    qty = wgt / factor;
-                }else{
-                    qty = Double.parseDouble(etValue.getText().toString());
-                    wgt = qty * factor;
-                }
+                qty = Double.parseDouble(etQty.getText().toString());
+                wgt = Double.parseDouble(etWgt.getText().toString());
                 EnterQtyWgtFragmentListener enterQtyWgtFragmentListener = (EnterQtyWgtFragmentListener) getActivity();
                 enterQtyWgtFragmentListener.afterEnterQtyWgt(qty, wgt);
                 dismiss();

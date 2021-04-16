@@ -36,6 +36,6 @@ public interface TempSalesorderDetailDao {
             " ORDER BY id DESC")
     LiveData<List<TempSalesorderDetailDisplay>> loadAllTempSalesorderDetailsWithItemPacking();
 
-    @Query("SELECT SUM(total_price) FROM temp_salesorder_detail")
+    @Query("SELECT SUM(total_price) + SUM(tax_amt) FROM temp_salesorder_detail")
     LiveData<Double> getLiveSumTotalPrice();
 }

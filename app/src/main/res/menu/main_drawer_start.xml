@@ -24,6 +24,16 @@
             </group>
         </menu>
     </item>
+    <item android:title="@string/update">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/main_drawer_start_update_app_ver"
+                    android:icon="@drawable/ic_update_black_18dp"
+                    android:title="@string/update_app_ver" />
+            </group>
+        </menu>
+    </item>
     <item android:title="@string/session">
         <menu>
             <group android:checkableBehavior="single">

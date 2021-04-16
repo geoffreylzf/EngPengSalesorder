@@ -80,7 +80,7 @@ public class PrintUtils {
         for (SalesorderDetailEntry detail : details) {
             ttlQty += detail.getQty();
             ttlWgt += detail.getWeight();
-            ttlPrice += detail.getTotalPrice();
+            ttlPrice += detail.getTotalPrice() + detail.getTaxAmt();
             ItemPackingEntry item = db.itemPackingDao().loadItemPackingById(detail.getItemPackingId());
             s += formatLine(item.getSkuName());
             s += formatLine(String.format(Locale.getDefault(),

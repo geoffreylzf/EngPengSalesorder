@@ -26,7 +26,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="database">Database</string>
+    <string name="update">Update</string>
     <string name="house_keeping">House Keeping</string>
+    <string name="update_app_ver">Update App Version</string>
     <string name="history">History</string>
     <string name="session">Session</string>
     <string name="logout">Logout</string>
@@ -131,5 +133,7 @@
     </string>
 
     <string name="transition_so_view">transition_so_view</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -40,7 +40,7 @@ public class TempSoConfirmAdapter extends RecyclerView.Adapter<TempSoConfirmAdap
         detailViewHolder.tvName.setText(dt.getSkuName());
         detailViewHolder.cpQty.setText(StringUtils.getDisplayQty((int) dt.getQty()));
         detailViewHolder.cpWgt.setText(StringUtils.getDisplayWgt(dt.getWeight()));
-        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
+        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice() + dt.getTaxAmt()));
     }
 
     @Override

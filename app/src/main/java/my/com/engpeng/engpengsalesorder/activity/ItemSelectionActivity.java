@@ -162,10 +162,13 @@ public class ItemSelectionActivity extends AppCompatActivity
     @Override
     public void afterEnterQtyWgt(double quantity, double weight) {
         double totalPrice;
+        double totalTaxAmt;
         if (priceByWeight == 1) {
-            totalPrice = (price + taxAmt) * weight;
+            totalPrice = price * weight;
+            totalTaxAmt = taxAmt * weight;
         } else {
-            totalPrice = (price + taxAmt) * quantity;
+            totalPrice = price * quantity;
+            totalTaxAmt = taxAmt * quantity;
         }
 
         final TempSalesorderDetailEntry detail = new TempSalesorderDetailEntry(
@@ -178,7 +181,7 @@ public class ItemSelectionActivity extends AppCompatActivity
                 priceMethod,
                 taxCodeId,
                 taxRate,
-                taxAmt,
+                totalTaxAmt,
                 totalPrice);
 
         AppExecutors.getInstance().diskIO().execute(new Runnable() {

@@ -57,9 +57,9 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
         detailViewHolder.cpQty.setText(StringUtils.getDisplayQty((int) dt.getQty()));
         detailViewHolder.cpWgt.setText(StringUtils.getDisplayWgt(dt.getWeight()));
 
-        detailViewHolder.tvPrice.setText(StringUtils.getDisplayPrice(dt.getPrice()));
+        detailViewHolder.tvTtlPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
         detailViewHolder.tvTaxAmt.setText("(" + dt.getTaxCode() + " ~ " + dt.getTaxRate() + "%) " + StringUtils.getDisplayPrice(dt.getTaxAmt()));
-        detailViewHolder.tvTotalPrice.setText(StringUtils.getDisplayPrice(dt.getTotalPrice()));
+        detailViewHolder.tvTotalPriceTax.setText(StringUtils.getDisplayPrice(dt.getTotalPrice() + dt.getTaxAmt()));
 
         detailViewHolder.cpPriceMethod.setText(dt.getPriceMethod());
         if (dt.getPriceByWeight() == 1) {
@@ -97,7 +97,7 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
 
     class DetailViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvName, tvCode, tvPrice, tvTotalPrice, tvTaxAmt;
+        TextView tvName, tvCode, tvTtlPrice, tvTotalPriceTax, tvTaxAmt;
         Chip cpPriceMethod, cpPriceByWeight, cpQty, cpWgt;
         SwipeHorizontalMenuLayout shml;
         FloatingActionButton fabDelete;
@@ -108,9 +108,9 @@ public class TempSoCartAdapter extends RecyclerView.Adapter<TempSoCartAdapter.De
             shml = view.findViewById(R.id.li_shml);
             tvName = view.findViewById(R.id.li_tv_primary);
             tvCode = view.findViewById(R.id.li_tv_secondary);
-            tvPrice = view.findViewById(R.id.li_tv_price);
+            tvTtlPrice = view.findViewById(R.id.li_tv_price);
             tvTaxAmt = view.findViewById(R.id.li_tv_tax_amt);
-            tvTotalPrice = view.findViewById(R.id.li_tv_total_price);
+            tvTotalPriceTax = view.findViewById(R.id.li_tv_total_price);
             cpPriceMethod = view.findViewById(R.id.li_cp_price_method);
             cpPriceByWeight = view.findViewById(R.id.li_cp_price_by_weight);
             cpQty = view.findViewById(R.id.li_cp_qty);

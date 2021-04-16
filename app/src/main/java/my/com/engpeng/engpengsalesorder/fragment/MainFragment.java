@@ -29,6 +29,7 @@ import my.com.engpeng.engpengsalesorder.fragment.main.CompanyFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.HistoryFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.MainDashboardFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.HouseKeepingFragment;
+import my.com.engpeng.engpengsalesorder.fragment.main.UpdateAppVerFragment;
 import my.com.engpeng.engpengsalesorder.fragment.main.UploadFragment;
 import my.com.engpeng.engpengsalesorder.utilities.UiUtils;
 
@@ -104,7 +105,9 @@ public class MainFragment extends Fragment implements NavigationHost {
                     navigateTo(new HistoryFragment(), HistoryFragment.tag, true, null, null);
                 } else if (id == R.id.main_drawer_start_upload) {
                     navigateTo(new UploadFragment(), UploadFragment.tag, true, null, null);
-                } else if (id == R.id.main_drawer_start_house_log) {
+                } else if (id == R.id.main_drawer_start_update_app_ver) {
+                    navigateTo(new UpdateAppVerFragment(), UpdateAppVerFragment.tag, true, null, null);
+                }else if (id == R.id.main_drawer_start_house_log) {
                     onPerformLogout();
                 }
 

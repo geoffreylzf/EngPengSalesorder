@@ -10,6 +10,7 @@ import my.com.engpeng.engpengsalesorder.database.customerCompanyAddress.Customer
 import my.com.engpeng.engpengsalesorder.database.itemPacking.ItemPackingEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorder.SalesorderEntry;
 import my.com.engpeng.engpengsalesorder.database.salesorderDetail.SalesorderDetailEntry;
+import my.com.engpeng.engpengsalesorder.database.store.StoreEntry;
 
 import static my.com.engpeng.engpengsalesorder.Global.sUsername;
 
@@ -54,6 +55,7 @@ public class PrintUtils {
         BranchEntry company = db.branchDao().loadBranchById(salesorderEntry.getCompanyId());
         CustomerCompanyEntry customer = db.customerCompanyDao().loadCustomerCompanyById(salesorderEntry.getCustomerCompanyId());
         CustomerCompanyAddressEntry address = db.customerCompanyAddressDao().loadCustomerCompanyAddressById(salesorderEntry.getCustomerAddressId());
+        StoreEntry store = db.storeDao().loadStoreById(salesorderEntry.getStoreId());
 
         s += formatLine("");
         s += formatLine("             *** Salesorder ***             ");
@@ -69,6 +71,7 @@ public class PrintUtils {
         s += formatLine("Temp Salesorder No : " + StringUtils.getDisplayRunningNo(salesorderEntry.getRunningNo()));
         s += formatLine("Document Date : " + salesorderEntry.getDocumentDate());
         s += formatLine("Delivery Date : " + salesorderEntry.getDeliveryDate());
+        s += formatLine("Store         : " + store.getStoreName());
         s += formatLine("Cust. Code : " + customer.getPersonCustomerCompanyCode());
         s += formatLine("Cust. Name : " + customer.getPersonCustomerCompanyName());
         s += formatLine("Cust. Address : " + address.getPersonCustomerAddressName());

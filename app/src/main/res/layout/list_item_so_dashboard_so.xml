@@ -45,8 +45,19 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_margin="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_outline_cloud_upload_24px" />
+
+            <TextView
+                android:id="@+id/li_tv_store"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_above="@id/li_btn_action"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/colorListItemSecondaryText"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/li_tv_customer"

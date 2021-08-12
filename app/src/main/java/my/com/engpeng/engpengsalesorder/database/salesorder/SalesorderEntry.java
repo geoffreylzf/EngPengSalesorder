@@ -186,12 +186,14 @@ public class SalesorderEntry {
                 " branch_name AS companyName," +
                 " IFNULL(pcc.person_customer_company_name, 'ID: '||salesorder.customer_company_id) AS customerCompanyName," +
                 " IFNULL(pcca.person_customer_address_name, 'ID: '||salesorder.customer_address_id) AS customerAddressName," +
-                " COUNT(salesorder_detail.id) AS count" +
+                " COUNT(salesorder_detail.id) AS count," +
+                " store.store_name AS storeName" +
                 " FROM salesorder" +
                 " LEFT JOIN branch ON salesorder.company_id = branch.id" +
                 " LEFT JOIN person_customer_company pcc ON salesorder.customer_company_id = pcc.id" +
                 " LEFT JOIN person_customer_company_address pcca ON salesorder.customer_address_id = pcca.id" +
                 " LEFT JOIN salesorder_detail ON salesorder.id = salesorder_detail.salesorder_id" +
+                " LEFT JOIN store ON store.id = salesorder.store_id" +
                 " WHERE salesorder.company_id = ?" +
                 " AND salesorder.document_date = ?";
 

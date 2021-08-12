@@ -8,6 +8,8 @@ import androidx.room.Query;
 
 import java.util.List;
 
+import my.com.engpeng.engpengsalesorder.database.customerCompany.CustomerCompanyEntry;
+
 @Dao
 public interface StoreDao {
     @Query("SELECT * FROM store ORDER BY id")
@@ -24,4 +26,7 @@ public interface StoreDao {
 
     @Query("SELECT COUNT(*) FROM store")
     LiveData<Integer> getLiveCount();
+
+    @Query("SELECT * FROM store WHERE id = :id")
+    StoreEntry loadStoreById(Long id);
 }

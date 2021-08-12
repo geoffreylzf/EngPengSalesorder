@@ -61,6 +61,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
         soViewHolder.tvTitle.setText(title);
         soViewHolder.tvCustomer.setText(item.getCustomerCompanyName());
         soViewHolder.tvAddress.setText(item.getCustomerAddressName());
+        soViewHolder.tvStore.setText(item.getStoreName());
         soViewHolder.cpDeliveryDate.setText(item.getDeliveryDate());
         soViewHolder.cpCount.setText(String.valueOf(item.getCount()));
 
@@ -121,7 +122,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
     }
 
     class SoViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvCustomer, tvAddress;
+        TextView tvTitle, tvCustomer, tvAddress, tvStore;
         Chip cpDeliveryDate, cpCount;
         ImageView ivIcon, ivUpload;
         Button btnAction, btnDelete;
@@ -134,6 +135,7 @@ public class SoDashboardSoAdapter extends RecyclerView.Adapter<SoDashboardSoAdap
             tvTitle = view.findViewById(R.id.li_tv_running_no);
             tvCustomer = view.findViewById(R.id.li_tv_customer);
             tvAddress = view.findViewById(R.id.li_tv_address);
+            tvStore = view.findViewById(R.id.li_tv_store);
             cpDeliveryDate = view.findViewById(R.id.li_cp_delivery_date);
             cpCount = view.findViewById(R.id.li_cp_count);
             ivUpload = view.findViewById(R.id.li_iv_upload);

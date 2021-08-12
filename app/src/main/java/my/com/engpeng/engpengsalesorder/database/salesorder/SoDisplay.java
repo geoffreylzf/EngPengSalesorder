@@ -2,7 +2,7 @@ package my.com.engpeng.engpengsalesorder.database.salesorder;
 
 public class SoDisplay extends SalesorderEntry {
 
-    private String companyName, customerCompanyName, customerAddressName;
+    private String companyName, customerCompanyName, customerAddressName, storeName;
     private int count;
 
     public SoDisplay(long id, long companyId, long customerCompanyId, long customerAddressId, String documentDate, String deliveryDate, long storeId, String lpo, String remark, String status, double roundAdj, String runningNo, String latitude, String longitude, int isUpload, String createDatetime, String modifyDatetime, String companyName, String customerCompanyName, String customerAddressName, int count) {
@@ -35,6 +35,14 @@ public class SoDisplay extends SalesorderEntry {
 
     public void setCustomerAddressName(String customerAddressName) {
         this.customerAddressName = customerAddressName;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public int getCount() {
